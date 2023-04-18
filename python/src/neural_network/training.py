@@ -1,3 +1,4 @@
+#%%
 import librosa
 import os
 import numpy as np
@@ -5,10 +6,10 @@ import pickle
 from glob import iglob
 import pandas as pd
 
-DATA_AUDIO_DIR = '/Users/francescopiferi/PycharmProjects/Music_mp3/clips_45seconds'
+DATA_AUDIO_DIR = '../../../Music_mp3/clips_45seconds'
 TARGET_SR = 44100
 AUDIO_LENGTH = 22050
-OUTPUT_DIR = '/Users/francescopiferi/PycharmProjects/NeuralNetwork/output'
+OUTPUT_DIR = './output'
 OUTPUT_DIR_TRAIN = os.path.join(OUTPUT_DIR, 'train')
 OUTPUT_DIR_TEST = os.path.join(OUTPUT_DIR, 'test')
 
@@ -16,7 +17,7 @@ OUTPUT_DIR_TEST = os.path.join(OUTPUT_DIR, 'test')
 def read_audio_from_filename(filename):
     audio = [[0 for j in range(22050)] for i in range(60)]
     for i in range(60):
-        line = librosa.load('/Users/francescopiferi/PycharmProjects/Music_mp3/clips_45seconds/2.mp3',
+        line = librosa.load('../../../Music_mp3/clips_45seconds/2.mp3',
                                     offset=15.0+i/2, duration=0.5, sr=TARGET_SR)
         audio[i] = line
 
@@ -27,7 +28,7 @@ def read_audio_from_filename(filename):
 #%%
 def convert_data():
     for i,(x_i,t_i) in enumerate(zip(extract_input_target())):
-        class_id = t_i;
+        class_id = t_i
         audio_buf, target_sr = read_audio_from_filename(os.path.join(DATA_AUDIO_DIR,x_i), target_sr=TARGET_SR)
         # normalize mean 0, variance 1
         audio_buf = (audio_buf - np.mean(audio_buf)) / np.std(audio_buf)
@@ -58,9 +59,9 @@ def convert_data():
 
 #%% TEST
 def extract_input_target():
-    path_arousal = '/Users/francescopiferi/PycharmProjects/Music_mp3/annotations/arousal_cont_average.csv'
-    path_valence = '/Users/francescopiferi/PycharmProjects/Music_mp3/annotations/valence_cont_average.csv'
-    path_info = '/Users/francescopiferi/PycharmProjects/Music_mp3/annotations/songs_info.csv'
+    path_arousal = '../../../Music_mp3/annotations/arousal_cont_average.csv'
+    path_valence = '../../../Music_mp3/annotations/valence_cont_average.csv'
+    path_info = '../../../Music_mp3/annotations/songs_info.csv'
 
     data_arousal = pd.read_csv(path_arousal)
     data_valence = pd.read_csv(path_valence)
@@ -92,3 +93,5 @@ def extract_input_target():
 
 #%%
 i, v = extract_input_target()
+
+# %%
