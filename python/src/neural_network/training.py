@@ -67,31 +67,23 @@ def extract_input_target():
     data_valence = pd.read_csv(path_valence)
     data_info = pd.read_csv(path_info)
 
-    target_arousal = data_arousal['song_id'].apply(lambda x: str(x) + '.mp3')
-    target_valence = data_valence['song_id'].apply(lambda x: str(x) + '.mp3')
     path = data_arousal['song_id'].apply(lambda x: str(x) + '.mp3')
 
-    # Check if the arrays are equal
-    """"
-    if len(target_arousal) != len(target_valence):
-        print("a and b are not equal")
-    else:
-        for i in range(len(target_arousal)):
-            if target_arousal[i] != target_valence[i]:
-                print("a and b are not equal")
-                break
-        print("a and b are equal")
-    """
+    arousal = data_arousal['sample_'+str(150)+'00ms']
 
-    v_arousal = data_arousal['sample_15000ms'][0]
+    arousal = np.zeros(((744, 60)))
+    valance = np.zeros((744, 60))
 
+    for j in range(744):
+        for i in range(60):
+            arousal[j][i] = data_arousal['sample_'+str(150+i*5)+'00ms'][j]
+            valance[j][i] = data_valence['sample_'+str(150+i*5)+'00ms'][j]
 
-    # values = [(v_a,v_v), (v_a,v_v)]
-
-
-    return path, v_arousal
+    return path, arousal, valance
 
 #%%
-i, v = extract_input_target()
+i, a, v = extract_input_target()
+
+# %%
 
 # %%
