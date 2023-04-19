@@ -1,8 +1,9 @@
-#%%
+# %%
 import librosa
 import os
 import numpy as np
 import pickle
+import glob
 from glob import iglob
 import pandas as pd
 
@@ -13,12 +14,14 @@ OUTPUT_DIR = './output'
 OUTPUT_DIR_TRAIN = os.path.join(OUTPUT_DIR, 'train')
 OUTPUT_DIR_TEST = os.path.join(OUTPUT_DIR, 'test')
 
-#%%
+# %%
+
+
 def read_audio_from_filename(filename):
     audio = [[0 for j in range(22050)] for i in range(60)]
     for i in range(60):
         line = librosa.load(filename,
-                                    offset=15.0+i/2, duration=0.5, sr=TARGET_SR)
+                            offset=15.0+i/2, duration=0.5, sr=TARGET_SR)
         audio[i] = list(line)
         audio[i] = (librosa.util.normalize(audio[i][0]), TARGET_SR)
 
@@ -27,18 +30,19 @@ def read_audio_from_filename(filename):
     return audio
 
 
-#%%
+# %%
 def convert_data():
     out = {}
     path, arousal, valance = extract_input_target()
     c = 0
     for i, (x_i, a_i, v_i) in enumerate(zip(path, arousal, valance)):
-        audio_buf = read_audio_from_filename(os.path.join(DATA_AUDIO_DIR,x_i))
+        audio_buf = read_audio_from_filename(os.path.join(DATA_AUDIO_DIR, x_i))
         for k, (audio_sample, audio_valance, audio_arousal) in enumerate(zip(audio_buf, a_i, v_i)):
             # Zero padding if the sample is short
             if len(audio_sample[0]) < AUDIO_LENGTH:
                 # print(audio_sample[0])
-                audio_sample = (np.concatenate((audio_sample[0], np.zeros(shape=(AUDIO_LENGTH - len(audio_sample[0]))))), TARGET_SR)
+                audio_sample = (np.concatenate((audio_sample[0], np.zeros(
+                    shape=(AUDIO_LENGTH - len(audio_sample[0]))))), TARGET_SR)
                 # print('PAD New length =', len(audio_sample[0]))
 
             out[k] = {
@@ -46,7 +50,7 @@ def convert_data():
                 'sr': TARGET_SR,
                 'valence': audio_valance,
                 'arousal': audio_arousal
-                }
+            }
         c = c + 1
         if c % 3 == 0:
             output_folder = OUTPUT_DIR_TEST
@@ -54,15 +58,14 @@ def convert_data():
             output_folder = OUTPUT_DIR_TRAIN
 
         for j in range(60):
-            
-            output_filename = os.path.join(output_folder, str(i) + str('_') + str(j) + '.pkl')
+
+            output_filename = os.path.join(
+                output_folder, str(i) + str('_') + str(j) + '.pkl')
             with open(output_filename, 'wb') as w:
                 pickle.dump(out[j], w)
 
 
-
-
-#%% TEST
+# %% TEST
 def extract_input_target():
     path_arousal = '../../../Music_mp3/annotations/arousal_cont_average.csv'
     path_valence = '../../../Music_mp3/annotations/valence_cont_average.csv'
@@ -87,17 +90,23 @@ def extract_input_target():
     return path, arousal, valance
 
 
-
-
 # %%
 def get_data(file_list):
     def load_into(_filename, _audio, _valence, _arousal):
         with open(_filename, 'rb') as f:
             audio_element = pickle.load(f)
             _audio.append(audio_element['audio'])
-            _valence.append(int(audio_element['class_id']))
+            _valence.append(audio_element['valence'])
+            _arousal.append(audio_element['arousal'])
 
-    x, y = [], []
+    x, valence, arousal = [], [], []
     for filename in file_list:
-        load_into(filename, x, y)
-    return np.array(x), np.array(y)
+        load_into(filename, x, valence, arousal)
+    return np.array(x), np.array(valence), np.array(arousal)
+
+
+# %%
+# TESTING GET DATA
+test_files = glob.glob(os.path.join(OUTPUT_DIR_TEST, '*.pkl'))
+x_te, y_v, y_ar = get_data(test_files)
+# %%
