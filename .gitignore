@@ -131,3 +131,4 @@ dmypy.json
 .DS_Store
 python/.idea/
 Music_mp3/
+python/src/neural_network/output/

@@ -26,40 +26,41 @@ def read_audio_from_filename(filename):
     # of the track from 15.0s to 45.0s
     return audio
 
-# %%
 
 #%%
 def convert_data():
     out = {}
     path, arousal, valance = extract_input_target()
+    c = 0
     for i, (x_i, a_i, v_i) in enumerate(zip(path, arousal, valance)):
         audio_buf = read_audio_from_filename(os.path.join(DATA_AUDIO_DIR,x_i))
         for k, (audio_sample, audio_valance, audio_arousal) in enumerate(zip(audio_buf, a_i, v_i)):
+            # Zero padding if the sample is short
             if len(audio_sample[0]) < AUDIO_LENGTH:
-                print(len(audio_sample[0]))
-                audio_sample[0] = np.concatenate((audio_sample[0], np.zeros(shape=(AUDIO_LENGTH - len(audio_sample[0])))))
-                print('PAD New length =', len(audio_sample[0]))
+                # print(audio_sample[0])
+                audio_sample = (np.concatenate((audio_sample[0], np.zeros(shape=(AUDIO_LENGTH - len(audio_sample[0]))))), TARGET_SR)
+                # print('PAD New length =', len(audio_sample[0]))
+
             out[k] = {
                 'audio': audio_sample[0],
                 'sr': TARGET_SR,
                 'valence': audio_valance,
                 'arousal': audio_arousal
                 }
-
-        if i // 744*0.3 == 0:
+        c = c + 1
+        if c % 3 == 0:
             output_folder = OUTPUT_DIR_TEST
         else:
             output_folder = OUTPUT_DIR_TRAIN
 
         for j in range(60):
-            print(audio_sample)
+            
             output_filename = os.path.join(output_folder, str(i) + str('_') + str(j) + '.pkl')
             with open(output_filename, 'wb') as w:
                 pickle.dump(out[j], w)
 
 
-# %%
-# convert_data()
+
 
 #%% TEST
 def extract_input_target():
@@ -85,19 +86,16 @@ def extract_input_target():
 
     return path, arousal, valance
 
-#%%
-i, a, v = extract_input_target()
 
-# %%
-audio = read_audio_from_filename(os.path.join(DATA_AUDIO_DIR,i[8]))
+
 
 # %%
 def get_data(file_list):
-    def load_into(_filename, _x, _y):
+    def load_into(_filename, _audio, _valence, _arousal):
         with open(_filename, 'rb') as f:
             audio_element = pickle.load(f)
-            _x.append(audio_element['audio'])
-            _y.append(int(audio_element['class_id']))
+            _audio.append(audio_element['audio'])
+            _valence.append(int(audio_element['class_id']))
 
     x, y = [], []
     for filename in file_list:
