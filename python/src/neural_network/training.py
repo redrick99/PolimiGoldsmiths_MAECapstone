@@ -17,45 +17,49 @@ OUTPUT_DIR_TEST = os.path.join(OUTPUT_DIR, 'test')
 def read_audio_from_filename(filename):
     audio = [[0 for j in range(22050)] for i in range(60)]
     for i in range(60):
-        line = librosa.load('../../../Music_mp3/clips_45seconds/2.mp3',
+        line = librosa.load(filename,
                                     offset=15.0+i/2, duration=0.5, sr=TARGET_SR)
-        audio[i] = line
+        audio[i] = list(line)
+        audio[i] = (librosa.util.normalize(audio[i][0]), TARGET_SR)
 
     # audio is a matrix composed by 22050 columns and 60 rows. Eaxh row contains the samples of 0.5 seconds
     # of the track from 15.0s to 45.0s
     return audio
 
+# %%
+
 #%%
 def convert_data():
-    for i,(x_i,t_i) in enumerate(zip(extract_input_target())):
-        class_id = t_i
-        audio_buf, target_sr = read_audio_from_filename(os.path.join(DATA_AUDIO_DIR,x_i), target_sr=TARGET_SR)
-        # normalize mean 0, variance 1
-        audio_buf = (audio_buf - np.mean(audio_buf)) / np.std(audio_buf)
-        original_length = len(audio_buf)
-        print(i, os.path.join(DATA_AUDIO_DIR,x_i), original_length, np.round(np.mean(audio_buf), 4), np.std(audio_buf))
-        if original_length < AUDIO_LENGTH:
-            audio_buf = np.concatenate((audio_buf, np.zeros(shape=(AUDIO_LENGTH - original_length, 1))))
-            print('PAD New length =', len(audio_buf))
-        elif original_length > AUDIO_LENGTH:
-            audio_buf = audio_buf[0:AUDIO_LENGTH]
-            print('CUT New length =', len(audio_buf))
-
+    out = {}
+    path, arousal, valance = extract_input_target()
+    for i, (x_i, a_i, v_i) in enumerate(zip(path, arousal, valance)):
+        audio_buf = read_audio_from_filename(os.path.join(DATA_AUDIO_DIR,x_i))
+        for k, (audio_sample, audio_valance, audio_arousal) in enumerate(zip(audio_buf, a_i, v_i)):
+            if len(audio_sample[0]) < AUDIO_LENGTH:
+                print(len(audio_sample[0]))
+                audio_sample[0] = np.concatenate((audio_sample[0], np.zeros(shape=(AUDIO_LENGTH - len(audio_sample[0])))))
+                print('PAD New length =', len(audio_sample[0]))
+            out[k] = {
+                'audio': audio_sample[0],
+                'sr': TARGET_SR,
+                'valence': audio_valance,
+                'arousal': audio_arousal
+                }
 
         if i // 744*0.3 == 0:
             output_folder = OUTPUT_DIR_TEST
         else:
             output_folder = OUTPUT_DIR_TRAIN
 
-        for j in len(audio_buf):
-            output_filename = os.path.join(output_folder, str(i) +str('_') + str(j%100) + str(j%10) + str(j) + '.pkl')
+        for j in range(60):
+            print(audio_sample)
+            output_filename = os.path.join(output_folder, str(i) + str('_') + str(j) + '.pkl')
+            with open(output_filename, 'wb') as w:
+                pickle.dump(out[j], w)
 
-        out = {'class_id': class_id,
-               'audio': audio_buf,
-               'sr': TARGET_SR}
-        with open(output_filename, 'wb') as w:
-             pickle.dump(out, w)
 
+# %%
+# convert_data()
 
 #%% TEST
 def extract_input_target():
@@ -85,5 +89,17 @@ def extract_input_target():
 i, a, v = extract_input_target()
 
 # %%
+audio = read_audio_from_filename(os.path.join(DATA_AUDIO_DIR,i[8]))
 
 # %%
+def get_data(file_list):
+    def load_into(_filename, _x, _y):
+        with open(_filename, 'rb') as f:
+            audio_element = pickle.load(f)
+            _x.append(audio_element['audio'])
+            _y.append(int(audio_element['class_id']))
+
+    x, y = [], []
+    for filename in file_list:
+        load_into(filename, x, y)
+    return np.array(x), np.array(y)
