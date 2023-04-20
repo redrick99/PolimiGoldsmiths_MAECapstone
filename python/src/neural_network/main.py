@@ -1,53 +1,22 @@
 #%%
 import tensorflow as tf
 import numpy as np
-import librosa
-import matplotlib.pyplot as plt
 from keras.utils import plot_model
 from keras.layers import Input, Conv1D, MaxPooling1D, BatchNormalization, Concatenate
 from keras.layers import Bidirectional, LSTM, Dropout, Dense, ZeroPadding1D
+from keras.callbacks import ReduceLROnPlateau
+import glob
+
+import os
 import training
 
 print("DONE IMPORT")
-
-#%% Load the audio file
-audio_path = '/Users/francescopiferi/Desktop/Beatles_LetItBe.wav'
-y, sr = librosa.load(audio_path)
-y = y[:15*sr]
-print("DONE LOAD AND CUT")
-
-#%% Compute the spectrogram
-spectrogram = librosa.feature.melspectrogram(y=y, sr=sr)
-spectrogram = np.abs(librosa.stft(y, n_fft=2048, hop_length=512))
-print("DONE COMPUTATION SPECTROGRAM")
-
-#%% Normalization
-spectrogram -= np.mean(spectrogram)
-spectrogram /= np.std(spectrogram)
-print("DONE NORMALIZATION")
-
-#%% Prepare for the print and Print
-input = librosa.display.specshow(librosa.power_to_db(spectrogram, ref=np.max), y_axis='mel', fmax=8000, x_axis='time')
-plt.xlabel('Time')
-plt.ylabel('Frequency')
-# plt.title('Spectrogram Beatles Image NORMALZIED')
-plt.colorbar(format='%+2.0f dB')
-plt.show()
-
-print("DONE PRINT")
-
-#%% NO
-spectrogram = np.expand_dims(spectrogram, axis=0)
-
-#%% Flatten the spectrogram
-spectrogram_1d = spectrogram.reshape(-1,1) # From a  matrix return a (array, 1) matrix
-print("DONE FLATTEN")
 
 ################################################### NEURAL NETWORK ###################################################
 #%% Build th Neural Network
 
 # Define input shape
-input_shape = spectrogram_1d.shape
+input_shape = (22050,1)
 
 # Define input layer
 input_layer = Input(shape=input_shape)
@@ -81,34 +50,32 @@ output_layer = Dense(units=2, activation='tanh')(lstm)
 model = tf.keras.Model(inputs=input_layer, outputs=output_layer)
 
 #%% Plot Neural Network
-plot_model(model, to_file='FirstNN.png', show_shapes=True, show_layer_names=True)
+# plot_model(model, to_file='FirstNN.png', show_shapes=True, show_layer_names=True)
 
-#%%
-v = training.extract_input_target()
 
 ####################################################### FIT #######################################################
-#%%
-""""
+#%% Model Fit
+
 model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 print(model.summary())
-train_files = glob(os.path.join(OUTPUT_DIR_TRAIN, '.pkl'))
-x_tr, y_tr = get_data(train_files)
-y_tr = to_categorical(y_tr, num_classes=num_classes)
-test_files = glob(os.path.join(OUTPUT_DIR_TEST, '.pkl'))
-x_te, y_te = get_data(test_files)
-y_te = to_categorical(y_te, num_classes=num_classes)
-print('x_tr.shape =', x_tr.shape)
-print('y_tr.shape =', y_tr.shape)
-print('x_te.shape =', x_te.shape)
-print('y_te.shape =', y_te.shape)
-model = keras.models.load_model("/content/model.h5")
-K.set_value(model.optimizer.learning_rate, 0.000005)
+train_files = glob.glob(os.path.join(training.OUTPUT_DIR_TRAIN, '*.pkl'))
+x_tr, y_v, y_a = training.get_data(train_files)
+test_files = glob.glob(os.path.join(training.OUTPUT_DIR_TEST, '*.pkl'))
+x_te, y_v_te, y_a_te = training.get_data(test_files)
+#%%
 # if the accuracy does not increase over 10 epochs, reduce the learning rate by half.
 reduce_lr = ReduceLROnPlateau(monitor='val_accuracy', factor=0.5, patience=10, min_lr=0.00005, verbose=1)
-batch_size = 128
-model
+batch_size = 128 ## 128 samples each time
+
+
+
+#%%
+y_tr = np.column_stack((y_v, y_a))
+y_te = np.column_stack((y_v_te, y_a_te))
+
+#%%
 model.fit(x=x_tr,
   y=y_tr,
   batch_size=batch_size,
@@ -118,4 +85,5 @@ model.fit(x=x_tr,
   validation_data=(x_te, y_te),
   callbacks=[reduce_lr])
 model.save("model.h5")
-"""
+
+# %%
