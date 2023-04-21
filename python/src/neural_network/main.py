@@ -1,13 +1,21 @@
 #%%
 import tensorflow as tf
 import numpy as np
+print("ONE")
 from keras.utils import plot_model
 from keras.layers import Input, Conv1D, MaxPooling1D, BatchNormalization, Concatenate
 from keras.layers import Bidirectional, LSTM, Dropout, Dense, ZeroPadding1D
 from keras.callbacks import ReduceLROnPlateau
+print('keras')
 import glob
+import sklearn
+from sklearn.model_selection import KFold, train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+print('sklearn')
+
 
 import os
+print('OS')
 import training
 
 print("DONE IMPORT")
@@ -57,33 +65,34 @@ model = tf.keras.Model(inputs=input_layer, outputs=output_layer)
 #%% Model Fit
 
 model.compile(optimizer='adam',
-              loss='categorical_crossentropy',
-              metrics=['accuracy'])
-print(model.summary())
+              loss='mse')
+# print(model.summary())
 train_files = glob.glob(os.path.join(training.OUTPUT_DIR_TRAIN, '*.pkl'))
-x_tr, y_v, y_a = training.get_data(train_files)
-test_files = glob.glob(os.path.join(training.OUTPUT_DIR_TEST, '*.pkl'))
-x_te, y_v_te, y_a_te = training.get_data(test_files)
+
+X, y_v, y_a = training.get_data(train_files)
+y = np.column_stack((y_v, y_a))
+kf = KFold(n_splits=10)
+rms = []
+rms_test = []
+X, X_remain, y_train, y_remain = train_test_split(X, y, train_size=0.9)
+for train_index, validation_index in kf.split(X):
+    print("TRAIN:", train_index, "TEST:", validation_index)
+    X_train, X_validation = X[train_index], X[validation_index]
+    y_train, y_validation = y[train_index], y[validation_index]
+    # tf.convert_to_tensor(X_train, dtype=tf.float32)
+    # tf.convert_to_tensor(y_train, dtype=tf.float32)
+    # Split the data into training, validation, and test sets with 8:1:1 ratio
+    model.fit(x=X_train,
+              y=y_train,
+              batch_size=128,
+              epochs=10,
+              verbose=1,
+              shuffle=True)
+    model.save("model.h5")
+    y_val_pred = model.predict(X_validation)
+    rms.append(np.sqrt(mean_squared_error(y_validation, y_val_pred)))
+    y_test_predict = model.predict(X_remain)
+    rms_test.append(np.sqrt(mean_squared_error(y_remain, y_test_predict)))
+    
+    
 #%%
-# if the accuracy does not increase over 10 epochs, reduce the learning rate by half.
-reduce_lr = ReduceLROnPlateau(monitor='val_accuracy', factor=0.5, patience=10, min_lr=0.00005, verbose=1)
-batch_size = 128 ## 128 samples each time
-
-
-
-#%%
-y_tr = np.column_stack((y_v, y_a))
-y_te = np.column_stack((y_v_te, y_a_te))
-
-#%%
-model.fit(x=x_tr,
-  y=y_tr,
-  batch_size=batch_size,
-  epochs=50,
-  verbose=1,
-  shuffle=True,
-  validation_data=(x_te, y_te),
-  callbacks=[reduce_lr])
-model.save("model.h5")
-
-# %%
