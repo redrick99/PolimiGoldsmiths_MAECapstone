@@ -36,9 +36,9 @@ def convert_data():
     for x_i in path:
         print(x_i)
         audio_buf = read_audio_from_filename(os.path.join(DATA_AUDIO_DIR, (x_i+'.mp3')))
-        for k, (audio_sample)in enumerate(zip(audio_buf)):
+        for k, (audio_sample)in enumerate(audio_buf):
             # Zero padding if the sample is short
-            if len(audio_sample[0][0]) < AUDIO_LENGTH:
+            if len(audio_sample[0]) < AUDIO_LENGTH:
                 # print(audio_sample[0])
                 audio_sample = (np.concatenate((audio_sample[0], np.zeros(
                     shape=(AUDIO_LENGTH - len(audio_sample[0]))))), TARGET_SR)
@@ -47,7 +47,7 @@ def convert_data():
             output_folder = OUTPUT_DIR_TRAIN
             output_filename = os.path.join(
                 output_folder, str(x_i) + str('_') + str(k)+'.wav')
-            sf.write(output_filename,audio_sample[0][0] ,TARGET_SR, subtype='PCM_24')
+            sf.write(output_filename,audio_sample[0] ,TARGET_SR, subtype='PCM_24')
 
 
 
