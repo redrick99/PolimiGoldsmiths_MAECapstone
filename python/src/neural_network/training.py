@@ -6,6 +6,7 @@ import pickle
 import glob
 from glob import iglob
 import pandas as pd
+import soundfile as sf
 
 DATA_AUDIO_DIR = '../../../Music_mp3/clips_45seconds'
 TARGET_SR = 44100
@@ -18,69 +19,36 @@ OUTPUT_DIR_TEST = os.path.join(OUTPUT_DIR, 'test')
 
 
 def read_audio_from_filename(filename):
-    audio = [[0 for j in range(22050)] for i in range(60)]
-    audio_shift = [[0 for j in range(22050)] for i in range(60)]
-    for i in range(60):
+    audio = [[0 for j in range(22050)] for i in range(61)]
+    for i in range(61):
         line = librosa.load(filename,
                             offset=15.0+i/2, duration=0.5, sr=TARGET_SR)
         audio[i] = list(line)
-        audio_shift[i] = librosa.effects.pitch_shift(y=line[0], n_steps=-1, sr=TARGET_SR)
         audio[i] = (librosa.util.normalize(audio[i][0]), TARGET_SR)
-        audio_shift[i] = (librosa.util.normalize(audio_shift[i]), TARGET_SR)
-    
-            
-    # audio is a matrix composed by 22050 columns and 60 rows. Eaxh row contains the samples of 0.5 seconds
+    # audio is a matrix composed by 22050 columns and 60 rows. Each row contains the samples of 0.5 seconds
     # of the track from 15.0s to 45.0s
-    return audio, audio_shift
+    return audio
 
 
 # %%
 def convert_data():
-    out = {}
-    out_shift = {}
-    path, arousal, valance = extract_input_target()
-    c = 0
-    for i, (x_i, a_i, v_i) in enumerate(zip(path, arousal, valance)):
-        audio_buf, audio_s = read_audio_from_filename(os.path.join(DATA_AUDIO_DIR, x_i))
-        for k, (audio_sample, audio_shift, audio_valance, audio_arousal) in enumerate(zip(audio_buf, audio_s, a_i, v_i)):
+    path,_,_ = extract_input_target()
+    for x_i in path:
+        print(x_i)
+        audio_buf = read_audio_from_filename(os.path.join(DATA_AUDIO_DIR, (x_i+'.mp3')))
+        for k, (audio_sample)in enumerate(zip(audio_buf)):
             # Zero padding if the sample is short
-            if len(audio_sample[0]) < AUDIO_LENGTH:
+            if len(audio_sample[0][0]) < AUDIO_LENGTH:
                 # print(audio_sample[0])
                 audio_sample = (np.concatenate((audio_sample[0], np.zeros(
                     shape=(AUDIO_LENGTH - len(audio_sample[0]))))), TARGET_SR)
-                
-            if len(audio_shift[0]) < AUDIO_LENGTH:
-                # print(audio_sample[0])
-                audio_sample = (np.concatenate((audio_shift[0], np.zeros(
-                    shape=(AUDIO_LENGTH - len(audio_shift[0]))))), TARGET_SR)                
-            
-            out[k] = {
-                'audio': audio_sample[0],
-                'sr': TARGET_SR,
-                'valence': audio_valance,
-                'arousal': audio_arousal
-            }
-            out_shift[k] = {
-                'audio': audio_shift[0],
-                'sr': TARGET_SR,
-                'valence': audio_valance,
-                'arousal': audio_arousal
-            }
-      
-       
-        output_folder = OUTPUT_DIR_TRAIN
 
-        for j in range(60):
 
+            output_folder = OUTPUT_DIR_TRAIN
             output_filename = os.path.join(
-                output_folder, str(i) + str('_') + str(j) + '.pkl')
-            with open(output_filename, 'wb') as w:
-                    pickle.dump(out[j], w)
-            
-            output_filename = os.path.join(
-                output_folder, str(i + 744) + str('_') + str(j) + '.pkl')
-            with open(output_filename, 'wb') as w:
-                    pickle.dump(out_shift[j], w)
+                output_folder, str(x_i) + str('_') + str(k)+'.wav')
+            sf.write(output_filename,audio_sample[0][0] ,TARGET_SR, subtype='PCM_24')
+
 
 
 # %%
@@ -93,22 +61,22 @@ def extract_input_target():
     data_valence = pd.read_csv(path_valence)
     data_info = pd.read_csv(path_info)
 
-    path = data_arousal['song_id'].apply(lambda x: str(x) + '.mp3')
+    path = data_arousal['song_id'].apply(lambda x: str(x))
 
     arousal = data_arousal['sample_'+str(150)+'00ms']
 
-    arousal = np.zeros(((744, 60)))
-    valance = np.zeros((744, 60))
+    arousal = np.zeros(((744, 61)))
+    valance = np.zeros((744, 61))
 
     for j in range(744):
-        for i in range(60):
+        for i in range(61):
             arousal[j][i] = data_arousal['sample_'+str(150+i*5)+'00ms'][j]
             valance[j][i] = data_valence['sample_'+str(150+i*5)+'00ms'][j]
 
     return path, arousal, valance
 
 
-#%%
+# %%
 def get_data(file_list):
     def load_into(_filename, _audio, _valence, _arousal):
         with open(_filename, 'rb') as f:
@@ -123,4 +91,4 @@ def get_data(file_list):
     print('GET_DATA')
     return np.array(x), np.array(valence), np.array(arousal)
 
-
+# %%
