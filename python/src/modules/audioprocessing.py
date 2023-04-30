@@ -1,47 +1,47 @@
 from abc import ABC, abstractmethod
 import time, multiprocessing as mp, numpy as np, librosa, scipy.signal as scis
-import modules.utilities as u
+import warnings
+from modules.utilities import *
+import modules.default_parameters as dp
 from modules.connection import OSCConnectionHandler, LFAudioMessage, HFAudioMessage
 
 class AudioProcessor(ABC):
-    """
-    Abstract class to handle all Audio Processing methods and functions
+    """Abstract class to handle all Audio Processing methods and functions
     """
 
-    def __init__(self, sample_rate, chunk_size, np_format, nfft, hop_length, window_size, window_type, pitch_threshold):
+    def __init__(self, parameters: dict):
+        """Constructor with all audio parameters needed fot processing.
         """
-        Constructor with all audio parameters needed fot processing
-        """
-        self._sample_rate = sample_rate
-        self._chunk_size = chunk_size
-        self._np_format = np_format
-        self._nfft = nfft
-        self._hop_length = hop_length
-        self._window_size = window_size
-        self._window_type = window_type
-        self._p_threshold = pitch_threshold
+        self._sample_rate = parameters['sampleRate']
+        self._chunk_size = parameters['chunkSize']
+        self._np_format = parameters['npFormat']
+        self._nfft = parameters['nfft']
+        self._hop_length = parameters['hopLength']
+        self._window_size = parameters['winSize']
+        self._window_type = parameters['winType']
+        self._p_threshold = parameters['pitchThreshold']
+        self._normType = parameters['normType']
         
-        self._debugger = u.Debugger()
-
     @abstractmethod
-    def process(self, frame, inst: u.Instruments):
-        """
-        Abstract method to process the given audio frame
+    def process(self, frame, inst: Instruments):
+        """Abstract method to process the given audio frame.
+
+        :param frame: Chunk of audio to process
+        :param inst: Instrument of the track from which to get the frequency range
         """
         pass
 
     def _compute_stft(self, frame):
-        """
-        Computes the STFT of a given signal, with the object's parameters
+        """Computes the STFT of a given signal frame, with the object's parameters.
+
+        :param frame: Chunk of audio to process
         """
         return np.abs(librosa.stft(y=frame, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type, dtype=self._np_format))
 
     def _get_mono_frequency(self, frame):
-        """
-        Returns the peak frequency of the audio frame (Monophonic Pitch Detection)
+        """Returns the peak frequency of the audio frame (Monophonic Pitch Detection).
 
-        Parameters:
-        - frame: chunk of audio to process
+        :param frame: Chunk of audio to process
         """
         spectrum = np.abs(np.fft.rfft(frame))
         peaks, _ = scis.find_peaks(spectrum, distance=10)
@@ -52,14 +52,12 @@ class AudioProcessor(ABC):
         peak_index = np.argmax(spectrum[peaks])
         return peaks[peak_index] * self._sample_rate / self._sample_rate
 
-    def _get_poly_frequencies(self, S, inst: u.Instruments):
-        """
-        Returns the peak frequencies of the audio frame from its spectrum (Polyphonic Pitch Detection)
+    def _get_poly_frequencies(self, S, inst: Instruments):
+        """Returns the peak frequencies of the audio frame from its spectrum (Polyphonic Pitch Detection)
 
-        Parameters:
-        - S: spectrum of a signal
+        :param S: Spectrum of a frame of the signal
         """
-        range = u.get_fundamental_frequency_range_by_instrument(inst)
+        range = inst.get_fundamental_frequency_range()
         if range is None: return [0]
 
         pitches, magnitudes = librosa.piptrack(S=S, sr=self._sample_rate, fmin=range[0], fmax=range[1], threshold=self._p_threshold)
@@ -72,19 +70,16 @@ class AudioProcessor(ABC):
         """
         Returns the spectral centroid of the audio frame from its spectrum
 
-        Parameters:
-        - S: spectrum of a signal
+        :param S: Spectrum of a frame of the signal
         """
         cent = librosa.feature.spectral_centroid(S=S, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
         cent = np.mean(cent, axis=1)
         return cent
 
     def _get_spectral_bandwidth(self, S):
-        """
-        Returns the spectral bandwidth of the audio frame from its spectrum
+        """Returns the spectral bandwidth of the audio frame from its spectrum
 
-        Parameters:
-        - S: spectrum of a signal
+        :param S: Spectrum of a frame of the signal
         """
         sb = librosa.feature.spectral_bandwidth(S=S, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
         sb = np.mean(sb, axis=1)
@@ -94,236 +89,213 @@ class AudioProcessor(ABC):
         """
         Returns the spectral contrast of the audio frame from its spectrum
 
-        Parameters:
-        - S: spectrum of a signal
+        :param S: Spectrum of a frame of the signal
         """
         sc = librosa.feature.spectral_contrast(S=S, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
         return np.mean(sc, axis=1)
 
     def _get_spectral_flatness(self, S):
-        """
-        Returns the spectral flatness of the audio frame from its spectrum
+        """Returns the spectral flatness of the audio frame from its spectrum
 
-        Parameters:
-        - S: spectrum of a signal
+        :param S: Spectrum of a frame of the signal
         """
         sf = librosa.feature.spectral_flatness(S=S, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
         return np.mean(sf, axis=1)
 
     def _get_spectral_rolloff(self, S):
-        """
-        Returns the spectral rolloff of the audio frame from its spectrum
+        """Returns the spectral rolloff of the audio frame from its spectrum
 
-        Parameters:
-        - S: spectrum of a signal
+        :param S: Spectrum of a frame of the signal
         """
         sr = librosa.feature.spectral_rolloff(S=S, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
         return np.mean(sr, axis=1)
     
-    def _normalize(self, array):
-        """
-        Implements different normalizations based on the current selected normalization type
+    def _normalize(self, array) -> np.ndarray:
+        """Implements different normalizations based on the current selected normalization type
 
-        Parameters:
-        - array: array to normalize
+        :param array: Array to normalize
 
-        Returns -> normalized array (or the array as is if normalization is set to NONE)
+        :returns: The normalized array (or the array as is if normalization is set to NONE)
         """
-        if u.NORM_TYPE == u.Normalizations.NONE:
+        if self._normType == Normalizations.NONE:
             return array
         
-        if u.NORM_TYPE == u.Normalizations.PEAK:
+        if self._normType == Normalizations.PEAK:
             return array / np.max(np.abs(array))
         
-        if u.NORM_TYPE == u.Normalizations.RMS:
+        if self._normType == Normalizations.RMS:
             return np.sqrt(np.mean(np.square(array)))
         
-        if u.NORM_TYPE == u.Normalizations.Z_SCORE:
+        if self._normType == Normalizations.Z_SCORE:
             return (array - np.mean(array)) / np.std(array)
         
-        if u.NORM_TYPE == u.Normalizations.MIN_MAX:
+        if self._normType == Normalizations.MIN_MAX:
             min_value = np.amin(array)
             max_value = np.amax(array)
             return (array - min_value) / (max_value - min_value)
 
 class DefaultAudioProcessor(AudioProcessor):
+    """Implements the default chain used to process low level features
     """
-    Implements the default chain used to process low level features
-    """
 
-    def __init__(self, sample_rate, chunk_size, np_format, nfft, hop_length, window_size, window_type, pitch_threshold):
-        super().__init__(sample_rate, chunk_size, np_format, nfft, hop_length, window_size, window_type, pitch_threshold)
-
-    def process(self, frame, inst: u.Instruments):
+    def __init__(self, parameters: dict):
+        """Constructor
         """
-        Processes the given audio frame according to a defined chain
+        super().__init__(parameters)
 
-        Parameters:
-        - frame: chunk of audio to process
+    def process(self, frame, inst: Instruments):
+        """Processes the given audio frame according to a defined chain
 
-        Returns -> Low Level Features as floats ordered inside an array
+        :param frame: Chunk of audio to process
+        :param inst: Instrument of the track from which to get the frequency range
+
+        :returns: Low Level Features as floats ordered inside an array
         """
-        frame = self._normalize(array=frame)
-        S = self._compute_stft(frame)
-        freqs = np.round(self._get_poly_frequencies(S, inst))
-        spec_centroid = np.round(self._get_spectral_centroid(S)[0])
-        spec_bandwidth = np.round(self._get_spectral_bandwidth(S)[0])
-        spec_flatness = self._get_spectral_flatness(S)[0]
-        spec_rolloff = np.round(self._get_spectral_rolloff(S)[0])
-
-        self._debugger.print_data(spec_centroid)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            frame = self._normalize(array=frame)
+            S = self._compute_stft(frame)
+            freqs = np.round(self._get_poly_frequencies(S, inst))
+            spec_centroid = np.round(self._get_spectral_centroid(S)[0])
+            spec_bandwidth = np.round(self._get_spectral_bandwidth(S)[0])
+            spec_flatness = self._get_spectral_flatness(S)[0]
+            spec_rolloff = np.round(self._get_spectral_rolloff(S)[0])
 
         return [spec_centroid, spec_bandwidth, spec_flatness, spec_rolloff, *freqs[:4]]
 
 class InputHandler(ABC):
-    """
-    The InputHandler abstract class declares a set of methods for processing data
+    """The InputHandler abstract class declares a set of methods for processing data
     """
 
-    def __init__(self, channel, sample_rate, chunk_size, np_sample_format, instrument: u.Instruments):
+    def __init__(self, parameters: dict, channel: int, instrument: Instruments):
+        """Superclass Constructor
+
+        :param parameters: Audio parameters used to process the audio
+        :param channel: Channel index of the track to process assigned to this instance
+        :param instrument: Instrument of the track to process assigned to this instance
         """
-        Constructor
-        """
-        self._input_data = None
-        self._output_data = None
-        self._connection_handler = OSCConnectionHandler.get_instance(address=u.NET_ADDRESS, port=u.NET_PORT)
-        self._sample_rate = sample_rate
-        self._chunk_size = chunk_size
-        self._np_sample_format = np_sample_format
+        net_params = dp.NET_PARAMETERS
+        self._connection_handler = OSCConnectionHandler.get_instance(net_params['outNetAddress'], net_params['outNetPort'])
+        self._signal_threshold = parameters['signalThreshold']
         self.__instrument = instrument
         self._lock = mp.Lock()
         self.channel = channel
-
-    @abstractmethod
-    def process_input(self, input, inst: u.Instruments):
-        """
-        Abstract method to process read input data
-        """
-        pass
-
-    @abstractmethod
-    def send_output(self, output, inst: u.Instruments):
-        """
-        Abstract method to send the output of the processing 
-        """
-        pass
+        self.__priority = 0
 
     @abstractmethod
     def process(self, data):
-        """
-        Abstract method to implement the processing chain
+        """Abstract method to implement the processing chain
+
+        :param data: Data to process
         """
         pass
 
-    def set_instrument(self, instrument: u.Instruments):
-        """
-        Thread-Safe setter for the "instrument" attribute
+    def set_instrument(self, instrument: Instruments):
+        """Synchronized setter for the "instrument" attribute
         """
         self._lock.acquire()
         self.__instrument = instrument
         self._lock.release()
 
-    def get_instrument(self):
-        """
-        Thread-Safe getter for the "instrument" attribute
+    def get_instrument(self) -> Instruments:
+        """Synchronized getter for the "instrument" attribute
         """
         self._lock.acquire()
         inst = self.__instrument
         self._lock.release()
         return inst
+    
+    def set_priority(self, priority: int):
+        """Synchronized setter for the "priority" attribute
+        """
+        self._lock.acquire()
+        self.__priority = priority
+        self._lock.release()
+
+    def get_priority(self) -> int:
+        """Synchronized getter for the "priority" attribute
+        """
+        self._lock.acquire()
+        p = self.__priority
+        self._lock.release()
+        return p
+    
+    def handle_settings(self, settings):
+        """Handles incoming settings
+
+        :param settings: settings to handle
+        """
+        pass
+
 
 class LFAudioInputHandler(InputHandler):
-    """
-    Handles the Low Level Feature Processing
+    """Handles the Low Level feature processing of a channel of either live or recorded audio.
     """
 
-    def __init__(self, channel, sample_rate, chunk_size, np_sample_format, instrument: u.Instruments):
+    def __init__(self, parameters: dict, channel: int, instrument: Instruments):
+        """Constructor
+
+        :param parameters: Audio parameters used to process the audio
+        :param channel: Channel index of the track to process assigned to this instance
+        :param instrument: Instrument of the track to process assigned to this instance
         """
-        Constructor
-        """
-        super().__init__(channel=channel, sample_rate=sample_rate, chunk_size=chunk_size, np_sample_format=np_sample_format, instrument=instrument)
-        self._audio_processor = DefaultAudioProcessor(
-            sample_rate=sample_rate,
-            chunk_size=chunk_size,
-            np_format=np_sample_format,
-            nfft=u.DEFAULT_NFFT,
-            hop_length=u.HOP_LENGTH,
-            window_size = u.WINDOW_SIZE,
-            window_type = u.WINDOW_TYPE,
-            pitch_threshold=u.PITCH_THRESHOLD
-        )
+        super().__init__(parameters, channel, instrument)
+        self._audio_processor = DefaultAudioProcessor(parameters)
 
     def __no_signal(self, data):
-        """
-        Checks if there's an actual signal inside the read data by computing the rms and evaulating it against a predefined threshold
+        """Checks if there's an actual signal inside the audio frame by computing the rms and evaulating it against a predefined threshold.
+
+        :param data: Data frame to check
+
+        :returns: A :py:type:`bool` set to `True` if the signal is virtually non-existant.
         """
         rms = np.sqrt(np.mean(np.square(data)))
-        return rms <= u.CHANNEL_AUDIO_THRESHOLD
-
-    def process_input(self, input, inst: u.Instruments):
-        """
-        Process a chunk of audio
-        """
-        return self._audio_processor.process(input, inst)
-
-    def send_output(self, output, inst: u.Instruments):
-        """
-        Sends the output of the audio processing
-        """
-        msg = LFAudioMessage(data=output, channel=self.channel, instrument=inst)
-        self._connection_handler.send_message(message=msg)
+        return rms <= self._signal_threshold
     
     def process(self, data):
-        """
-        Processes a chunk of audio or returns if there is no actual signal
+        """Processes an audio frame or returns if the frame contains no information
 
-        Parameters:
-        - data: chunk of audio to process
+        :param data: audio frame to process
         """
         if self.__no_signal(data): return
 
         inst = self.get_instrument()
-
-        out = self.process_input(data, inst)
-        self.send_output(out, inst)
+        processed_data = self._audio_processor.process(data, inst)
+        print_data(self.channel, processed_data)
+        msg = LFAudioMessage(processed_data, self.channel, inst)
+        self._connection_handler.send_message(msg)
 
 class HFAudioInputHandler(InputHandler):
-    """
-    Handles the High Level Features Processing
+    """Handles the High Level Features Processing
     """
 
-    def __init__(self, channel, sample_rate, chunk_size, np_sample_format):
-        super().__init__(channel=channel, sample_rate=sample_rate, chunk_size=chunk_size, np_sample_format=np_sample_format, instrument=None)
+    def __init__(self, parameters: dict, channel: int, instrument: Instruments):
+        """Constructor
 
-    def process_input(self, input, inst: u.Instruments):
+        :param parameters: Audio parameters used to process the audio
+        :param channel: Channel index of the track to process assigned to this instance
+        :param instrument: Instrument of the track to process assigned to this instance
         """
-        self.__lock.acquire()
-        data_to_process = self._input_data.copy()
-        self._input_data = []
-        self.__lock.release()
-        wf = wave.open("output.wav", 'wb')
-        wf.setnchannels(1)
-        wf.setsampwidth(2)
-        wf.setframerate(self._sample_rate)
-        wf.writeframes(b''.join(data_to_process))
-        wf.close()
-        """
-        time.sleep(3)
-        return "happy"
-        
-    def send_output(self, output, inst: u.Instruments):
-        """
-        Sends the output of the audio processing
-        """
-        msg = HFAudioMessage(data=output, channel=self.channel)
-        self._connection_handler.send_message(msg)
+        super().__init__(parameters, channel, instrument)
+        self.__number_of_samples = parameters['hfNumberOfSamples']
+        self.__np_format = parameters['npFormat']
+        self.__data = np.array([], dtype=self.__np_format)
     
     def process(self, data):
-        """
-        Processes a chunk of audio for High Level Features
+        """Processes an audio frame for High Level features
 
-        Parameters:
-        - data: chunk of audio to process
+        :param data: audio frame to process
         """
-        out = self.process_input(data, u.Instruments.DEFAULT)
-        self.send_output(out, u.Instruments.DEFAULT)
+        if len(self.__data) < self.__number_of_samples:
+            data_array = np.array(data, dtype=self.__np_format, copy=True)
+            data_array = data_array.sum(axis=0) / float(len(data))
+            self.__data = np.concatenate((self.__data, data_array), axis=0)
+            return
+        
+        data_to_process = self.__data[0:self.__number_of_samples].copy()
+        self.__data = np.array([], dtype=self.__np_format)
+        
+        #TODO actually process the audio
+
+        msg = HFAudioMessage("test", self.channel)
+        self._connection_handler.send_message(msg)

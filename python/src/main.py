@@ -1,224 +1,129 @@
-import multiprocessing as mp, numpy as np, pyaudio
-import modules.utilities as u, modules.connection as c
+import modules.default_parameters as dp
+import os
+from multiprocessing import Process, Queue, Event
+from queue import Full, Empty
+from modules.setup import SetupHandler
 from modules.audioprocessing import LFAudioInputHandler, HFAudioInputHandler
-from queue import Empty, Full
-from pythonosc.osc_server import AsyncIOOSCUDPServer
-from pythonosc.dispatcher import Dispatcher
-import asyncio
+from modules.audio_producer import AudioProducer
+from modules.utilities import *
+from modules.custom_exceptions import *
 
-def audio_producer(control_event, lf_queue: mp.Queue, hf_queue:mp.Queue, chunk_size: int, sample_format, channels: int, sample_rate: int, hf_number_of_chunks: int, exception_on_overflow: bool):
-    """
-    Opens an audio stream and reads data from it, providing input to the LF and HF processes via multiprocessing Queues.
+def stop_execution(lf_queue: Queue, hf_queue: Queue, streams: list):
+    for _ in range(dp.CPU_PARAMETERS['numLfCores']):
+        lf_queue.put(None)
+    for _ in range(dp.CPU_PARAMETERS['numHfCores']):
+        hf_queue.put(None)
+    for s in streams:
+        if s:
+            s.stop_stream()
+            s.close()
 
-    Parameters:
-    - control_event: checks if the application needs to stop
-    - lf_queue: mp.Queue for low level features processes
-    - hf_queue: mp.Queue for high level features processes
-    - others: various audio parameters
-    """
-    debugger = u.Debugger()
-    debugger.print_success("Audio Producer: Running", flush=True)
-    
-    p = pyaudio.PyAudio()
-    try:
-        stream = p.open(format=sample_format,
-                    channels=channels,
-                    rate=sample_rate,
-                    frames_per_buffer=chunk_size,
-                    input=True)
-    except Exception as e:
-        debugger.print_error("Couldn't open audio stream")
-        u.stop_processes(lf_queue, hf_queue)
-        return
+def audio_producer(audio_producer_object: AudioProducer, control_event, lf_queue: Queue, hf_queue: Queue, parameters: dict):
+    sh = SetupHandler.get_instance()
+    sh.set_audio_parameters(parameters)
+    in_stream, out_stream = sh.get_audio_streams()
 
-    counter = 0
-    data_array = []
-
+    print_success("Started audio producer process")
     while True:
-        if control_event.is_set():
-            u.stop_processes(lf_queue, hf_queue)
-            return
-
-        data = stream.read(chunk_size, exception_on_overflow=exception_on_overflow)
-        data_array.append(data)
-
         try:
-            lf_queue.put_nowait(data)
+            if control_event.is_set():
+                stop_execution(lf_queue, hf_queue, [in_stream, out_stream])
+                return
+
+            audio_chunk = audio_producer_object.get_next_chunk(in_stream, out_stream)
+
+            lf_queue.put_nowait(audio_chunk)
+            hf_queue.put_nowait(audio_chunk)
         except Full:
-            debugger.print_warning("LF-Queue is full") # If the queue is too big it means that the program takes too much time to process data
+            print_warning("Queue is full")
             continue
+        except FinishedSongException as e:
+            print_info("Song is finished")
+            stop_execution(lf_queue, hf_queue, [in_stream, out_stream])
+            return
+        except AudioProducingException as e:
+            print_error(e)
+        except Exception as e:
+            print_error("Something bad happened while producing audio")
+            print_dbg(e)
 
-        if counter >= hf_number_of_chunks: # When we have enough data for HLF processing...
-            try:
-                hf_queue.put_nowait(data_array.copy())
-                data_array = []
-                counter = 0
-                continue
-            except Full:
-                debugger.print_warning("HF-Queue is full")
-                continue
-
-        counter += 1
-
-
-def lf_audio_consumer(lf_queue: mp.Queue, settings_queue: mp.Queue, chunk_size: int, np_sample_format, channels: int, sample_rate: int):
-    """
-    Processes Low Level Features from a multiprocessing Queue.
-
-    Parameters:
-    - lf_queue: mp.Queue where small chunks of audio data are put by the "audio_producer"
-    - others: various audio parameters
-    """
-    debugger = u.Debugger()
-    debugger.print_success("LF Audio Consumer: Running", flush=True)
-
+def lf_audio_consumer(lf_queue: Queue, settings_queue: Queue, parameters: dict):
     lf_audio_input_handlers = []
+    channels = parameters['channels']
+    instruments = parameters['instruments']
     for i in range(channels):
-        lf_audio_input_handlers.append(LFAudioInputHandler(i, sample_rate, chunk_size, np_sample_format, u.Instruments.VOICE))
-
+        lf_audio_input_handlers.append(LFAudioInputHandler(parameters, i, instruments[i]))
+    
+    print_success("Started LF consumer process")
     while True:
         data = lf_queue.get()
+        if data is None: break
 
         try:
-            settings = settings_queue.get_nowait()
-            lf_audio_input_handlers[settings[0]].set_instrument(settings[1])
-            debugger.print_info("Channel ("+str(settings[0])+") was set to "+settings[1].get_string())
+            channel, settings = settings_queue.get_nowait()
+            for handler in lf_audio_input_handlers:
+                if handler.channel == channel:
+                    handler.handle_settings(settings)
+                    break
         except Empty:
             pass
 
-        if data is None: break
-        data = np.frombuffer(data, np_sample_format)
-
-        data_channels = []
-        for i in range(channels):
-            data_channels.append(data[i::channels])
-
-        try: 
-            for i in range(channels):
-                lf_audio_input_handlers[i].process(data_channels[i])
+        try:
+            for i in range(len(lf_audio_input_handlers)):
+                lf_audio_input_handlers[i].process(data[i])
         except Exception as e:
-            debugger.print_error("LF - Error while processing input")
-            raise e
-            print(e)
-            return
+            print_error("Something bad happened while processing audio (LLF)")
+            print_dbg(e)
 
+def hf_audio_consumer(hf_queue: Queue, parameters: dict):
+    hf_audio_input_handler = HFAudioInputHandler(parameters, 0, Instruments.DEFAULT)
 
-def hf_audio_consumer(hf_queue: mp.Queue, chunk_size: int, np_sample_format, sample_rate: int):
-    """
-    Processes High Level Features from a multiprocessing Queue.
-
-    Parameters:
-    - hf_queue: mp.Queue where medium chunks (some seconds) of audio data are put by the "audio_producer"
-    - others: various audio parameters
-    """
-    debugger = u.Debugger()
-    debugger.print_success("HF Audio Consumer: Running", flush=True)
-
-    hf_audio_input_handler = HFAudioInputHandler(0, sample_rate, chunk_size, np_sample_format)
-
+    print_success("Started HF consumer process")
     while True:
         data = hf_queue.get()
         if data is None: break
         try:
             hf_audio_input_handler.process(data)
         except Exception as e:
-            debugger.print_error("HF - Error while processing input")
-            print(e)
-            return
+            print_error("Something bad happened while processing audio (HLF)")
+            print_dbg(e)
 
-async def init_main():
-    debugger = u.Debugger()
-    u.EXTERNAL_OSC_CONTROLLER = u.wait_for_start_input()  
+if __name__ == "__main__":
+    sh = SetupHandler.get_instance()
+    sh.set_main_path(os.path.dirname(__file__))
+    parameters = sh.setup()
+    audio_producer_object = sh.get_audio_producer()
 
-    debugger.print_info("Setting Up Variables...")      
-    lf_queue = mp.Queue() # Queues Initialization
-    hf_queue = mp.Queue()
-    settings_queues = []
+    control_event = Event()
 
-    for _ in range(u.NUMBER_OF_LF_PROCESSES):
-        settings_queues.append(mp.Queue())
-    
-    if u.EXTERNAL_OSC_CONTROLLER:
-        debugger.print_info("Setting Up Server...")
-        dispatcher = c.create_dispatcher(settings_queues)
-        server = AsyncIOOSCUDPServer((u.IN_NET_ADDRESS, u.IN_NET_PORT), dispatcher, asyncio.get_event_loop())
-        transport, protocol = await server.create_serve_endpoint()
+    cpu_parameters = dp.CPU_PARAMETERS
+    lf_queue = Queue()
+    hf_queue = Queue()
+    settings_queue = Queue()
 
-    await main(lf_queue, hf_queue, settings_queues)
-    if u.EXTERNAL_OSC_CONTROLLER: transport.close()
+    processes = []
+    for _ in range(cpu_parameters['numLfCores']):
+        processes.append(Process(target=lf_audio_consumer, args=(
+            lf_queue,
+            settings_queue,
+            parameters,
+        )))
+    for _ in range(cpu_parameters['numHfCores']):
+        processes.append(Process(target=hf_audio_consumer, args=(
+            hf_queue,
+            parameters,
+        )))
 
-async def main(lf_queue, hf_queue, settings_queues):
-    debugger = u.Debugger()
-
-    if u.EXTERNAL_OSC_CONTROLLER:
-        print("Waiting for connection message from OSC Controller", end="")
-        n_dots = 0
-        while not u.EXTERNAL_OSC_CONTROLLER_CONNECTED:
-            if n_dots == 3:
-                print(end='\b\b\b', flush=True)
-                print(end='   ',    flush=True)
-                print(end='\b\b\b', flush=True)
-                n_dots = 0
-            else:
-                print(end='.', flush=True)
-                n_dots += 1
-            await asyncio.sleep(.5)
-
-    debugger.print_info("Setting up processes...")
-    event = mp.Event()
-
-    audio_reader = mp.Process(target=audio_producer, args=(
-        event,
+    processes.append(Process(target=audio_producer, args=(
+        audio_producer_object,
+        control_event,
         lf_queue,
         hf_queue,
-        u.CHUNK_SIZE,
-        u.SAMPLE_FORMAT,
-        u.CHANNELS,
-        u.SAMPLE_RATE,
-        u.HF_NUMBER_OF_CHUNKS,
-        u.EXCEPTION_ON_OVERFLOW,
-    ))
+        parameters,
+    )))
 
-    # A process is created for each user-specified number of cores that are going to extract low-level features (default = 2)
-    lf_consumers = []
-    for i in range(u.NUMBER_OF_LF_PROCESSES):
-        lf_consumers.append(mp.Process(target=lf_audio_consumer, args=(
-            lf_queue, 
-            settings_queues[i],
-            u.CHUNK_SIZE, 
-            u.NP_SAMPLE_FORMAT, 
-            u.CHANNELS,
-            u.SAMPLE_RATE,
-        )))
-
-    # A process is created for each user-specified number of cores that are going to extract low-level features (default = 1)
-    hf_consumers = []
-    for i in range(u.NUMBER_OF_HF_PROCESSES):
-        hf_consumers.append(mp.Process(target=hf_audio_consumer, args=(
-            hf_queue,
-            u.CHUNK_SIZE,
-            u.SAMPLE_FORMAT,
-            u.SAMPLE_RATE,
-        )))
-
-    # Starts all the processes
-    for p in hf_consumers:
+    for p in processes:
         p.start()
-    for p in lf_consumers:
-        p.start()
-    audio_reader.start()
 
-    while not u.STOP: await asyncio.sleep(1)
-    event.set()
-
-    debugger.print_info("Shutting Down...")
-    # Waits for all processes to finish
-    for p in hf_consumers:
+    for p in processes:
         p.join()
-    for p in lf_consumers:
-        p.join()
-    audio_reader.join()
-
-# Main protection to ensure correct multiprocessing behaviour
-if __name__ == "__main__":
-    asyncio.run(init_main())

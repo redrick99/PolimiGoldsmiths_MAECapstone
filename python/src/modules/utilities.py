@@ -1,10 +1,9 @@
-import pyaudio, numpy as np
 from enum import Enum
 
-"""
-Classes declarations
-"""
+# Classes
 class Normalizations(Enum):
+    """Defines Normalization types for audio processing.
+    """
     NONE = 0
     PEAK = 1
     RMS = 2
@@ -12,6 +11,8 @@ class Normalizations(Enum):
     MIN_MAX = 4
 
 class Instruments(Enum):
+    """Defines intrument types for audio processing.
+    """
     DEFAULT = 1
     VOICE = 2
     GUITAR = 3
@@ -20,13 +21,18 @@ class Instruments(Enum):
     DRUMS = 6
 
     def get_string(self):
-        """
-        Returns the name of the instrument as a string
+        """Returns the name of the instrument as a string.
         """
         return self.name
     
     @staticmethod
     def from_string(s: str):
+        """Returns the enum value of a given string.
+
+        :return: :py:class:`Instruments` of the given string.
+
+        :raises Exception: If the string does not correspond to a known instrument.
+        """
         if s == "DEFAULT": return Instruments.DEFAULT
         if s == "VOICE": return Instruments.VOICE
         if s == "GUITAR": return Instruments.GUITAR
@@ -34,8 +40,44 @@ class Instruments(Enum):
         if s == "STRINGS": return Instruments.STRINGS
         if s == "DRUMS": return Instruments.DRUMS
         raise Exception("Couldn't parse string into instrument")
+    
+    @staticmethod
+    def from_index(index: int):
+        """Returns the enum value of a given index.
+
+        :return: :py:class:`Instruments` of the given index.
+
+        :raises Exception: If the index does not correspond to a known instrument.
+        """
+        if index == 1: return Instruments.DEFAULT
+        if index == 2: return Instruments.VOICE
+        if index == 3: return Instruments.GUITAR
+        if index == 4: return Instruments.PIANO
+        if index == 5: return Instruments.STRINGS
+        if index == 6: return Instruments.DRUMS
+        raise Exception("Couldn't parse string into instrument")
+    
+    def get_fundamental_frequency_range(self) -> list:
+        """Returns the fundamental frequency range for a given instrument.
+
+        :returns: A :py:type:`list` containing the lower and upper frequency range limits.
+        """
+        if self == Instruments.DEFAULT:
+            return [20.0, 8000.0]
+        if self == Instruments.VOICE:
+            return [80.0, 4000.0]
+        if self == Instruments.GUITAR:
+            return [20.0, 5000.0]
+        if self == Instruments.PIANO:
+            return [20.0, 4500.0]
+        if self == Instruments.STRINGS:
+            return [20.0, 3500.0]
+        if self == Instruments.DRUMS:
+            return [20.0, 10000.0]
 
 class bcolors:
+    """Colors used to print and debug
+    """
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
@@ -46,130 +88,30 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-class Debugger:
-    is_active = True
+__DEBUGGER_ACTIVE = True
+__PRINTING_ACTIVE = True
+__PRINTING_DATA_ACTIVE = True
 
-    def __init__(self):
-        pass
+def print_success(string, flush=True):
+    if __PRINTING_ACTIVE:
+        print(bcolors.OKGREEN+"[OK] "+str(string)+bcolors.ENDC, flush=flush)
 
-    def print_success(self, string, flush=False):
-        if Debugger.is_active:
-            print(bcolors.OKGREEN+"[OK] "+str(string)+bcolors.ENDC, flush=flush)
+def print_info(string, flush=True):
+    if __PRINTING_ACTIVE:
+        print(bcolors.OKBLUE+"[INFO] "+bcolors.UNDERLINE+str(string)+bcolors.ENDC, flush=flush)
 
-    def print_info(self, string, flush=False):
-        if Debugger.is_active:
-            print(bcolors.OKBLUE+"[INFO] "+bcolors.UNDERLINE+str(string)+bcolors.ENDC, flush=flush)
+def print_data(channel, data, flush=True):
+    if __PRINTING_DATA_ACTIVE:
+        print(bcolors.OKCYAN+"[DATA - Channel "+str(channel)+"] ", data, bcolors.ENDC, flush=flush)
 
-    def print_data(self, string, flush=False):
-        if Debugger.is_active:
-            print(bcolors.OKCYAN+"[DATA] "+str(string)+bcolors.ENDC, flush=flush)
+def print_warning(string, flush=True):
+    if __PRINTING_ACTIVE:
+        print(bcolors.WARNING+bcolors.BOLD+"[WARNING] "+str(string)+bcolors.ENDC, flush=flush) 
 
-    def print_warning(self, string, flush=False):
-        if Debugger.is_active:
-            print(bcolors.WARNING+bcolors.BOLD+"[WARNING] "+str(string)+bcolors.ENDC, flush=flush) 
+def print_error(string, flush=True):
+    if __PRINTING_ACTIVE:
+        print(bcolors.FAIL+bcolors.BOLD+"[ERROR] "+str(string)+bcolors.ENDC, flush=flush) 
 
-    def print_error(self, string, flush=False):
-        if Debugger.is_active:
-            print(bcolors.FAIL+bcolors.BOLD+"[ERROR] "+str(string)+bcolors.ENDC, flush=flush) 
-
-    def dbg(self, string, flush=False):
-        if Debugger.is_active:
-            print(bcolors.OKGREEN+"[DBG] "+str(string)+bcolors.ENDC, flush=flush)
-
-"""
-Functions declarations
-"""
-
-## Not Audio Related
-def wait_for_start_input():
-    yes = ["yes", "y"]
-    no = ["no", "n"]
-
-    while True:    
-        user_input = input("Using External OSC Controller? (y/n): ")
-        if user_input in yes: return True
-        if user_input in no: return False
-
-def stop_processes(lf_queue, hf_queue):
-    for _ in range(NUMBER_OF_LF_PROCESSES):
-        lf_queue.put(None)
-    for _ in range(NUMBER_OF_HF_PROCESSES):
-        hf_queue.put(None)
-
-## Audio Related
-def get_default_max_number_of_tracks():
-    channels = pyaudio.PyAudio().get_default_input_device_info()['maxInputChannels']
-    return int(channels)
-
-def get_default_sample_rate():
-    sr = pyaudio.PyAudio().get_default_input_device_info()['defaultSampleRate']
-    return int(sr)
-
-def get_fundamental_frequency_range_by_instrument(inst: Instruments):
-    if inst == Instruments.DEFAULT:
-        return [20.0, 8000.0]
-    if inst == Instruments.VOICE:
-        return [80.0, 4000.0]
-    if inst == Instruments.GUITAR:
-        return [20.0, 5000.0]
-    if inst == Instruments.PIANO:
-        return [20.0, 4500.0]
-    if inst == Instruments.STRINGS:
-        return [20.0, 3500.0]
-    if inst == Instruments.DRUMS:
-        return None
-
-"""
-Ummutable constants (defined on startup)
-"""
-## Net and communication
-NET_ADDRESS = "127.0.0.1"
-NET_PORT = 12345
-
-IN_NET_ADDRESS = "127.0.0.1"
-IN_NET_PORT = 1337
-
-## Outgoing addresses
-OSC_LF_ADDRESS = "/LFmsg_ch"
-OSC_HF_ADDRESS = "/HFmsg_ch"
-
-# Incoming addresses
-EXTERNAL_OSC_CONTROLLER = None
-EXTERNAL_OSC_CONTROLLER_CONNECTED = False
-OSC_START_ADDRESS = "/START"
-OSC_STOP_ADDRESS = "/STOP"
-OSC_CHANNEL_SETTINGS_ADDRESS = "/ch_settings"
-STOP = False
-
-## PyAudio
-CHUNK_SIZE = 1024 * 4 # number of frames per buffer
-SAMPLE_FORMAT = pyaudio.paFloat32 # format of read sample
-CHANNELS = 2 # sound card channels
-if get_default_max_number_of_tracks() < CHANNELS:
-    CHANNELS = get_default_max_number_of_tracks()
-
-SAMPLE_RATE = 44100 # sample rate in Hz
-if get_default_sample_rate() != SAMPLE_RATE:
-    SAMPLE_RATE = get_default_sample_rate()
-
-
-EXCEPTION_ON_OVERFLOW = False
-
-
-## Audio Processing
-CHANNEL_AUDIO_THRESHOLD = 0.005
-DEFAULT_NFFT = 4096
-HOP_LENGTH = int(DEFAULT_NFFT/2)
-WINDOW_SIZE = 4096
-WINDOW_TYPE = 'hann'
-NP_SAMPLE_FORMAT = np.float32
-HF_NUMBER_OF_CHUNKS = 200
-PITCH_FMIN = 50
-PITCH_FMAX = 6000
-PITCH_THRESHOLD = 0.2
-
-## CPU
-NUMBER_OF_LF_PROCESSES = 2
-NUMBER_OF_HF_PROCESSES = 1
-
-NORM_TYPE = Normalizations.PEAK
+def print_dbg(string, flush=True):
+    if __PRINTING_ACTIVE and __DEBUGGER_ACTIVE:
+        print(bcolors.OKGREEN+"[DBG] "+str(string)+bcolors.ENDC, flush=flush)
