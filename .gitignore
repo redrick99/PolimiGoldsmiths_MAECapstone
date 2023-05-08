@@ -109,6 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+mae
 
 # Spyder project settings
 .spyderproject
@@ -129,3 +130,7 @@ dmypy.json
 .pyre/
 .DS_Store
 python/src/resources/test_songs_unzipped/
+
+#Database
+Music_mp3
+python/src/neural_network/output
