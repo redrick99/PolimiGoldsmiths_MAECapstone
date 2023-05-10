@@ -69,4 +69,75 @@ python3 -m pip install -r requirements.txt
 python3 ./src/main.py
 ```
 
-The script should now be up and running and you should see a prompt on the terminal screen. Just follow it and answer its questions!
+## Step 2 - Using the python script
+Here is everything you have to know to be able to run the python script without issues (hopefully)
+
+### a) Initialization
+When you start the script, a bunch of different questions will be asked on the console: you have to answer those questions according to how you want to use the application. Here are the questions:
+
+```
+Question 1: Do you want to use live or recorded audio? (l/r):
+```
+
+Type `r` to use pre-recorded sample songs specifically adjusted to be played on this application (every instrument needs to be on a separate track so you can't just upload your own .wav file unfortunatly)
+
+```
+Question 2: Please select one of the songs (type only the index):
+```
+
+You can choose one of the available songs by typing the corresponding index. Song 1 and 2 have a bunch of synths with many tracks, along with drums, while Song 3 is a one-track song with a piano. More songs will be added eventually.
+
+**If you want to add any song to the list of available songs please tell me, I will provide you with a new set of files if i can (just remember that I have to recreate the entire song in the DAW to be able to do this)**
+
+```
+Question 3: Do you want to hear the song as its being processed? (y/n):
+```
+
+Type `y` if you want to hear the song on the background while it's being processed. It is recommended you do so, so you can see the effects of the song on the visualization
+
+```
+Question 4: Choose the track for which you want to assign an instrument (from 0 to 0, leave blank to save):
+```
+
+Here you can just push the enter key and the application will work. This question is intended only for testing, I will provide automatic instrument selection based on the chosen song (since the audio is pre-recorded in this case)
+
+```
+Using external osc controller? (y/n):
+```
+
+Here you can type whatever you want since the osc controller feature is yet to be implemented.
+
+**Done! The application should be now up and running and you should see some green text for initialization, and then some other blue text to see the format of the extracted features**
+
+
+## Step 3 - Receiving OSC Messages
+If you are not familiar with OSC Messages, [here is an explemenation of the protocol](https://ccrma.stanford.edu/groups/osc/index.html)
+
+Receiving OSC Messages should be easy as long as you make sure that the address and port parameters match those of your application of choice. You will need to implement an OSC Receiver on the visualization end.
+
+[Here is a tutorial on how to do this on openframeworks](https://www.youtube.com/watch?v=UXjMk5ti6wk&ab_channel=Packt)
+
+You will need to set the address and port of the receiver to:
+```
+Address: "127.0.0.1"
+Port: 12345
+```
+
+The OSC messages you will receive while the python script is running are of two types and have different characteristics. Each feature of the messages has its own argument inside the OSC Message.
+
+### Low Level Feature Message
+- **Description:** For every track of the sound card (or track of the song if using recorded audio), a Low Level Feature message is sent for every audio frame processed for features. The track corresponding to the message can be individuated by the number at the end of the message's OSC Address
+- **OSC Address:** "/Lfmsg_ch*n*", where *n* is the number of the track from which the message is coming from
+- **Args**
+  - Spectral Centroid: *float*
+  - Spectral Bandwidth: *float*
+  - Spectral Flatness: *float*
+  - Spectral Rolloff: *float*
+  - 4 * Pitches: 4 arguments containing the 4 most prominent pitches found as frequencies: *float*
+
+### High Level Feature Message
+- **OSC Address:** "/Hfmsg_ch0"
+- **Args**
+  - X Coordinate on Valence-Arousal Plane: *float from -1 to 1*
+  - Y Coordinate on Valence-Arousal Plane: *float from -1 to 1*
+
