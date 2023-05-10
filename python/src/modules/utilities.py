@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 # Classes
 class Normalizations(Enum):
     """Defines Normalization types for audio processing.
@@ -10,8 +11,9 @@ class Normalizations(Enum):
     Z_SCORE = 3
     MIN_MAX = 4
 
+
 class Instruments(Enum):
-    """Defines intrument types for audio processing.
+    """Defines instrument types for audio processing.
     """
     DEFAULT = 1
     VOICE = 2
@@ -33,12 +35,18 @@ class Instruments(Enum):
 
         :raises Exception: If the string does not correspond to a known instrument.
         """
-        if s == "DEFAULT": return Instruments.DEFAULT
-        if s == "VOICE": return Instruments.VOICE
-        if s == "GUITAR": return Instruments.GUITAR
-        if s == "PIANO": return Instruments.PIANO
-        if s == "STRINGS": return Instruments.STRINGS
-        if s == "DRUMS": return Instruments.DRUMS
+        if s == "DEFAULT":
+            return Instruments.DEFAULT
+        if s == "VOICE":
+            return Instruments.VOICE
+        if s == "GUITAR":
+            return Instruments.GUITAR
+        if s == "PIANO":
+            return Instruments.PIANO
+        if s == "STRINGS":
+            return Instruments.STRINGS
+        if s == "DRUMS":
+            return Instruments.DRUMS
         raise Exception("Couldn't parse string into instrument")
     
     @staticmethod
@@ -49,12 +57,18 @@ class Instruments(Enum):
 
         :raises Exception: If the index does not correspond to a known instrument.
         """
-        if index == 1: return Instruments.DEFAULT
-        if index == 2: return Instruments.VOICE
-        if index == 3: return Instruments.GUITAR
-        if index == 4: return Instruments.PIANO
-        if index == 5: return Instruments.STRINGS
-        if index == 6: return Instruments.DRUMS
+        if index == 1:
+            return Instruments.DEFAULT
+        if index == 2:
+            return Instruments.VOICE
+        if index == 3:
+            return Instruments.GUITAR
+        if index == 4:
+            return Instruments.PIANO
+        if index == 5:
+            return Instruments.STRINGS
+        if index == 6:
+            return Instruments.DRUMS
         raise Exception("Couldn't parse string into instrument")
     
     def get_fundamental_frequency_range(self) -> list:
@@ -75,7 +89,8 @@ class Instruments(Enum):
         if self == Instruments.DRUMS:
             return [20.0, 10000.0]
 
-class bcolors:
+
+class BColors:
     """Colors used to print and debug
     """
     HEADER = '\033[95m'
@@ -88,30 +103,37 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+
 __DEBUGGER_ACTIVE = True
 __PRINTING_ACTIVE = True
 __PRINTING_DATA_ACTIVE = True
 
+
 def print_success(string, flush=True):
     if __PRINTING_ACTIVE:
-        print(bcolors.OKGREEN+"[OK] "+str(string)+bcolors.ENDC, flush=flush)
+        print(BColors.OKGREEN + "[OK] " + str(string) + BColors.ENDC, flush=flush)
+
 
 def print_info(string, flush=True):
     if __PRINTING_ACTIVE:
-        print(bcolors.OKBLUE+"[INFO] "+bcolors.UNDERLINE+str(string)+bcolors.ENDC, flush=flush)
+        print(BColors.OKBLUE + "[INFO] " + BColors.UNDERLINE + str(string) + BColors.ENDC, flush=flush)
+
 
 def print_data(channel, data, flush=True):
     if __PRINTING_DATA_ACTIVE:
-        print(bcolors.OKCYAN+"[DATA - Channel "+str(channel)+"] ", data, bcolors.ENDC, flush=flush)
+        print(BColors.OKCYAN + "[DATA - Channel " + str(channel) + "] ", data, BColors.ENDC, flush=flush)
+
 
 def print_warning(string, flush=True):
     if __PRINTING_ACTIVE:
-        print(bcolors.WARNING+bcolors.BOLD+"[WARNING] "+str(string)+bcolors.ENDC, flush=flush) 
+        print(BColors.WARNING + BColors.BOLD + "[WARNING] " + str(string) + BColors.ENDC, flush=flush)
+
 
 def print_error(string, flush=True):
     if __PRINTING_ACTIVE:
-        print(bcolors.FAIL+bcolors.BOLD+"[ERROR] "+str(string)+bcolors.ENDC, flush=flush) 
+        print(BColors.FAIL + BColors.BOLD + "[ERROR] " + str(string) + BColors.ENDC, flush=flush)
+
 
 def print_dbg(string, flush=True):
     if __PRINTING_ACTIVE and __DEBUGGER_ACTIVE:
-        print(bcolors.OKGREEN+"[DBG] "+str(string)+bcolors.ENDC, flush=flush)
+        print(BColors.OKGREEN + "[DBG] " + str(string) + BColors.ENDC, flush=flush)

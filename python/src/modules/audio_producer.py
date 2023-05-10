@@ -4,6 +4,7 @@ import numpy as np
 import time
 from modules.custom_exceptions import *
 
+
 class AudioProducer(ABC):
 
     def __init__(self, parameters: dict):

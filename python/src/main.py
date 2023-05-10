@@ -8,6 +8,7 @@ from modules.audio_producer import AudioProducer
 from modules.utilities import *
 from modules.custom_exceptions import *
 
+
 def stop_execution(lf_queue: Queue, hf_queue: Queue, streams: list):
     for _ in range(dp.CPU_PARAMETERS['numLfCores']):
         lf_queue.put(None)
@@ -17,6 +18,7 @@ def stop_execution(lf_queue: Queue, hf_queue: Queue, streams: list):
         if s:
             s.stop_stream()
             s.close()
+
 
 def audio_producer(audio_producer_object: AudioProducer, control_event, lf_queue: Queue, hf_queue: Queue, parameters: dict):
     sh = SetupHandler.get_instance()
@@ -47,6 +49,7 @@ def audio_producer(audio_producer_object: AudioProducer, control_event, lf_queue
             print_error("Something bad happened while producing audio")
             print_dbg(e)
 
+
 def lf_audio_consumer(lf_queue: Queue, settings_queue: Queue, parameters: dict):
     lf_audio_input_handlers = []
     channels = parameters['channels']
@@ -75,6 +78,7 @@ def lf_audio_consumer(lf_queue: Queue, settings_queue: Queue, parameters: dict):
             print_error("Something bad happened while processing audio (LLF)")
             print_dbg(e)
 
+
 def hf_audio_consumer(hf_queue: Queue, parameters: dict):
     hf_audio_input_handler = HFAudioInputHandler(parameters, 0, Instruments.DEFAULT)
 
@@ -87,6 +91,7 @@ def hf_audio_consumer(hf_queue: Queue, parameters: dict):
         except Exception as e:
             print_error("Something bad happened while processing audio (HLF)")
             print_dbg(e)
+
 
 if __name__ == "__main__":
     sh = SetupHandler.get_instance()

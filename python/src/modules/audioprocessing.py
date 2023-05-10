@@ -1,9 +1,13 @@
 from abc import ABC, abstractmethod
-import time, multiprocessing as mp, numpy as np, librosa, scipy.signal as scis
+import multiprocessing as mp
 import warnings
-from modules.utilities import *
+import numpy as np
+import librosa
 import modules.default_parameters as dp
+from scipy.signal import find_peaks
+from modules.utilities import *
 from modules.connection import OSCConnectionHandler, LFAudioMessage, HFAudioMessage
+
 
 class AudioProcessor(ABC):
     """Abstract class to handle all Audio Processing methods and functions
@@ -44,7 +48,7 @@ class AudioProcessor(ABC):
         :param frame: Chunk of audio to process
         """
         spectrum = np.abs(np.fft.rfft(frame))
-        peaks, _ = scis.find_peaks(spectrum, distance=10)
+        peaks, _ = find_peaks(spectrum, distance=10)
         
         if len(peaks) == 0:
             return 0
@@ -52,62 +56,63 @@ class AudioProcessor(ABC):
         peak_index = np.argmax(spectrum[peaks])
         return peaks[peak_index] * self._sample_rate / self._sample_rate
 
-    def _get_poly_frequencies(self, S, inst: Instruments):
+    def _get_poly_frequencies(self, signal_stft, inst: Instruments):
         """Returns the peak frequencies of the audio frame from its spectrum (Polyphonic Pitch Detection)
 
-        :param S: Spectrum of a frame of the signal
+        :param signal_stft: Spectrum of a frame of the signal
         """
-        range = inst.get_fundamental_frequency_range()
-        if range is None: return [0]
+        freq_range = inst.get_fundamental_frequency_range()
+        if range is None:
+            return [0]
 
-        pitches, magnitudes = librosa.piptrack(S=S, sr=self._sample_rate, fmin=range[0], fmax=range[1], threshold=self._p_threshold)
+        pitches, magnitudes = librosa.piptrack(S=signal_stft, sr=self._sample_rate, fmin=freq_range[0], fmax=freq_range[1], threshold=self._p_threshold)
         indexes = np.argsort(magnitudes[:, 0])[::-1]
         pitches = pitches[indexes, 0]
 
         return pitches[pitches > 0]
 
-    def _get_spectral_centroid(self, S):
+    def _get_spectral_centroid(self, signal_stft):
         """
         Returns the spectral centroid of the audio frame from its spectrum
 
-        :param S: Spectrum of a frame of the signal
+        :param signal_stft: Spectrum of a frame of the signal
         """
-        cent = librosa.feature.spectral_centroid(S=S, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        cent = librosa.feature.spectral_centroid(S=signal_stft, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
         cent = np.mean(cent, axis=1)
         return cent
 
-    def _get_spectral_bandwidth(self, S):
+    def _get_spectral_bandwidth(self, signal_stft):
         """Returns the spectral bandwidth of the audio frame from its spectrum
 
-        :param S: Spectrum of a frame of the signal
+        :param signal_stft: Spectrum of a frame of the signal
         """
-        sb = librosa.feature.spectral_bandwidth(S=S, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        sb = librosa.feature.spectral_bandwidth(S=signal_stft, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
         sb = np.mean(sb, axis=1)
         return sb
 
-    def _get_spectral_contrast(self, S):
+    def _get_spectral_contrast(self, signal_stft):
         """
         Returns the spectral contrast of the audio frame from its spectrum
 
-        :param S: Spectrum of a frame of the signal
+        :param signal_stft: Spectrum of a frame of the signal
         """
-        sc = librosa.feature.spectral_contrast(S=S, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        sc = librosa.feature.spectral_contrast(S=signal_stft, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
         return np.mean(sc, axis=1)
 
-    def _get_spectral_flatness(self, S):
+    def _get_spectral_flatness(self, signal_stft):
         """Returns the spectral flatness of the audio frame from its spectrum
 
-        :param S: Spectrum of a frame of the signal
+        :param signal_stft: Spectrum of a frame of the signal
         """
-        sf = librosa.feature.spectral_flatness(S=S, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        sf = librosa.feature.spectral_flatness(S=signal_stft, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
         return np.mean(sf, axis=1)
 
-    def _get_spectral_rolloff(self, S):
+    def _get_spectral_rolloff(self, signal_stft):
         """Returns the spectral rolloff of the audio frame from its spectrum
 
-        :param S: Spectrum of a frame of the signal
+        :param signal_stft: Spectrum of a frame of the signal
         """
-        sr = librosa.feature.spectral_rolloff(S=S, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        sr = librosa.feature.spectral_rolloff(S=signal_stft, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
         return np.mean(sr, axis=1)
     
     def _normalize(self, array) -> np.ndarray:
@@ -134,6 +139,7 @@ class AudioProcessor(ABC):
             max_value = np.amax(array)
             return (array - min_value) / (max_value - min_value)
 
+
 class DefaultAudioProcessor(AudioProcessor):
     """Implements the default chain used to process low level features
     """
@@ -154,14 +160,15 @@ class DefaultAudioProcessor(AudioProcessor):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             frame = self._normalize(array=frame)
-            S = self._compute_stft(frame)
-            freqs = np.round(self._get_poly_frequencies(S, inst))
-            spec_centroid = np.round(self._get_spectral_centroid(S)[0])
-            spec_bandwidth = np.round(self._get_spectral_bandwidth(S)[0])
-            spec_flatness = self._get_spectral_flatness(S)[0]
-            spec_rolloff = np.round(self._get_spectral_rolloff(S)[0])
+            signal_stft = self._compute_stft(frame)
+            pitches = np.round(self._get_poly_frequencies(signal_stft, inst))
+            spec_centroid = np.round(self._get_spectral_centroid(signal_stft)[0])
+            spec_bandwidth = np.round(self._get_spectral_bandwidth(signal_stft)[0])
+            spec_flatness = self._get_spectral_flatness(signal_stft)[0]
+            spec_rolloff = np.round(self._get_spectral_rolloff(signal_stft)[0])
 
-        return [spec_centroid, spec_bandwidth, spec_flatness, spec_rolloff, *freqs[:4]]
+        return [spec_centroid, spec_bandwidth, spec_flatness, spec_rolloff, *pitches[:4]]
+
 
 class InputHandler(ABC):
     """The InputHandler abstract class declares a set of methods for processing data
@@ -243,11 +250,11 @@ class LFAudioInputHandler(InputHandler):
         self._audio_processor = DefaultAudioProcessor(parameters)
 
     def __no_signal(self, data):
-        """Checks if there's an actual signal inside the audio frame by computing the rms and evaulating it against a predefined threshold.
+        """Checks if there's an actual signal inside the audio frame by computing the rms and evaluating it against a predefined threshold.
 
         :param data: Data frame to check
 
-        :returns: A :py:type:`bool` set to `True` if the signal is virtually non-existant.
+        :returns: A :py:type:`bool` set to `True` if the signal is virtually non-existent.
         """
         rms = np.sqrt(np.mean(np.square(data)))
         return rms <= self._signal_threshold
@@ -257,13 +264,15 @@ class LFAudioInputHandler(InputHandler):
 
         :param data: audio frame to process
         """
-        if self.__no_signal(data): return
+        if self.__no_signal(data):
+            return
 
         inst = self.get_instrument()
         processed_data = self._audio_processor.process(data, inst)
         print_data(self.channel, processed_data)
         msg = LFAudioMessage(processed_data, self.channel, inst)
         self._connection_handler.send_message(msg)
+
 
 class HFAudioInputHandler(InputHandler):
     """Handles the High Level Features Processing
@@ -295,7 +304,7 @@ class HFAudioInputHandler(InputHandler):
         data_to_process = self.__data[0:self.__number_of_samples].copy()
         self.__data = np.array([], dtype=self.__np_format)
         
-        #TODO actually process the audio
+        # TODO actually process the audio
 
         msg = HFAudioMessage("test", self.channel)
         self._connection_handler.send_message(msg)

@@ -6,6 +6,7 @@ from pythonosc.dispatcher import Dispatcher
 from modules.utilities import *
 from modules.default_parameters import *
 
+
 # Class declarations
 class Message(ABC):
     """Abstract Class representing the message with output data to be sent to the visualizer.
@@ -29,7 +30,8 @@ class Message(ABC):
         :returns: The `OSC` representation of the message
         """
         pass
-    
+
+
 class LFAudioMessage(Message):
     """Message containing Low Level Features
     """
@@ -56,7 +58,8 @@ class LFAudioMessage(Message):
         for d in self._data:
             msg.add_arg(float(d), osc_message_builder.OscMessageBuilder.ARG_TYPE_FLOAT)
         return msg.build()
-    
+
+
 class HFAudioMessage(Message):
     """Message containing High Level Features
     """
@@ -80,6 +83,7 @@ class HFAudioMessage(Message):
         msg.add_arg(self._data, osc_message_builder.OscMessageBuilder.ARG_TYPE_STRING)
         
         return msg.build()
+
 
 class ConnectionHandler(ABC):    
     """Abstract class to handle the connection between the python script and the external world
@@ -106,6 +110,7 @@ class ConnectionHandler(ABC):
         """Abstract method to send a message
         """
         pass
+
 
 class OSCConnectionHandler(ConnectionHandler):
     """Singleton class that handles the communication between the python script and the external world via OSC messages
@@ -144,9 +149,11 @@ class OSCConnectionHandler(ConnectionHandler):
         finally:
             self._lock.release()
 
+
 # Incoming OSC Message Handlers
 def default_handler(address, *args):
     print_warning("Received message with unrecognized address")
+
 
 def handler_ch_settings(address, fixed_args, *osc_args):
     print_info("Received ch_settings message")
@@ -165,15 +172,18 @@ def handler_ch_settings(address, fixed_args, *osc_args):
     for q in queues:
         q.put(setting)
 
+
 def handler_start(address, *args):
     print()
     print_success("Received starting message\n")
-    #u.EXTERNAL_OSC_CONTROLLER_CONNECTED = True
+    # u.EXTERNAL_OSC_CONTROLLER_CONNECTED = True
+
 
 def handler_stop(address, *args):
     print()
     print_info("Received stopping message")
-    #u.STOP = True
+    # u.STOP = True
+
 
 def create_dispatcher(settings_queues, channels):
     dispatcher = Dispatcher()
