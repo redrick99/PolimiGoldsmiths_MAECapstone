@@ -134,10 +134,13 @@ The OSC messages you will receive while the python script is running are of two 
   - Spectral Flatness: *float*
   - Spectral Rolloff: *float*
   - 4 * Pitches: 4 arguments containing the 4 most prominent pitches found as frequencies: *float*
+- **How often it's sent:** Between 5 to 20 times per second depending on the chunk size of the processed audio
 
 ### High Level Feature Message
+- **Description:** High Level features are computed over the sum of all the tracks, so the corresponding OSC Messages are *not* differentiated based on the track number like Low Level feature messages are. 
 - **OSC Address:** "/Hfmsg_ch0"
 - **Args**
   - X Coordinate on Valence-Arousal Plane: *float from -1 to 1*
   - Y Coordinate on Valence-Arousal Plane: *float from -1 to 1*
+- **How often it's sent:** 1 Message is sent every 0.5 to *a few* seconds
 
