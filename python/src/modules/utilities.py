@@ -123,6 +123,10 @@ def print_data(channel, data, flush=True):
     if __PRINTING_DATA_ACTIVE:
         print(BColors.OKCYAN + "[DATA - Channel " + str(channel) + "] ", data, BColors.ENDC, flush=flush)
 
+def print_data_alt_color(channel, data, flush=True):
+    if __PRINTING_DATA_ACTIVE:
+        print(BColors.HEADER + "[DATA - Channel " + str(channel) + "] ", data, BColors.ENDC, flush=flush)
+
 
 def print_warning(string, flush=True):
     if __PRINTING_ACTIVE:

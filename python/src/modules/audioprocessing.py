@@ -3,11 +3,13 @@ import multiprocessing as mp
 import warnings
 import numpy as np
 import librosa
+import tensorflow as tf
 import modules.default_parameters as dp
 from scipy.signal import find_peaks
 from modules.utilities import *
 from modules.connection import OSCConnectionHandler, LFAudioMessage, HFAudioMessage
 
+tf.keras.utils.disable_interactive_logging()
 
 class AudioProcessor(ABC):
     """Abstract class to handle all Audio Processing methods and functions
@@ -159,7 +161,8 @@ class DefaultAudioProcessor(AudioProcessor):
         """
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            frame = self._normalize(array=frame)
+            # frame = self._normalize(array=frame)
+            frame = librosa.util.normalize(frame)
             signal_stft = self._compute_stft(frame)
             pitches = np.round(self._get_poly_frequencies(signal_stft, inst))
             spec_centroid = np.round(self._get_spectral_centroid(signal_stft)[0])
@@ -289,6 +292,7 @@ class HFAudioInputHandler(InputHandler):
         self.__number_of_samples = parameters['hfNumberOfSamples']
         self.__np_format = parameters['npFormat']
         self.__data = np.array([], dtype=self.__np_format)
+        self.__nn_model = tf.keras.models.load_model(r"./resources/nn_models/modelv1.h5")
     
     def process(self, data):
         """Processes an audio frame for High Level features
@@ -300,11 +304,12 @@ class HFAudioInputHandler(InputHandler):
             data_array = data_array.sum(axis=0) / float(len(data))
             self.__data = np.concatenate((self.__data, data_array), axis=0)
             return
-        
-        data_to_process = self.__data[0:self.__number_of_samples].copy()
+
+        data_to_process = librosa.util.normalize(np.copy(self.__data[0:self.__number_of_samples]))
         self.__data = np.array([], dtype=self.__np_format)
         
-        # TODO actually process the audio
+        prediction = self.__nn_model.predict(np.expand_dims(data_to_process, axis=0))
+        print_data_alt_color(0, prediction[0], True)
 
-        msg = HFAudioMessage("test", self.channel)
+        msg = HFAudioMessage(prediction[0], 0)
         self._connection_handler.send_message(msg)

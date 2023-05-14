@@ -80,7 +80,8 @@ class HFAudioMessage(Message):
         :returns: The `OSC` representation of the message
         """
         msg = osc_message_builder.OscMessageBuilder(self.address)
-        msg.add_arg(self._data, osc_message_builder.OscMessageBuilder.ARG_TYPE_STRING)
+        for d in self._data:
+            msg.add_arg(d, osc_message_builder.OscMessageBuilder.ARG_TYPE_FLOAT)
         
         return msg.build()
 

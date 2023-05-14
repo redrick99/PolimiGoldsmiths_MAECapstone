@@ -60,7 +60,9 @@ def lf_audio_consumer(lf_queue: Queue, settings_queue: Queue, parameters: dict):
     print_success("Started LF consumer process")
     while True:
         data = lf_queue.get()
-        if data is None: break
+        if data is None:
+            print_info("Shutting down LF process...")
+            break
 
         try:
             channel, settings = settings_queue.get_nowait()
@@ -85,7 +87,9 @@ def hf_audio_consumer(hf_queue: Queue, parameters: dict):
     print_success("Started HF consumer process")
     while True:
         data = hf_queue.get()
-        if data is None: break
+        if data is None:
+            print_info("Shutting down HF process...")
+            break
         try:
             hf_audio_input_handler.process(data)
         except Exception as e:
