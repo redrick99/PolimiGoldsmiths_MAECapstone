@@ -27,7 +27,6 @@ def audio_producer(audio_producer_object: AudioProducer, control_event, lf_queue
     sh = SetupHandler.get_instance()
     sh.set_audio_parameters(parameters)
     in_stream, out_stream = sh.get_audio_streams()
-    channels = parameters['channels']
     data_type = parameters['npFormat']
     hf_number_of_samples = parameters['hfNumberOfSamples']
     hf_data = np.array([], dtype=data_type)
