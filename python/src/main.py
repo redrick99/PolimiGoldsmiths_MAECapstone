@@ -1,5 +1,6 @@
 import modules.default_parameters as dp
 import os
+import numpy as np
 from multiprocessing import Process, Queue, Event
 from queue import Full, Empty
 from modules.setup import SetupHandler
@@ -7,6 +8,8 @@ from modules.audioprocessing import LFAudioInputHandler, HFAudioInputHandler
 from modules.audio_producer import AudioProducer
 from modules.utilities import *
 from modules.custom_exceptions import *
+
+import time
 
 
 def stop_execution(lf_queue: Queue, hf_queue: Queue, streams: list):
@@ -24,8 +27,13 @@ def audio_producer(audio_producer_object: AudioProducer, control_event, lf_queue
     sh = SetupHandler.get_instance()
     sh.set_audio_parameters(parameters)
     in_stream, out_stream = sh.get_audio_streams()
+    channels = parameters['channels']
+    data_type = parameters['npFormat']
+    hf_number_of_samples = parameters['hfNumberOfSamples']
+    hf_data = np.array([], dtype=data_type)
 
     print_success("Started audio producer process")
+
     while True:
         try:
             if control_event.is_set():
@@ -33,9 +41,17 @@ def audio_producer(audio_producer_object: AudioProducer, control_event, lf_queue
                 return
 
             audio_chunk = audio_producer_object.get_next_chunk(in_stream, out_stream)
+            audio_chunk_np = np.array(audio_chunk, dtype=data_type, copy=True)
 
             lf_queue.put_nowait(audio_chunk)
-            hf_queue.put_nowait(audio_chunk)
+            audio_chunk_np = audio_chunk_np.sum(axis=0)/float(len(audio_chunk))
+            hf_data = np.concatenate((hf_data, audio_chunk_np), dtype=data_type)
+
+            if len(hf_data) >= hf_number_of_samples:
+                hf_data = hf_data[0:hf_number_of_samples]
+                hf_queue.put(np.copy(hf_data))
+                hf_data = np.array([], dtype=data_type)
+
         except Full:
             print_warning("Queue is full")
             continue

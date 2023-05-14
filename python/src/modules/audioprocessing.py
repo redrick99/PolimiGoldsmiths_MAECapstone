@@ -229,6 +229,16 @@ class InputHandler(ABC):
         p = self.__priority
         self._lock.release()
         return p
+
+    def _no_signal(self, data):
+        """Checks if there's an actual signal inside the audio frame by computing the rms and evaluating it against a predefined threshold.
+
+        :param data: Data frame to check
+
+        :returns: A :py:type:`bool` set to `True` if the signal is virtually non-existent.
+        """
+        rms = np.sqrt(np.mean(np.square(data)))
+        return rms <= self._signal_threshold
     
     def handle_settings(self, settings):
         """Handles incoming settings
@@ -251,28 +261,18 @@ class LFAudioInputHandler(InputHandler):
         """
         super().__init__(parameters, channel, instrument)
         self._audio_processor = DefaultAudioProcessor(parameters)
-
-    def __no_signal(self, data):
-        """Checks if there's an actual signal inside the audio frame by computing the rms and evaluating it against a predefined threshold.
-
-        :param data: Data frame to check
-
-        :returns: A :py:type:`bool` set to `True` if the signal is virtually non-existent.
-        """
-        rms = np.sqrt(np.mean(np.square(data)))
-        return rms <= self._signal_threshold
     
     def process(self, data):
         """Processes an audio frame or returns if the frame contains no information
 
         :param data: audio frame to process
         """
-        if self.__no_signal(data):
+        if self._no_signal(data):
             return
 
         inst = self.get_instrument()
         processed_data = self._audio_processor.process(data, inst)
-        print_data(self.channel, processed_data)
+        # print_data(self.channel, processed_data)
         msg = LFAudioMessage(processed_data, self.channel, inst)
         self._connection_handler.send_message(msg)
 
@@ -299,16 +299,13 @@ class HFAudioInputHandler(InputHandler):
 
         :param data: audio frame to process
         """
-        if len(self.__data) < self.__number_of_samples:
-            data_array = np.array(data, dtype=self.__np_format, copy=True)
-            data_array = data_array.sum(axis=0) / float(len(data))
-            self.__data = np.concatenate((self.__data, data_array), axis=0)
+        if self._no_signal(data):
             return
 
-        data_to_process = librosa.util.normalize(np.copy(self.__data[0:self.__number_of_samples]))
+        data = librosa.util.normalize(data)
         self.__data = np.array([], dtype=self.__np_format)
         
-        prediction = self.__nn_model.predict(np.expand_dims(data_to_process, axis=0))
+        prediction = self.__nn_model.predict(np.expand_dims(data, axis=0))
         print_data_alt_color(0, prediction[0], True)
 
         msg = HFAudioMessage(prediction[0], 0)

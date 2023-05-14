@@ -133,7 +133,6 @@ class SetupHandler:
             )
 
         return in_stream, out_stream
-            
 
     def __get_user_input(self) -> dict:
         """Wrapper for all functions to get the user input.
@@ -151,23 +150,23 @@ class SetupHandler:
             instruments = self.__get_instruments_for_tracks(self.__file_handler.get_number_of_tracks(song_index))
         else:
             sound_card_index = self.__get_sound_card_index()
-            instruments = self.__get_instruments_for_tracks(self.__get_sound_card_info(sound_card_index)['maxInputChannels'])
+            instruments = self.__get_instruments_for_tracks(self.__get_sound_card_info(sound_card_index)['inChannels'])
         external_osc_controller = self.__get_using_external_osc_controller()
 
         return {
-            'audioType' : audio_type,
-            'songIndex' : song_index,
-            'soundCardIndex' : sound_card_index,
-            'externalOscController' : external_osc_controller,
-            'audioPlayback' : audio_playback,
-            'instruments' : instruments
+            'audioType': audio_type,
+            'songIndex': song_index,
+            'soundCardIndex': sound_card_index,
+            'externalOscController': external_osc_controller,
+            'audioPlayback': audio_playback,
+            'instruments': instruments
         }    
 
     def __print_console_error(self, string):
         """Prints red on the console if the user chose an unexisting option.
         :param string: String to print on the console.
         """
-        print('\033[91m',string, '\033[0m')
+        print('\033[91m', string, '\033[0m')
 
     def __get_audio_type(self) -> str:
         """Gets the type of audio from user input. It can be either `live` or `recorded`
@@ -257,9 +256,9 @@ class SetupHandler:
         pa = pyaudio.PyAudio()
         sound_card_info = pa.get_device_info_by_host_api_device_index(0, sound_card_index)
         return {
-            'sampleRate' : int(sound_card_info['defaultSampleRate']),
-            'inChannels' : int(sound_card_info['maxInputChannels']),
-            'outChannels' : int(sound_card_info['maxOutputChannels'])
+            'sampleRate': int(sound_card_info['defaultSampleRate']),
+            'inChannels': int(sound_card_info['maxInputChannels']),
+            'outChannels': int(sound_card_info['maxOutputChannels'])
         }
     
     def __get_instruments_for_tracks(self, channels) -> list:
