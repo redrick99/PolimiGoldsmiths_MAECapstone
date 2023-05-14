@@ -133,6 +133,9 @@ python/src/resources/test_songs_unzipped/
 
 #Database
 Music_mp3
+Music_mp3/
 python/src/neural_network/output
+python/src/neural_network/output/
 python/.idea
+python/.idea/
 /.idea
