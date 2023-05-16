@@ -10,6 +10,7 @@ from modules.default_parameters import AUDIO_PROCESSING_PARAMETERS
 from modules.custom_exceptions import *
 from modules.utilities import Instruments
 
+
 class SetupHandler:
     """Singleton that handles the setup phase of the application and stores audio parameters.
     """
@@ -17,17 +18,19 @@ class SetupHandler:
 
     def __init__(self):
         """Constructor to not be accessed directly (Singleton pattern).
-        It inizializes the :py:class:`FileHandler` to :py:type:`None` and creates an empty
+        It initializes the :py:class:`FileHandler` to :py:type:`None` and creates an empty
         :py:type:`dict` that will contain the audio parameters.
         """
         if SetupHandler.__instance is not None:
             raise SingletonException("Tried to instantiate more than one SetupHandler object")
         SetupHandler.__instance = self
 
+        self.__main_path = None
         self.__file_handler = None
+        self.__audio_producer = None
         self.__audio_parameters = {}
         self.__audio_parameters = {**self.__audio_parameters, **AUDIO_PROCESSING_PARAMETERS}
-        
+
     @staticmethod
     def get_instance() -> SetupHandler:
         """Returns the instance of the singleton, creating it if the method has never been called.
@@ -47,6 +50,7 @@ class SetupHandler:
         """
         user_input = self.__get_user_input()
         audio_type = user_input['audioType']
+        self.__audio_parameters['mainPath'] = self.__main_path
         self.__audio_parameters['audioType'] = audio_type
         self.__audio_parameters['sampleFormat'] = pyaudio.paFloat32
         self.__audio_parameters['npFormat'] = self.__get_numpy_format(pyaudio.paFloat32)
@@ -83,6 +87,7 @@ class SetupHandler:
         The path has to be fed by the main script as it is the point from here each
         relative path is calculated (see :py:class:`FileHandler` docs for more info).
         """
+        self.__main_path = main_path
         self.__file_handler = FileHandler(main_path)
         self.__file_handler.unzip_files()
 
@@ -201,7 +206,7 @@ class SetupHandler:
                 if user_input > 0 and user_input <= number_of_songs:
                     return user_input
                 self.__print_console_error("Please type only the number of the song you want to use (from 1 to "+str(number_of_songs)+")")
-            except: 
+            except Exception:
                 self.__print_console_error("Please enter a valid number")
 
     def __get_audio_playback(self) -> bool:
@@ -223,7 +228,6 @@ class SetupHandler:
 
         :returns: the index of the chosen sound card (depends on the number of available sound cards)
         """
-        default = ["d", "default"]
 
         pa = pyaudio.PyAudio()
         info = pa.get_host_api_info_by_index(0)
@@ -240,12 +244,13 @@ class SetupHandler:
             print("\n[Available Input Soundcards]")
             for s in sound_card_list:
                 print(s)
-            user_input = input("Please select your preferred input sound card (type only the index or \"default\"): ")
+            user_input = input("Please select your preferred input sound card (type only the index): ")
             try:
                 user_input = int(user_input)
-                if user_input in usable_devices: return user_input
+                if user_input in usable_devices:
+                    return user_input
                 self.__print_console_error("Please type only the number of the song you want to use (from 0 to "+str(numdevices)+")")
-            except:
+            except Exception:
                 self.__print_console_error("Please enter a valid number")
 
     def __get_sound_card_info(self, sound_card_index) -> dict:
@@ -281,7 +286,7 @@ class SetupHandler:
 
             try:
                 track_number = int(track_number)
-            except:
+            except Exception:
                 self.__print_console_error("Please select a valid track")
                 continue
 
@@ -296,7 +301,7 @@ class SetupHandler:
 
             try:
                 instrument = Instruments.from_index(int(inst_index))
-            except:
+            except Exception:
                 self.__print_console_error("Please select a valid instrument")
                 continue
             
@@ -313,8 +318,10 @@ class SetupHandler:
 
         while True:
             user_input = input("\nUsing external osc controller? (y/n): ")
-            if user_input in yes: return True
-            if user_input in no: return False
+            if user_input in yes:
+                return True
+            if user_input in no:
+                return False
             self.__print_console_error("Please input a valid string (\"y\", \"yes\" or \"n\", \"no\")")
 
     def __get_numpy_format(self, pyaudio_sample_format: int):
@@ -322,9 +329,12 @@ class SetupHandler:
 
         :param pyaudio_sample_format: pyaudio format. 
         """
-        if pyaudio_sample_format == pyaudio.paInt16 : return np.int16
-        if pyaudio_sample_format == pyaudio.paInt32 : return np.int32
-        if pyaudio_sample_format == pyaudio.paFloat32 : return np.float32
+        if pyaudio_sample_format == pyaudio.paInt16:
+            return np.int16
+        if pyaudio_sample_format == pyaudio.paInt32:
+            return np.int32
+        if pyaudio_sample_format == pyaudio.paFloat32:
+            return np.float32
         raise SetupException("Incompatible Sample Format")
 
         
@@ -372,7 +382,6 @@ class FileHandler:
         """
         path = self._song_index_to_path_dict.get(song_index)
         tracks = []
-        track_counter = 0
         sr = 44100
 
         for filename in glob.glob(os.path.join(path, '*.wav')):
@@ -380,7 +389,6 @@ class FileHandler:
             track_stereo_array = track_stereo_array.astype(dtype=np.float32, order='C') / 32768.0
             track_array = (track_stereo_array[:, 0] + track_stereo_array[:, 1]) / 2.0
             tracks.append(track_array)
-            track_counter += 1
 
         return tracks, sr
     

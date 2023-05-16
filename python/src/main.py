@@ -9,8 +9,6 @@ from modules.audio_producer import AudioProducer
 from modules.utilities import *
 from modules.custom_exceptions import *
 
-import time
-
 
 def stop_execution(lf_queue: Queue, hf_queue: Queue, streams: list):
     for _ in range(dp.CPU_PARAMETERS['numLfCores']):
