@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+import os
+import logging
 import multiprocessing as mp
 import warnings
 import numpy as np
@@ -9,7 +11,10 @@ from scipy.signal import find_peaks
 from modules.utilities import *
 from modules.connection import OSCConnectionHandler, LFAudioMessage, HFAudioMessage
 
+# Removes Tensorflow logs and warnings
 tf.keras.utils.disable_interactive_logging()
+tf.get_logger().setLevel(logging.ERROR)
+
 
 class AudioProcessor(ABC):
     """Abstract class to handle all Audio Processing methods and functions
@@ -289,10 +294,10 @@ class HFAudioInputHandler(InputHandler):
         :param instrument: Instrument of the track to process assigned to this instance
         """
         super().__init__(parameters, channel, instrument)
-        self.__number_of_samples = parameters['hfNumberOfSamples']
-        self.__np_format = parameters['npFormat']
-        self.__data = np.array([], dtype=self.__np_format)
-        self.__nn_model = tf.keras.models.load_model(r"./resources/nn_models/modelv1.h5")
+        path = os.path.join(parameters['mainPath'], "resources", "nn_models", "modelv1.h5")
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+            self.__nn_model = tf.keras.models.load_model(path)
     
     def process(self, data):
         """Processes an audio frame for High Level features
@@ -303,8 +308,7 @@ class HFAudioInputHandler(InputHandler):
             return
 
         data = librosa.util.normalize(data)
-        self.__data = np.array([], dtype=self.__np_format)
-        
+
         prediction = self.__nn_model.predict(np.expand_dims(data, axis=0))
         print_data_alt_color(0, prediction[0], True)
 
