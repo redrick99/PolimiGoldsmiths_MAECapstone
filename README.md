@@ -140,7 +140,8 @@ The OSC messages you will receive while the python script is running are of two 
 - **Description:** High Level features are computed over the sum of all the tracks, so the corresponding OSC Messages are *not* differentiated based on the track number like Low Level feature messages are. 
 - **OSC Address:** "/Hfmsg_ch0"
 - **Args**
-  - X Coordinate on Valence-Arousal Plane: *float from -1 to 1*
-  - Y Coordinate on Valence-Arousal Plane: *float from -1 to 1*
+  - Amount of Arousal: *float from -1 (not arousintg at all) to 1 (very arousing)*
+  - Amount of Valence: *float from -1 (very sad) to 1 (very happy)*
 - **How often it's sent:** 1 Message is sent every 0.5 to *a few* seconds
+- **KEEP IN MIND** the valence and arousal values are limited to -1 and 1, but will always be smaller than those values (they are usually between -0.5 and 0.5)
 
