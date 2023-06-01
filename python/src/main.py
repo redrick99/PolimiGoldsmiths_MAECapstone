@@ -59,9 +59,10 @@ def audio_producer(audio_producer_object: AudioProducer, control_event, lf_queue
             hf_data = np.concatenate((hf_data, audio_chunk_np), dtype=data_type)
 
             if len(hf_data) >= hf_number_of_samples:
+                cut_data = hf_data[hf_number_of_samples:len(hf_data)]
                 hf_data = hf_data[0:hf_number_of_samples]
                 hf_queue.put(np.copy(hf_data))
-                hf_data = np.array([], dtype=data_type)
+                hf_data = np.array(cut_data, dtype=data_type)
 
         except Full:
             print_warning("Queue is full")

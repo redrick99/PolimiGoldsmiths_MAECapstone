@@ -139,3 +139,5 @@ python/src/neural_network/output/
 python/.idea
 python/.idea/
 /.idea
+
+python/src/tests/

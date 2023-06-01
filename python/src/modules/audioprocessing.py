@@ -294,7 +294,10 @@ class HFAudioInputHandler(InputHandler):
         :param instrument: Instrument of the track to process assigned to this instance
         """
         super().__init__(parameters, channel, instrument)
-        path = os.path.join(parameters['mainPath'], "resources", "nn_models", "modelv1.h5")
+        path = os.path.join(parameters['mainPath'], "resources", "nn_models", "modelv5.h5")
+        average_length = parameters['hfMovingAverageLengthInSeconds']
+        self.__arousal_values = np.zeros(int(average_length/0.5))
+        self.__valence_values = np.zeros(int(average_length/0.5))
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
             self.__nn_model = tf.keras.models.load_model(path)
@@ -308,9 +311,19 @@ class HFAudioInputHandler(InputHandler):
             return
 
         data = librosa.util.normalize(data)
+        data_tensor = np.copy(data)
+        data_tensor = np.expand_dims(data_tensor, axis=0)
 
-        prediction = self.__nn_model.predict(np.expand_dims(data, axis=0))
-        print_data_alt_color(0, prediction[0], True)
+        prediction = self.__nn_model.predict(data_tensor)[0]
 
-        msg = HFAudioMessage(prediction[0], 0)
+        self.__arousal_values[0] = prediction[0]
+        self.__valence_values[0] = prediction[1]
+        self.__arousal_values = np.roll(self.__arousal_values, -1)
+        self.__valence_values = np.roll(self.__valence_values, -1)
+        prediction[0] = np.average(self.__arousal_values)
+        prediction[1] = np.average(self.__valence_values)
+
+        print_data_alt_color(channel=1, data=prediction)
+
+        msg = HFAudioMessage(prediction, 0)
         self._connection_handler.send_message(msg)

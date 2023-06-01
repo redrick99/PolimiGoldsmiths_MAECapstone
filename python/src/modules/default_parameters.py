@@ -25,6 +25,7 @@ AUDIO_PROCESSING_PARAMETERS = {
     'winSize': 4096,
     'winType': 'hann',
     'hfNumberOfSamples': 22050,
+    'hfMovingAverageLengthInSeconds': 5,
     'pitchThreshold': 0.2,
     'normType': Normalizations.PEAK
 }

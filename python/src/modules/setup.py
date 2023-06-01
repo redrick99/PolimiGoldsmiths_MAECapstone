@@ -3,6 +3,7 @@ import os
 import zipfile
 import glob
 import pyaudio
+import librosa
 import numpy as np
 from scipy.io.wavfile import read
 from modules.audio_producer import AudioProducer, LiveAudioProducer, RecordedAudioProducer
@@ -66,7 +67,7 @@ class SetupHandler:
         elif audio_type == "l":
             sound_card_info = self.__get_sound_card_info(user_input['soundCardIndex'])
             self.__audio_parameters['inputDeviceIndex'] = user_input['soundCardIndex']
-            self.__audio_parameters['sampleRate'] = sound_card_info['sampleRate']
+            self.__audio_parameters['sampleRate'] = 44100
             self.__audio_parameters['channels'] = sound_card_info['inChannels']
             self.__audio_parameters['audioPlayback'] = False
             self.__audio_producer = LiveAudioProducer(self.__audio_parameters)
@@ -105,7 +106,7 @@ class SetupHandler:
         """
         return self.__audio_parameters
     
-    def get_audio_streams(self):
+    def get_audio_streams(self) -> tuple:
         """Creates a new audio stream based on the audio parameters of the :py:class:`SetupHandler`.
         Specifically, it creates an input stream if the user chose to use live audio, or an output stream
         if the user chose to use recorded audio and wants to hear the song while it's being processed.
@@ -219,8 +220,10 @@ class SetupHandler:
 
         while True:
             user_input = input("\nDo you want to hear the song as its being processed? (y/n): ")
-            if user_input in yes: return True
-            if user_input in no: return False
+            if user_input in yes:
+                return True
+            if user_input in no:
+                return False
             self.__print_console_error("Please input a valid string (\"y\", \"yes\" or \"n\", \"no\")")
 
     def __get_sound_card_index(self) -> int:
@@ -337,7 +340,6 @@ class SetupHandler:
             return np.float32
         raise SetupException("Incompatible Sample Format")
 
-        
 
 class FileHandler:
     """Handles files, specifically those related to the recorded songs wavs and zips.
@@ -384,10 +386,12 @@ class FileHandler:
         tracks = []
         sr = 44100
 
+        for filename in glob.glob(os.path.join(path, '*.mp3')):
+            track_array, sr = librosa.load(filename, sr=44100, mono=True)
+            tracks.append(track_array)
+
         for filename in glob.glob(os.path.join(path, '*.wav')):
-            sr, track_stereo_array = read(filename)
-            track_stereo_array = track_stereo_array.astype(dtype=np.float32, order='C') / 32768.0
-            track_array = (track_stereo_array[:, 0] + track_stereo_array[:, 1]) / 2.0
+            track_array, sr = librosa.load(filename, sr=44100, mono=True)
             tracks.append(track_array)
 
         return tracks, sr
@@ -400,12 +404,16 @@ class FileHandler:
         path = self._song_index_to_path_dict.get(song_index)
         track_counter = 0
 
+        for _ in glob.glob(os.path.join(path, '*.mp3')):
+            track_counter += 1
+
         for _ in glob.glob(os.path.join(path, '*.wav')):
             track_counter += 1
 
         return track_counter
+
     def get_list_of_songs(self):
-        """Gets the list of available songs so that the user can chose the one he prefers.
+        """Gets the list of available songs so that the user can choose the one he prefers.
 
         :returns: A :py:type:`list` of strings containing the name if the songs and their indexes.
 
