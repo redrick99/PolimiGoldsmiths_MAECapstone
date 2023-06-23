@@ -6,13 +6,27 @@ from modules.custom_exceptions import *
 
 
 class AudioProducer(ABC):
-    """ Abstract class representing an input audio handler
+    """Abstract class representing an input audio handler. Can be inherited to create new ways of producing audio.
     """
 
     def __init__(self, parameters: dict):
-        """ Constructor for the AudioProducer class
+        """Constructor for the AudioProducer class.
 
-        :param parameters: A dictionary containing audio parameters
+        **Args:**
+
+        `parameters`: A dictionary containing audio parameters.
+
+        **Class Attributes:**
+
+        '_sample_rate`: Sample rate at which to read and write audio.
+
+        `_chunk_size`: Size of the chunk of audio to read.
+
+        `_sample_format`: Format at which to read and write audio (float, int, ...).
+
+        `_np_format`: Format of numpy used for conversions.
+
+        `_channels`: Number of channels of the audio source.
         """
         self._sample_rate = parameters['sampleRate']
         self._chunk_size = parameters['chunkSize']
@@ -22,34 +36,46 @@ class AudioProducer(ABC):
 
     @abstractmethod
     def get_next_chunk(self, in_stream: pyaudio.Stream, out_stream: pyaudio.Stream) -> list:
-        """ Abstract function to get the next chunk of audio from input
+        """Abstract function to get the next chunk of audio from an input stream.
 
-        :param in_stream: Input stream to use for live audio applications
-        :param out_stream: Output stream used to playback audio in recorded applications
+        **Args:**
 
-        :returns: The next chunk of audio divided by input channel
+        `in_stream`: Input stream to use for live audio applications.
+
+        `out_stream`: Output stream used to playback audio in recorded applications.
+
+        **Returns:**
+
+        A representation of the next chunk of audio read by the input device.
         """
         pass
 
 
 class LiveAudioProducer(AudioProducer):
-    """  Handles input audio taken live from the input sound card
+    """Subclass of AudioProducer that handles input audio taken live from an input sound card.
     """
 
     def __init__(self, parameters: dict):
-        """ Constructor for the LiveAudioProducer class
+        """Constructor for the LiveAudioProducer class.
 
-        :param parameters: A dictionary containing audio parameters
+        **Args:**
+
+        `parameters`: A dictionary containing audio parameters.
         """
         super().__init__(parameters)
         
     def get_next_chunk(self, in_stream: pyaudio.Stream, out_stream: pyaudio.Stream) -> list:
-        """ Gets the next chunk of audio from input
+        """Gets the next chunk of audio from the input stream.
 
-        :param in_stream: Input stream to use for live audio applications
-        :param out_stream: Output stream used to playback audio in recorded applications
+        **Args:**
 
-        :returns: The next chunk of audio divided by input channel
+        `in_stream`: Input stream to use for live audio applications.
+
+        `out_stream`: Output stream used to playback audio in recorded applications.
+
+        **Returns:**
+
+        The next chunk of audio read by the input stream, divided for each track of the input sound card.
         """
         data_per_channel = []
 
@@ -66,13 +92,22 @@ class LiveAudioProducer(AudioProducer):
 
 
 class RecordedAudioProducer(AudioProducer):
-    """  Handles recorded audio taken from wav audio files
+    """Subclass of AudioProducer that handles recorded audio taken from wav audio files.
     """
 
     def __init__(self, parameters: dict):
-        """ Constructor for the RecordedAudioProducer class
+        """Constructor for the RecordedAudioProducer class
 
-        :param parameters: A dictionary containing audio parameters
+        **Args:**
+
+        `parameters`: A dictionary containing audio parameters
+
+        **Class Attributes:**
+
+        '_audio_input_tracks`: Number of tracks of the audio, corresponding to the number of audio files contained in
+        a song's folder.
+
+        `_audio_playback`: Whether the user wants to play back the song as it's being processed.
         """
         super().__init__(parameters)
 
@@ -80,12 +115,18 @@ class RecordedAudioProducer(AudioProducer):
         self._audio_playback = parameters['audioPlayback']
 
     def get_next_chunk(self, in_stream: pyaudio.Stream, out_stream: pyaudio.Stream) -> list:
-        """ Gets the next chunk of audio from input
+        """Gets the next chunk of audio from audio files of tracks.
 
-        :param in_stream: Input stream to use for live audio applications
-        :param out_stream: Output stream used to playback audio in recorded applications
+        **Args:**
 
-        :returns: The next chunk of audio divided by input channel
+        `in_stream`: Unused (not needed with recorded audio).
+
+        `out_stream`: Output stream used to playback audio in recorded applications.
+
+        **Returns:**
+
+        The next chunk of audio read by the input stream, divided for each track (which are stored in
+        different files).
         """
         data_per_channel = []
         cs = self._chunk_size
@@ -108,10 +149,13 @@ class RecordedAudioProducer(AudioProducer):
         return data_per_channel
 
     def __play_audio_chunk(self, data_per_channel: list, out_stream: pyaudio.Stream):
-        """ Plays the audio chunk on an output stream
+        """Plays a given chunk of audio on an output stream.
 
-        :param data_per_channel: Audio chunk divided by channel
-        :param out_stream: Output stream used to play the audio chunk
+        **Args:**
+
+        `data_per_channel`: Audio chunk to be played, split into tracks.
+
+        `out_stream`: Output stream used to play the audio chunk.
         """
         np_data = np.array(data_per_channel, dtype=np.float32, copy=True)
         np_data = np_data.sum(axis=0) / float(len(data_per_channel))

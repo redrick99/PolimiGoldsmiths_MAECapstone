@@ -5,19 +5,30 @@ from pythonosc import udp_client, osc_message_builder, osc_message
 from pythonosc.dispatcher import Dispatcher
 from modules.utilities import *
 from modules.default_parameters import *
+from modules.custom_exceptions import *
 
 
-# Class declarations
 class Message(ABC):
-    """Abstract Class representing the message with output data to be sent to the visualizer.
+    """Abstract Class representing the message with output data to be sent to the visualizer. Can be inherited to
+    implement custom message types with custom parameters.
     """
 
     def __init__(self, data, channel: int):
-        """Superclass constructor
+        """Constructor for the Message class.
 
-        :param data: data to send
-        :param channel: index of the track
-        :param instrument: instrument of the track
+        **Args:**
+
+        `data`: Data to send.
+
+        `channel`: Index of the track or input channel.
+
+        **Class Attributes:**
+
+        `_data`: Data to send.
+
+        `channel`: Index of the track or input channel.
+
+        `address`: `OSC` address of the message.
         """
         self._data = data
         self.channel = channel
@@ -25,23 +36,29 @@ class Message(ABC):
 
     @abstractmethod
     def to_osc(self) -> osc_message.OscMessage:
-        """Abstract method. Converts message into its OSC representation.
+        """Abstract method to convert a message into its `OSC` representation.
 
-        :returns: The `OSC` representation of the message
+        **Returns:**
+
+        The `OSC` representation of the message.
         """
         pass
 
 
 class LFAudioMessage(Message):
-    """Message containing Low Level Features
+    """Message containing Low Level Features.
     """
 
     def __init__(self, data, channel: int, instrument: Instruments):
-        """Constructor
+        """Constructor for the LFAudioMessage class.
 
-        :param data: data to send
-        :param channel: index of the track
-        :param instrument: instrument of the track
+        **Args:**
+
+        `data`: Data to send.
+
+        `channel`: Index of the track or input channel.
+
+        `instrument`: Instrument of the channel.
         """
         super().__init__(data, channel=channel)
         self.address = "/LFmsg_ch"+str(channel)
@@ -51,7 +68,9 @@ class LFAudioMessage(Message):
         """Converts message into its OSC representation with its own OSC address.
         Appends the instrument type as a string argument and all the Low Level features as floats.
 
-        :returns: The `OSC` representation of the message
+        **Returns:**
+
+        The `OSC` representation of the message.
         """
         msg = osc_message_builder.OscMessageBuilder(self.address)
         msg.add_arg(self._instrument.get_string(), osc_message_builder.OscMessageBuilder.ARG_TYPE_STRING)
@@ -61,23 +80,27 @@ class LFAudioMessage(Message):
 
 
 class HFAudioMessage(Message):
-    """Message containing High Level Features
+    """Message containing High Level Features.
     """
 
-    def __init__(self, data, channel:int):
-        """Constructor
+    def __init__(self, data, channel: int):
+        """Constructor for the HFAudioMessage class.
 
-        :param data: data to send
-        :param channel: index of the track
-        :param instrument: instrument of the track
+        **Args:**
+
+        `data`: Data to send.
+
+        `channel`: Index of the track or input channel.
         """
         super().__init__(data, channel=channel)
         self.address = "/HFmsg_ch"+str(channel)
 
     def to_osc(self) -> osc_message.OscMessage:
-        """Converts message into its OSC representation with its own OSC address.
+        """Converts message into its `OSC` representation with its own `OSC` address.
 
-        :returns: The `OSC` representation of the message
+        **Returns:**
+
+        The `OSC` representation of the message.
         """
         msg = osc_message_builder.OscMessageBuilder(self.address)
         for d in self._data:
@@ -87,13 +110,25 @@ class HFAudioMessage(Message):
 
 
 class ConnectionHandler(ABC):    
-    """Abstract class to handle the connection between the python script and the external world
+    """Abstract class to handle the connection between the python script and the external world. Can be inherited to
+    implement custom methods of sending messages.
     """
-    def __init__(self, address:str, port:int):
-        """Constructor
+    def __init__(self, address: str, port: int):
+        """Constructor for the ConnectionHandler class.
 
-        :param address: Net address of the receiver as a string
-        :param port: Net port of the receiver as an int
+        **Args:**
+
+        `address`: Net address of the receiver as a string.
+
+        `port`: Net port of the receiver as an int.
+
+        **Class Attributes:**
+
+        `_address`: Net address of the receiver as a string.
+
+        `_port`: Net port of the receiver as an int.
+
+        `_lock`: Mutex lock used for synchronization purposes.
         """
         self._address = address
         self._port = port
@@ -101,45 +136,78 @@ class ConnectionHandler(ABC):
 
     @staticmethod
     @abstractmethod
-    def get_instance(address:str, port:int) -> ConnectionHandler:
-        """Abstract method to get the Singleton instance of the class
+    def get_instance(address: str, port: int) -> ConnectionHandler:
+        """Abstract method to get the Singleton instance of the class.
+
+        **Args:**
+
+        `address`: Net address to assign to the ConnectionHandler Singleton instance.
+
+        `address`: Net port to assign to the ConnectionHandler Singleton instance.
+
+        **Returns:**
+
+        The Singleton instance of the class.
         """
         pass
     
     @abstractmethod
     def send_message(self, message: Message):
-        """Abstract method to send a message
+        """Abstract method used to send a message.
+
+        **Args:**
+
+        `message`: Message to send over the network.
         """
         pass
 
 
 class OSCConnectionHandler(ConnectionHandler):
-    """Singleton class that handles the communication between the python script and the external world via OSC messages
+    """Singleton class that handles the communication between the python script and the external world via `OSC`
+    messages.
     """
     __instance = None
 
-    def __init__(self, address:str, port:int):
-        """Singleton constructor. Starts the OSC communication channel
+    def __init__(self, address: str, port: int):
+        """Singleton constructor. Starts the `OSC` communication channel.
+
+        **Args:**
+
+        `address`: Net address to assign to the ConnectionHandler Singleton instance.
+
+        `address`: Net port to assign to the ConnectionHandler Singleton instance.
         """
         if OSCConnectionHandler.__instance is not None:
-            raise Exception("Tried to instantiate ConnectionHandler multiple times")
+            raise SetupException("Tried to instantiate ConnectionHandler multiple times")
         OSCConnectionHandler.__instance = self
 
         super().__init__(address=address, port=port)
         self.__client = udp_client.SimpleUDPClient(self._address, self._port)
         
     @staticmethod
-    def get_instance(address:str, port:int) -> OSCConnectionHandler:
-        """Returns the running Singleton Instance of the class
+    def get_instance(address: str, port: int) -> OSCConnectionHandler:
+        """Returns the currently running Singleton Instance of the class.
+
+        **Args:**
+
+        `address`: Net address to assign to the ConnectionHandler Singleton instance.
+
+        `address`: Net port to assign to the ConnectionHandler Singleton instance.
+
+        **Returns:**
+
+        The Singleton instance of the class.
         """
         if OSCConnectionHandler.__instance is None:
             OSCConnectionHandler(address, port)
         return OSCConnectionHandler.__instance
     
     def send_message(self, message: Message):
-        """Sends a message over the net as an OSC message
+        """Sends a message over the network as an `OSC` message.
 
-        :param message: message to be sent
+        **Args:**
+
+        `message`: Message to be sent.
         """
         self._lock.acquire()
 
@@ -162,7 +230,7 @@ def handler_ch_settings(address, fixed_args, *osc_args):
     channels = fixed_args[1]
     try:
         track = osc_args[0]
-        if track < 0 or track >= channels: raise Exception("Invalid channel number (was "+str(track)+")")
+        if track < 0 or track >= channels: raise MessageReceiveException("Invalid channel number (was "+str(track)+")")
         instrument = Instruments.from_string(osc_args[1])
         setting = [track, instrument]
     except Exception as e:
@@ -177,13 +245,11 @@ def handler_ch_settings(address, fixed_args, *osc_args):
 def handler_start(address, *args):
     print()
     print_success("Received starting message\n")
-    # u.EXTERNAL_OSC_CONTROLLER_CONNECTED = True
 
 
 def handler_stop(address, *args):
     print()
     print_info("Received stopping message")
-    # u.STOP = True
 
 
 def create_dispatcher(settings_queues, channels):

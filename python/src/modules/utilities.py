@@ -1,4 +1,6 @@
+from __future__ import annotations
 from enum import Enum
+from modules.custom_exceptions import *
 
 
 # Classes
@@ -22,18 +24,30 @@ class Instruments(Enum):
     STRINGS = 5
     DRUMS = 6
 
-    def get_string(self):
+    def get_string(self) -> str:
         """Returns the name of the instrument as a string.
+
+        **Returns:**
+
+        The name of the instrument as a string.
         """
         return self.name
     
     @staticmethod
-    def from_string(s: str):
+    def from_string(s: str) -> Instruments:
         """Returns the enum value of a given string.
 
-        :return: :py:class:`Instruments` of the given string.
+        **Args:**
 
-        :raises Exception: If the string does not correspond to a known instrument.
+        `s`: String representing the instrument.
+
+        **Returns:**
+
+        Instrument enum of the given string.
+
+        **Raises:**
+
+        `SetupException`: If the string does not correspond to a known instrument.
         """
         if s == "DEFAULT":
             return Instruments.DEFAULT
@@ -47,15 +61,23 @@ class Instruments(Enum):
             return Instruments.STRINGS
         if s == "DRUMS":
             return Instruments.DRUMS
-        raise Exception("Couldn't parse string into instrument")
+        raise SetupException("Couldn't parse string into instrument")
     
     @staticmethod
     def from_index(index: int):
         """Returns the enum value of a given index.
 
-        :return: :py:class:`Instruments` of the given index.
+        **Args:**
 
-        :raises Exception: If the index does not correspond to a known instrument.
+        `index`: Number representing the instrument.
+
+        **Returns:**
+
+        Instrument enum of the given index.
+
+        **Raises:**
+
+        `SetupException`: If the index does not correspond to a known instrument.
         """
         if index == 1:
             return Instruments.DEFAULT
@@ -69,12 +91,13 @@ class Instruments(Enum):
             return Instruments.STRINGS
         if index == 6:
             return Instruments.DRUMS
-        raise Exception("Couldn't parse string into instrument")
+        raise SetupException("Couldn't parse string into instrument")
     
     def get_fundamental_frequency_range(self) -> list:
         """Returns the fundamental frequency range for a given instrument.
 
-        :returns: A :py:type:`list` containing the lower and upper frequency range limits.
+        **Returns:**
+        A :py:type:`list` containing the lower and upper frequency range limits for the instrument.
         """
         if self == Instruments.DEFAULT:
             return [20.0, 8000.0]
@@ -91,7 +114,7 @@ class Instruments(Enum):
 
 
 class BColors:
-    """Colors used to print and debug
+    """Colors used to print and debug.
     """
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -110,34 +133,95 @@ __PRINTING_DATA_ACTIVE = True
 
 
 def print_success(string, flush=True):
+    """Prints a success message if printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    """
     if __PRINTING_ACTIVE:
         print(BColors.OKGREEN + "[OK] " + str(string) + BColors.ENDC, flush=flush)
 
 
 def print_info(string, flush=True):
+    """Prints an info message if printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    """
     if __PRINTING_ACTIVE:
         print(BColors.OKBLUE + "[INFO] " + BColors.UNDERLINE + str(string) + BColors.ENDC, flush=flush)
 
 
 def print_data(channel, data, flush=True):
+    """Prints a data message if printing data is active.
+
+    **Args:**
+
+    `channel`: Number of the channel where the data was processed from.
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    """
     if __PRINTING_DATA_ACTIVE:
         print(BColors.OKCYAN + "[DATA - Channel " + str(channel) + "] ", data, BColors.ENDC, flush=flush)
 
+
 def print_data_alt_color(channel, data, flush=True):
+    """Prints a data message with alternate color if printing data is active.
+
+    **Args:**
+
+    `channel`: Number of the channel where the data was processed from.
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    """
     if __PRINTING_DATA_ACTIVE:
         print(BColors.HEADER + "[DATA - Channel " + str(channel) + "] ", data, BColors.ENDC, flush=flush)
 
 
 def print_warning(string, flush=True):
+    """Prints a warning message if printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    """
     if __PRINTING_ACTIVE:
         print(BColors.WARNING + BColors.BOLD + "[WARNING] " + str(string) + BColors.ENDC, flush=flush)
 
 
 def print_error(string, flush=True):
+    """Prints an error message if printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    """
     if __PRINTING_ACTIVE:
         print(BColors.FAIL + BColors.BOLD + "[ERROR] " + str(string) + BColors.ENDC, flush=flush)
 
 
 def print_dbg(string, flush=True):
+    """Prints a generic debug message if printing and debug printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    """
     if __PRINTING_ACTIVE and __DEBUGGER_ACTIVE:
         print(BColors.OKGREEN + "[DBG] " + str(string) + BColors.ENDC, flush=flush)

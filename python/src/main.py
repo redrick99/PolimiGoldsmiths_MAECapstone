@@ -11,11 +11,16 @@ from modules.custom_exceptions import *
 
 
 def stop_execution(lf_queue: Queue, hf_queue: Queue, streams: list):
-    """ Stops all concurrent worker processes
+    """Stops all concurrent worker processes. It does so by putting a number of `None` objects inside the
+    multiprocessing `Queues`.
 
-    :param lf_queue: Common queue for all Low Level Features workers
-    :param hf_queue: Common queue for all High Level Features workers
-    :param streams: All currently open streams of audio
+    **Args:**
+
+    `lf_queue`: Common queue for all Low Level Features workers.
+
+    `hf_queue`: Common queue for all High Level Features workers.
+
+    `streams`: All currently open streams of audio.
     """
     for _ in range(dp.CPU_PARAMETERS['numLfCores']):
         lf_queue.put(None)  # When the worker reads `None` from the queue it breaks its loop
@@ -28,13 +33,21 @@ def stop_execution(lf_queue: Queue, hf_queue: Queue, streams: list):
 
 
 def audio_producer(audio_producer_object: AudioProducer, control_event, lf_queue: Queue, hf_queue: Queue, parameters: dict):
-    """ Produces audio for the worker processes.
+    """Produces audio for the worker processes. Each chunk of audio read from the audio source is sent to the low-level
+    feature processes to extract low-level features. Audio chunks are summed to a total length of n seconds before
+    being sent to the high-level feature processes.
 
-    :param audio_producer_object: Object of the super-class AudioProducer used to produce audio
-    :param control_event: Event used to check if the program's execution has to be stopped
-    :param lf_queue: Common queue for LLF workers used to send the chunks of audio to process
-    :param hf_queue: Common queue for HLF workers used to send the chunks of audio to process
-    :param parameters: Dictionary containing audio processing parameters used to produce audio
+    **Args:**
+
+    `audio_producer_object`: Object of the super-class AudioProducer used to produce audio.
+
+    `control_event`: Event used to check if the program's execution has to be stopped.
+
+    `lf_queue`: Common queue for LLF workers used to send the chunks of audio to process.
+
+    `hf_queue`: Common queue for HLF workers used to send the chunks of audio to process.
+
+    `parameters`: Dictionary containing audio processing parameters used to produce audio.
     """
     sh = SetupHandler.get_instance()
     sh.set_audio_parameters(parameters)
@@ -79,12 +92,16 @@ def audio_producer(audio_producer_object: AudioProducer, control_event, lf_queue
 
 
 def lf_audio_consumer(lf_queue: Queue, settings_queue: Queue, parameters: dict):
-    """ Processes LLF from audio chunks given from the audio_producer process
+    """Processes low-level features from audio chunks given from the `audio_producer` process.
 
-    :param lf_queue: Queue where audio chunks to process are sent by the audio_producer process
-    :param settings_queue: Queue where audio settings (coming from osc messages) are sent - used to change settings
-    of the LLF handlers
-    :param parameters: Dictionary containing audio processing parameters used to produce audio
+    **Args:**
+
+    `lf_queue`: Queue where audio chunks to process are sent by the audio_producer process.
+
+    `settings_queue`: Queue where audio settings (coming from osc messages) are sent - used to change settings
+    of the LLF handlers.
+
+    `parameters`: Dictionary containing audio processing parameters used to produce audio.
     """
     lf_audio_input_handlers = []
     channels = parameters['channels']
@@ -117,10 +134,13 @@ def lf_audio_consumer(lf_queue: Queue, settings_queue: Queue, parameters: dict):
 
 
 def hf_audio_consumer(hf_queue: Queue, parameters: dict):
-    """ Processes HLF from audio chunks given from the audio_producer process
+    """Processes high-level features from audio chunks given from the `audio_producer` process.
 
-    :param hf_queue: Queue where audio chunks to process are sent by the audio_producer process
-    :param parameters: Dictionary containing audio processing parameters used to produce audio
+    **Args:**
+
+    `hf_queue`: Queue where audio chunks to process are sent by the `audio_producer` process.
+
+    `parameters`: Dictionary containing audio processing parameters used to produce audio.
     """
     hf_audio_input_handler = HFAudioInputHandler(parameters, 0, Instruments.DEFAULT)
 

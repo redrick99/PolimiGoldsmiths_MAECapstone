@@ -5,7 +5,6 @@ import glob
 import pyaudio
 import librosa
 import numpy as np
-from scipy.io.wavfile import read
 from modules.audio_producer import AudioProducer, LiveAudioProducer, RecordedAudioProducer
 from modules.default_parameters import AUDIO_PROCESSING_PARAMETERS
 from modules.custom_exceptions import *
@@ -19,8 +18,17 @@ class SetupHandler:
 
     def __init__(self):
         """Constructor to not be accessed directly (Singleton pattern).
-        It initializes the :py:class:`FileHandler` to :py:type:`None` and creates an empty
-        :py:type:`dict` that will contain the audio parameters.
+        It initializes the `FileHandler` to `None` and creates an empty `dict` that will contain the audio parameters.
+
+        **Class Attributes:**
+
+        `__main_path`: Absolute path from root of the `src` folder from which to gather files.
+
+        `__file_handler`: Object to handle file reads and writes.
+
+        `__audio_producer`: Object used to produce audio in chunks.
+
+        `__audio_parameters`: Audio parameters used for processing and during setup.
         """
         if SetupHandler.__instance is not None:
             raise SingletonException("Tried to instantiate more than one SetupHandler object")
@@ -34,9 +42,11 @@ class SetupHandler:
 
     @staticmethod
     def get_instance() -> SetupHandler:
-        """Returns the instance of the singleton, creating it if the method has never been called.
+        """Returns the instance of the singleton, creating it if the method has never been called before.
 
-        :returns: The :py:class:`SetupHandler` instance
+        **Returns:**
+
+        The currently running class instance.
         """
         if SetupHandler.__instance is None:
             SetupHandler()
@@ -44,10 +54,12 @@ class SetupHandler:
     
     def setup(self) -> dict:
         """Gets the info needed as user input and fills the audio parameters dictionary accordingly,
-        along with the :py:type:`AudioProducer` object. See the specific private input functions of
+        along with `AudioProducer` object. See the specific private input functions of
         this class for more info about the user input.
-        
-        :returns: The audio parameters dictionary filled according to user input.
+
+        **Returns:**
+
+        The audio parameters dictionary filled according to user input.
         """
         user_input = self.__get_user_input()
         audio_type = user_input['audioType']
@@ -77,16 +89,21 @@ class SetupHandler:
         return self.__audio_parameters
 
     def get_audio_producer(self) -> AudioProducer:
-        """Getter for the :py:class:`AudioProducer` object.
+        """Getter for the `__audio_producer` attribute.
 
-        :returns: The :py:class:`AudioProducer` object.
+        **Returns:**
+
+        The `AudioProducer` object attribute.
         """
         return self.__audio_producer
     
     def set_main_path(self, main_path: str) -> None:
-        """Creates the :py:class:`FileHandler` instance with a given string path.
-        The path has to be fed by the main script as it is the point from here each
-        relative path is calculated (see :py:class:`FileHandler` docs for more info).
+        """Creates the `FileHandler` instance with a given string path. The path has to be fed by the main script as it
+        is the point from here each relative path is calculated (see `FileHandler` docs for more info).
+
+        **Args:**
+
+        `main_path`: Path of the `src` folder.
         """
         self.__main_path = main_path
         self.__file_handler = FileHandler(main_path)
@@ -95,23 +112,29 @@ class SetupHandler:
     def set_audio_parameters(self, audio_parameters: dict):
         """Sets the audio parameters to a given dictionary.
 
-        :param audio_parameters: new dictionary to set.
+        **Args:**
+
+        `audio_parameters`: new dictionary to set.
         """
         self.__audio_parameters = audio_parameters
 
     def get_audio_parameters(self) -> dict:
-        """Getter for the audio parameters attribute
+        """Getter for the `__audio_parameters` attribute.
 
-        :returns: A :py:type:`dict` containing the audio parameters
+        **Returns:**
+
+        A `dict` containing the audio parameters.
         """
         return self.__audio_parameters
     
     def get_audio_streams(self) -> tuple:
-        """Creates a new audio stream based on the audio parameters of the :py:class:`SetupHandler`.
+        """Creates a new audio stream based on the audio parameters of the `SetupHandler`.
         Specifically, it creates an input stream if the user chose to use live audio, or an output stream
         if the user chose to use recorded audio and wants to hear the song while it's being processed.
 
-        :returns: A :py:type:`tuple` containing the input and output stream (:py:type:`None` if they aren't created).
+        **Returns:**
+
+        A `tuple` containing the input and output stream (`None` if they aren't created).
         """
         params = self.__audio_parameters
         in_stream = None
@@ -141,9 +164,11 @@ class SetupHandler:
         return in_stream, out_stream
 
     def __get_user_input(self) -> dict:
-        """Wrapper for all functions to get the user input.
+        """Wrapper for all the functions used to get the user input.
 
-        :returns: A :py:type:`dict` containing the user's choises.
+        **Returns:**
+
+        A `dict` containing the user's choices.
         """
         audio_type = self.__get_audio_type()
         song_index = None
@@ -170,14 +195,19 @@ class SetupHandler:
 
     def __print_console_error(self, string):
         """Prints red on the console if the user chose an unexisting option.
-        :param string: String to print on the console.
+
+        **Args:**
+
+        `string`: String to print on the console.
         """
         print('\033[91m', string, '\033[0m')
 
     def __get_audio_type(self) -> str:
-        """Gets the type of audio from user input. It can be either `live` or `recorded`
+        """Gets the type of audio from user input. It can be either `live` or `recorded`.
 
-        :returns: a string that is either "r" or "l"
+        **Returns:**
+
+        A string that is either "r" or "l".
         """
         live = ["l", "live"]
         recorded = ["r", "recorded"]
@@ -191,7 +221,9 @@ class SetupHandler:
     def __get_song_index(self) -> int:
         """Gets the index of the song used for recorded audio from user input.
 
-        :returns: the index of the chosen song (depends on the number of available songs)
+        **Returns:**
+
+        The index of the chosen song (depends on the number of available songs).
         """
         file_handler = self.__file_handler
         list_of_songs = file_handler.get_list_of_songs()
@@ -213,7 +245,9 @@ class SetupHandler:
     def __get_audio_playback(self) -> bool:
         """Asks the user if he wants to hear the song that is being processed when using recorded audio.
 
-        :returns: A :py:type:`bool` set to `True` if the user wants to hear the song
+        **Returns:**
+
+        A `bool` set to `True` if the user wants to hear the song.
         """
         yes = ['y', 'yes']
         no = ['n', 'no']
@@ -229,7 +263,9 @@ class SetupHandler:
     def __get_sound_card_index(self) -> int:
         """Gets the sound card index for live audio from user input.
 
-        :returns: the index of the chosen sound card (depends on the number of available sound cards)
+        **Returns:**
+
+        The index of the chosen sound card (depends on the number of available sound cards).
         """
 
         pa = pyaudio.PyAudio()
@@ -257,9 +293,11 @@ class SetupHandler:
                 self.__print_console_error("Please enter a valid number")
 
     def __get_sound_card_info(self, sound_card_index) -> dict:
-        """Gets the info of a sound card given its index in the Host API using :py:class:`PyAudio`.
+        """Gets the info of a sound card given its index in the Host API using `PyAudio`.
 
-        :returns: a dictionary containing the sound card's info.
+        **Returns:**
+
+        A dictionary containing the sound card's info.
         """
         pa = pyaudio.PyAudio()
         sound_card_info = pa.get_device_info_by_host_api_device_index(0, sound_card_index)
@@ -272,7 +310,9 @@ class SetupHandler:
     def __get_instruments_for_tracks(self, channels) -> list:
         """Gets the instruments for each of the tracks.
 
-        :returns: a :py:type:`list` containing an instrument type for each track.
+        **Returns:**
+
+        A `list` containing an instrument type for each track.
         """
         confirm = ["", "y", "yes", "c", "confirm"]
         instruments = []
@@ -313,7 +353,9 @@ class SetupHandler:
     def __get_using_external_osc_controller(self) -> bool:
         """Asks the user if he wants to use an external osc controller.
 
-        :returns: A :py:type:`bool` set to `True` if the user wants to use an external osc controller
+        **Returns:**
+
+        A `bool` set to `True` if the user wants to use an external osc controller
         """
 
         yes = ["y", "yes"]
@@ -330,7 +372,9 @@ class SetupHandler:
     def __get_numpy_format(self, pyaudio_sample_format: int):
         """Returns the corresponding `numpy` format to a given `pyaudio` format.
 
-        :param pyaudio_sample_format: pyaudio format. 
+        **Args:**
+
+        `pyaudio_sample_format`: pyaudio format.
         """
         if pyaudio_sample_format == pyaudio.paInt16:
             return np.int16
@@ -346,10 +390,12 @@ class FileHandler:
     """
 
     def __init__(self, main_path: str):
-        """Creates a new :py:class:`FileHandler` and sets the path for the zips folder and
+        """Creates a new `FileHandler` and sets the path for the zips folder and
         unzipped songs folder.
 
-        :param main_path: Path of the main script from which the relative paths of resources are calculated
+        **Args:**
+
+        `main_path`: Path of the main script from which the relative paths of resources are calculated.
         """
         self._source_folder_path = os.path.join(main_path, "resources/test_songs")
         self._dest_folder_path = os.path.join(main_path, "resources/test_songs_unzipped")
@@ -359,7 +405,11 @@ class FileHandler:
 
     def unzip_files(self):
         """Unzips any zip file found in the `resources/test_songs` folder. If the zip file has already been
-        unzipped, it skips it
+        unzipped, it skips it.
+
+        **Raises:**
+
+        `FileHandlingException` if there are no .zip files in the songs folder.
         """
         for item in os.listdir(self._source_folder_path):
             if item.endswith(self._zip_extension):
@@ -376,11 +426,17 @@ class FileHandler:
 
     def get_tracks(self, song_index: int) -> tuple:
         """Gets all the tracks of a song as numpy arrays, ready to be processed.
-        Each track has its own stereo .wav file, so each file has to be read and converted
+        Each track has its own stereo .wav file, so each file has to be read separately and converted
         to mono.
 
-        :returns: A :py:type:`list` of :py:type:`np.ndarray` containing the tracks and the sample
-        rate of the wave file read (assuming all files of the song have the same sample rate)
+        **Args:**
+
+        `song_index`: Index of the song of which to get the tracks.
+
+        **Returns:**
+
+        A `list` of `np.ndarray` containing the tracks and the sample rate of the wave file read (assuming all files of
+        the song have the same sample rate).
         """
         path = self._song_index_to_path_dict.get(song_index)
         tracks = []
@@ -397,9 +453,15 @@ class FileHandler:
         return tracks, sr
     
     def get_number_of_tracks(self, song_index: int) -> int:
-        """Gets the number of tracks given the index of a song
+        """Gets the number of tracks given the index of a song.
 
-        :returns: The number of tracks of a song
+        **Args:**
+
+        `song_index`: Index of the song of which to get the number of tracks.
+
+        **Returns:**
+
+        The number of tracks of a song.
         """
         path = self._song_index_to_path_dict.get(song_index)
         track_counter = 0
@@ -415,9 +477,13 @@ class FileHandler:
     def get_list_of_songs(self):
         """Gets the list of available songs so that the user can choose the one he prefers.
 
-        :returns: A :py:type:`list` of strings containing the name if the songs and their indexes.
+        **Returns:**
 
-        :raises FileHandlingException: if no songs have been found
+        A `list` of strings containing the name if the songs and their indexes.
+
+        **Raises:**
+
+        `FileHandlingException`: if no songs have been found.
         """
         list_of_test_songs = []
         for key in self._song_index_to_path_dict.keys():
@@ -428,16 +494,28 @@ class FileHandler:
         return list_of_test_songs
 
     def get_number_of_songs(self) -> int:
-        """Getter for the number of songs attribute
+        """Getter for the `_number_of_songs` attribute.
+
+        **Returns:**
+
+        The number of songs.
         """
         return self._number_of_songs
 
     def get_source_folder_path(self) -> str:
-        """Getter for the source folder path attribute
+        """Getter for the `_source_folder_path` attribute.
+
+        **Returns:**
+
+        The path of the `src` folder.
         """
         return self._source_folder_path
     
     def get_dest_folder_path(self) -> str:
-        """Getter for the destination folder path attribute
+        """Getter for the `_dest_folder_path` attribute.
+
+        **Returns:**
+
+        The path in which to put the unzipped files.
         """
         return self._dest_folder_path
