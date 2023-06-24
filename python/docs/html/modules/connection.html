@@ -1,0 +1,1076 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>connection API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>connection</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from __future__ import annotations
+from abc import ABC, abstractmethod
+from multiprocessing import Lock
+from pythonosc import udp_client, osc_message_builder, osc_message
+from pythonosc.dispatcher import Dispatcher
+from modules.utilities import *
+from modules.default_parameters import *
+from modules.custom_exceptions import *
+
+
+class Message(ABC):
+    &#34;&#34;&#34;Abstract Class representing the message with output data to be sent to the visualizer. Can be inherited to
+    implement custom message types with custom parameters.
+    &#34;&#34;&#34;
+
+    def __init__(self, data, channel: int):
+        &#34;&#34;&#34;Constructor for the Message class.
+
+        **Args:**
+
+        `data`: Data to send.
+
+        `channel`: Index of the track or input channel.
+
+        **Class Attributes:**
+
+        `_data`: Data to send.
+
+        `channel`: Index of the track or input channel.
+
+        `address`: `OSC` address of the message.
+        &#34;&#34;&#34;
+        self._data = data
+        self.channel = channel
+        self.address = &#34;/blank_ch&#34;+str(channel)
+
+    @abstractmethod
+    def to_osc(self) -&gt; osc_message.OscMessage:
+        &#34;&#34;&#34;Abstract method to convert a message into its `OSC` representation.
+
+        **Returns:**
+
+        The `OSC` representation of the message.
+        &#34;&#34;&#34;
+        pass
+
+
+class LFAudioMessage(Message):
+    &#34;&#34;&#34;Message containing Low-level Features.
+    &#34;&#34;&#34;
+
+    def __init__(self, data, channel: int, instrument: Instruments):
+        &#34;&#34;&#34;Constructor for the LFAudioMessage class.
+
+        **Args:**
+
+        `data`: Data to send.
+
+        `channel`: Index of the track or input channel.
+
+        `instrument`: Instrument of the channel.
+        &#34;&#34;&#34;
+        super().__init__(data, channel=channel)
+        self.address = &#34;/LFmsg_ch&#34;+str(channel)
+        self._instrument = instrument
+
+    def to_osc(self) -&gt; osc_message.OscMessage:
+        &#34;&#34;&#34;Converts message into its OSC representation with its own OSC address.
+        Appends the instrument type as a string argument and all the Low-level features as floats.
+
+        **Returns:**
+
+        The `OSC` representation of the message.
+        &#34;&#34;&#34;
+        msg = osc_message_builder.OscMessageBuilder(self.address)
+        msg.add_arg(self._instrument.get_string(), osc_message_builder.OscMessageBuilder.ARG_TYPE_STRING)
+        for d in self._data:
+            msg.add_arg(float(d), osc_message_builder.OscMessageBuilder.ARG_TYPE_FLOAT)
+        return msg.build()
+
+
+class HFAudioMessage(Message):
+    &#34;&#34;&#34;Message containing High-level Features.
+    &#34;&#34;&#34;
+
+    def __init__(self, data, channel: int):
+        &#34;&#34;&#34;Constructor for the HFAudioMessage class.
+
+        **Args:**
+
+        `data`: Data to send.
+
+        `channel`: Index of the track or input channel.
+        &#34;&#34;&#34;
+        super().__init__(data, channel=channel)
+        self.address = &#34;/HFmsg_ch&#34;+str(channel)
+
+    def to_osc(self) -&gt; osc_message.OscMessage:
+        &#34;&#34;&#34;Converts message into its `OSC` representation with its own `OSC` address.
+
+        **Returns:**
+
+        The `OSC` representation of the message.
+        &#34;&#34;&#34;
+        msg = osc_message_builder.OscMessageBuilder(self.address)
+        for d in self._data:
+            msg.add_arg(d, osc_message_builder.OscMessageBuilder.ARG_TYPE_FLOAT)
+        
+        return msg.build()
+
+
+class ConnectionHandler(ABC):    
+    &#34;&#34;&#34;Abstract class to handle the connection between the python script and the external world. Can be inherited to
+    implement custom methods of sending messages.
+    &#34;&#34;&#34;
+    def __init__(self, address: str, port: int):
+        &#34;&#34;&#34;Constructor for the ConnectionHandler class.
+
+        **Args:**
+
+        `address`: Net address of the receiver as a string.
+
+        `port`: Net port of the receiver as an int.
+
+        **Class Attributes:**
+
+        `_address`: Net address of the receiver as a string.
+
+        `_port`: Net port of the receiver as an int.
+
+        `_lock`: Mutex lock used for synchronization purposes.
+        &#34;&#34;&#34;
+        self._address = address
+        self._port = port
+        self._lock = Lock()
+
+    @staticmethod
+    @abstractmethod
+    def get_instance(address: str, port: int) -&gt; ConnectionHandler:
+        &#34;&#34;&#34;Abstract method to get the Singleton instance of the class.
+
+        **Args:**
+
+        `address`: Net address to assign to the ConnectionHandler Singleton instance.
+
+        `address`: Net port to assign to the ConnectionHandler Singleton instance.
+
+        **Returns:**
+
+        The Singleton instance of the class.
+        &#34;&#34;&#34;
+        pass
+    
+    @abstractmethod
+    def send_message(self, message: Message):
+        &#34;&#34;&#34;Abstract method used to send a message.
+
+        **Args:**
+
+        `message`: Message to send over the network.
+        &#34;&#34;&#34;
+        pass
+
+
+class OSCConnectionHandler(ConnectionHandler):
+    &#34;&#34;&#34;Singleton class that handles the communication between the python script and the external world via `OSC`
+    messages.
+    &#34;&#34;&#34;
+    __instance = None
+
+    def __init__(self, address: str, port: int):
+        &#34;&#34;&#34;Singleton constructor. Starts the `OSC` communication channel.
+
+        **Args:**
+
+        `address`: Net address to assign to the ConnectionHandler Singleton instance.
+
+        `address`: Net port to assign to the ConnectionHandler Singleton instance.
+        &#34;&#34;&#34;
+        if OSCConnectionHandler.__instance is not None:
+            raise SetupException(&#34;Tried to instantiate ConnectionHandler multiple times&#34;)
+        OSCConnectionHandler.__instance = self
+
+        super().__init__(address=address, port=port)
+        self.__client = udp_client.SimpleUDPClient(self._address, self._port)
+        
+    @staticmethod
+    def get_instance(address: str, port: int) -&gt; OSCConnectionHandler:
+        &#34;&#34;&#34;Returns the currently running Singleton Instance of the class.
+
+        **Args:**
+
+        `address`: Net address to assign to the ConnectionHandler Singleton instance.
+
+        `address`: Net port to assign to the ConnectionHandler Singleton instance.
+
+        **Returns:**
+
+        The Singleton instance of the class.
+        &#34;&#34;&#34;
+        if OSCConnectionHandler.__instance is None:
+            OSCConnectionHandler(address, port)
+        return OSCConnectionHandler.__instance
+    
+    def send_message(self, message: Message):
+        &#34;&#34;&#34;Sends a message over the network as an `OSC` message.
+
+        **Args:**
+
+        `message`: Message to be sent.
+        &#34;&#34;&#34;
+        self._lock.acquire()
+
+        try:
+            self.__client.send_message(message.address, message.to_osc())
+        except Exception as e:
+            print(&#34;Error while sending message&#34;)
+        finally:
+            self._lock.release()
+
+
+# Incoming OSC Message Handlers
+def default_handler(address, *args):
+    &#34;&#34;&#34;Handles OSC messages with unrecognized addresses.
+
+    **Args:**
+    `address`: OSC address of the received message.
+    `*args`: Arguments of the OSC message.
+    &#34;&#34;&#34;
+    print_warning(&#34;Received message with unrecognized address&#34;)
+
+
+def handler_ch_settings(address, fixed_args, *osc_args):
+    &#34;&#34;&#34;Handles an incoming OSC message to set settings.
+
+    **Args:**
+    `address`: OSC address of the received message.
+    `fixed_args`: Function arguments passed down from the calling higher function.
+    `*osc_args`: Arguments of the OSC message.
+    &#34;&#34;&#34;
+    print_info(&#34;Received ch_settings message&#34;)
+    queues = fixed_args[0]
+    channels = fixed_args[1]
+    try:
+        track = osc_args[0]
+        if track &lt; 0 or track &gt;= channels: raise MessageReceiveException(&#34;Invalid channel number (was &#34;+str(track)+&#34;)&#34;)
+        instrument = Instruments.from_string(osc_args[1])
+        setting = [track, instrument]
+    except Exception as e:
+        print_error(&#34;Something bad happened while handling Channel Settings message&#34;)
+        print_dbg(e)
+        return
+
+    for q in queues:
+        q.put(setting)
+
+
+def handler_start(address, *args):
+    &#34;&#34;&#34;Starts execution of the application when a start message is received
+
+    **Args:**
+    `address`: OSC address of the received message.
+    `*args`: Arguments of the OSC message.
+    &#34;&#34;&#34;
+    print()
+    print_success(&#34;Received starting message\n&#34;)
+
+
+def handler_stop(address, *args):
+    &#34;&#34;&#34;Stops execution of the application when a stop message is received
+
+    **Args:**
+    `address`: OSC address of the received message.
+    `*args`: Arguments of the OSC message.
+    &#34;&#34;&#34;
+    print()
+    print_info(&#34;Received stopping message&#34;)
+
+
+def create_dispatcher(settings_queues, channels):
+    &#34;&#34;&#34;Creates a dispatcher to map incoming OSC messages into functions.
+
+    **Args:**
+
+    `settings_queues`: Multiprocessing queues in which to put incoming settings.
+    `channels`: Max number of channels currently being processed.
+
+    **Returns:**
+
+    A dispatcher for an OSC server.
+    &#34;&#34;&#34;
+    dispatcher = Dispatcher()
+    dispatcher.map(OSC_MESSAGES_PARAMETERS[&#39;inStart&#39;], handler_start)
+    dispatcher.map(OSC_MESSAGES_PARAMETERS[&#39;inStop&#39;], handler_stop)
+    dispatcher.map(OSC_MESSAGES_PARAMETERS[&#39;inChannelSettings&#39;], handler_ch_settings, settings_queues, channels)
+    dispatcher.set_default_handler(default_handler)
+    return dispatcher</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="connection.create_dispatcher"><code class="name flex">
+<span>def <span class="ident">create_dispatcher</span></span>(<span>settings_queues, channels)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a dispatcher to map incoming OSC messages into functions.</p>
+<p><strong>Args:</strong></p>
+<p><code>settings_queues</code>: Multiprocessing queues in which to put incoming settings.
+<code>channels</code>: Max number of channels currently being processed.</p>
+<p><strong>Returns:</strong></p>
+<p>A dispatcher for an OSC server.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_dispatcher(settings_queues, channels):
+    &#34;&#34;&#34;Creates a dispatcher to map incoming OSC messages into functions.
+
+    **Args:**
+
+    `settings_queues`: Multiprocessing queues in which to put incoming settings.
+    `channels`: Max number of channels currently being processed.
+
+    **Returns:**
+
+    A dispatcher for an OSC server.
+    &#34;&#34;&#34;
+    dispatcher = Dispatcher()
+    dispatcher.map(OSC_MESSAGES_PARAMETERS[&#39;inStart&#39;], handler_start)
+    dispatcher.map(OSC_MESSAGES_PARAMETERS[&#39;inStop&#39;], handler_stop)
+    dispatcher.map(OSC_MESSAGES_PARAMETERS[&#39;inChannelSettings&#39;], handler_ch_settings, settings_queues, channels)
+    dispatcher.set_default_handler(default_handler)
+    return dispatcher</code></pre>
+</details>
+</dd>
+<dt id="connection.default_handler"><code class="name flex">
+<span>def <span class="ident">default_handler</span></span>(<span>address, *args)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Handles OSC messages with unrecognized addresses.</p>
+<p><strong>Args:</strong>
+<code>address</code>: OSC address of the received message.
+<code>*args</code>: Arguments of the OSC message.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def default_handler(address, *args):
+    &#34;&#34;&#34;Handles OSC messages with unrecognized addresses.
+
+    **Args:**
+    `address`: OSC address of the received message.
+    `*args`: Arguments of the OSC message.
+    &#34;&#34;&#34;
+    print_warning(&#34;Received message with unrecognized address&#34;)</code></pre>
+</details>
+</dd>
+<dt id="connection.handler_ch_settings"><code class="name flex">
+<span>def <span class="ident">handler_ch_settings</span></span>(<span>address, fixed_args, *osc_args)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Handles an incoming OSC message to set settings.</p>
+<p><strong>Args:</strong>
+<code>address</code>: OSC address of the received message.
+<code>fixed_args</code>: Function arguments passed down from the calling higher function.
+<code>*osc_args</code>: Arguments of the OSC message.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def handler_ch_settings(address, fixed_args, *osc_args):
+    &#34;&#34;&#34;Handles an incoming OSC message to set settings.
+
+    **Args:**
+    `address`: OSC address of the received message.
+    `fixed_args`: Function arguments passed down from the calling higher function.
+    `*osc_args`: Arguments of the OSC message.
+    &#34;&#34;&#34;
+    print_info(&#34;Received ch_settings message&#34;)
+    queues = fixed_args[0]
+    channels = fixed_args[1]
+    try:
+        track = osc_args[0]
+        if track &lt; 0 or track &gt;= channels: raise MessageReceiveException(&#34;Invalid channel number (was &#34;+str(track)+&#34;)&#34;)
+        instrument = Instruments.from_string(osc_args[1])
+        setting = [track, instrument]
+    except Exception as e:
+        print_error(&#34;Something bad happened while handling Channel Settings message&#34;)
+        print_dbg(e)
+        return
+
+    for q in queues:
+        q.put(setting)</code></pre>
+</details>
+</dd>
+<dt id="connection.handler_start"><code class="name flex">
+<span>def <span class="ident">handler_start</span></span>(<span>address, *args)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Starts execution of the application when a start message is received</p>
+<p><strong>Args:</strong>
+<code>address</code>: OSC address of the received message.
+<code>*args</code>: Arguments of the OSC message.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def handler_start(address, *args):
+    &#34;&#34;&#34;Starts execution of the application when a start message is received
+
+    **Args:**
+    `address`: OSC address of the received message.
+    `*args`: Arguments of the OSC message.
+    &#34;&#34;&#34;
+    print()
+    print_success(&#34;Received starting message\n&#34;)</code></pre>
+</details>
+</dd>
+<dt id="connection.handler_stop"><code class="name flex">
+<span>def <span class="ident">handler_stop</span></span>(<span>address, *args)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Stops execution of the application when a stop message is received</p>
+<p><strong>Args:</strong>
+<code>address</code>: OSC address of the received message.
+<code>*args</code>: Arguments of the OSC message.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def handler_stop(address, *args):
+    &#34;&#34;&#34;Stops execution of the application when a stop message is received
+
+    **Args:**
+    `address`: OSC address of the received message.
+    `*args`: Arguments of the OSC message.
+    &#34;&#34;&#34;
+    print()
+    print_info(&#34;Received stopping message&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="connection.ConnectionHandler"><code class="flex name class">
+<span>class <span class="ident">ConnectionHandler</span></span>
+<span>(</span><span>address: str, port: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Abstract class to handle the connection between the python script and the external world. Can be inherited to
+implement custom methods of sending messages.</p>
+<p>Constructor for the ConnectionHandler class.</p>
+<p><strong>Args:</strong></p>
+<p><code>address</code>: Net address of the receiver as a string.</p>
+<p><code>port</code>: Net port of the receiver as an int.</p>
+<p><strong>Class Attributes:</strong></p>
+<p><code>_address</code>: Net address of the receiver as a string.</p>
+<p><code>_port</code>: Net port of the receiver as an int.</p>
+<p><code>_lock</code>: Mutex lock used for synchronization purposes.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ConnectionHandler(ABC):    
+    &#34;&#34;&#34;Abstract class to handle the connection between the python script and the external world. Can be inherited to
+    implement custom methods of sending messages.
+    &#34;&#34;&#34;
+    def __init__(self, address: str, port: int):
+        &#34;&#34;&#34;Constructor for the ConnectionHandler class.
+
+        **Args:**
+
+        `address`: Net address of the receiver as a string.
+
+        `port`: Net port of the receiver as an int.
+
+        **Class Attributes:**
+
+        `_address`: Net address of the receiver as a string.
+
+        `_port`: Net port of the receiver as an int.
+
+        `_lock`: Mutex lock used for synchronization purposes.
+        &#34;&#34;&#34;
+        self._address = address
+        self._port = port
+        self._lock = Lock()
+
+    @staticmethod
+    @abstractmethod
+    def get_instance(address: str, port: int) -&gt; ConnectionHandler:
+        &#34;&#34;&#34;Abstract method to get the Singleton instance of the class.
+
+        **Args:**
+
+        `address`: Net address to assign to the ConnectionHandler Singleton instance.
+
+        `address`: Net port to assign to the ConnectionHandler Singleton instance.
+
+        **Returns:**
+
+        The Singleton instance of the class.
+        &#34;&#34;&#34;
+        pass
+    
+    @abstractmethod
+    def send_message(self, message: Message):
+        &#34;&#34;&#34;Abstract method used to send a message.
+
+        **Args:**
+
+        `message`: Message to send over the network.
+        &#34;&#34;&#34;
+        pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="connection.OSCConnectionHandler" href="#connection.OSCConnectionHandler">OSCConnectionHandler</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="connection.ConnectionHandler.get_instance"><code class="name flex">
+<span>def <span class="ident">get_instance</span></span>(<span>address: str, port: int) ‑> <a title="connection.ConnectionHandler" href="#connection.ConnectionHandler">ConnectionHandler</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Abstract method to get the Singleton instance of the class.</p>
+<p><strong>Args:</strong></p>
+<p><code>address</code>: Net address to assign to the ConnectionHandler Singleton instance.</p>
+<p><code>address</code>: Net port to assign to the ConnectionHandler Singleton instance.</p>
+<p><strong>Returns:</strong></p>
+<p>The Singleton instance of the class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+@abstractmethod
+def get_instance(address: str, port: int) -&gt; ConnectionHandler:
+    &#34;&#34;&#34;Abstract method to get the Singleton instance of the class.
+
+    **Args:**
+
+    `address`: Net address to assign to the ConnectionHandler Singleton instance.
+
+    `address`: Net port to assign to the ConnectionHandler Singleton instance.
+
+    **Returns:**
+
+    The Singleton instance of the class.
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="connection.ConnectionHandler.send_message"><code class="name flex">
+<span>def <span class="ident">send_message</span></span>(<span>self, message: <a title="connection.Message" href="#connection.Message">Message</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Abstract method used to send a message.</p>
+<p><strong>Args:</strong></p>
+<p><code>message</code>: Message to send over the network.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abstractmethod
+def send_message(self, message: Message):
+    &#34;&#34;&#34;Abstract method used to send a message.
+
+    **Args:**
+
+    `message`: Message to send over the network.
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="connection.HFAudioMessage"><code class="flex name class">
+<span>class <span class="ident">HFAudioMessage</span></span>
+<span>(</span><span>data, channel: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Message containing High-level Features.</p>
+<p>Constructor for the HFAudioMessage class.</p>
+<p><strong>Args:</strong></p>
+<p><code>data</code>: Data to send.</p>
+<p><code>channel</code>: Index of the track or input channel.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class HFAudioMessage(Message):
+    &#34;&#34;&#34;Message containing High-level Features.
+    &#34;&#34;&#34;
+
+    def __init__(self, data, channel: int):
+        &#34;&#34;&#34;Constructor for the HFAudioMessage class.
+
+        **Args:**
+
+        `data`: Data to send.
+
+        `channel`: Index of the track or input channel.
+        &#34;&#34;&#34;
+        super().__init__(data, channel=channel)
+        self.address = &#34;/HFmsg_ch&#34;+str(channel)
+
+    def to_osc(self) -&gt; osc_message.OscMessage:
+        &#34;&#34;&#34;Converts message into its `OSC` representation with its own `OSC` address.
+
+        **Returns:**
+
+        The `OSC` representation of the message.
+        &#34;&#34;&#34;
+        msg = osc_message_builder.OscMessageBuilder(self.address)
+        for d in self._data:
+            msg.add_arg(d, osc_message_builder.OscMessageBuilder.ARG_TYPE_FLOAT)
+        
+        return msg.build()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="connection.Message" href="#connection.Message">Message</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="connection.HFAudioMessage.to_osc"><code class="name flex">
+<span>def <span class="ident">to_osc</span></span>(<span>self) ‑> pythonosc.osc_message.OscMessage</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Converts message into its <code>OSC</code> representation with its own <code>OSC</code> address.</p>
+<p><strong>Returns:</strong></p>
+<p>The <code>OSC</code> representation of the message.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_osc(self) -&gt; osc_message.OscMessage:
+    &#34;&#34;&#34;Converts message into its `OSC` representation with its own `OSC` address.
+
+    **Returns:**
+
+    The `OSC` representation of the message.
+    &#34;&#34;&#34;
+    msg = osc_message_builder.OscMessageBuilder(self.address)
+    for d in self._data:
+        msg.add_arg(d, osc_message_builder.OscMessageBuilder.ARG_TYPE_FLOAT)
+    
+    return msg.build()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="connection.LFAudioMessage"><code class="flex name class">
+<span>class <span class="ident">LFAudioMessage</span></span>
+<span>(</span><span>data, channel: int, instrument: Instruments)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Message containing Low-level Features.</p>
+<p>Constructor for the LFAudioMessage class.</p>
+<p><strong>Args:</strong></p>
+<p><code>data</code>: Data to send.</p>
+<p><code>channel</code>: Index of the track or input channel.</p>
+<p><code>instrument</code>: Instrument of the channel.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LFAudioMessage(Message):
+    &#34;&#34;&#34;Message containing Low-level Features.
+    &#34;&#34;&#34;
+
+    def __init__(self, data, channel: int, instrument: Instruments):
+        &#34;&#34;&#34;Constructor for the LFAudioMessage class.
+
+        **Args:**
+
+        `data`: Data to send.
+
+        `channel`: Index of the track or input channel.
+
+        `instrument`: Instrument of the channel.
+        &#34;&#34;&#34;
+        super().__init__(data, channel=channel)
+        self.address = &#34;/LFmsg_ch&#34;+str(channel)
+        self._instrument = instrument
+
+    def to_osc(self) -&gt; osc_message.OscMessage:
+        &#34;&#34;&#34;Converts message into its OSC representation with its own OSC address.
+        Appends the instrument type as a string argument and all the Low-level features as floats.
+
+        **Returns:**
+
+        The `OSC` representation of the message.
+        &#34;&#34;&#34;
+        msg = osc_message_builder.OscMessageBuilder(self.address)
+        msg.add_arg(self._instrument.get_string(), osc_message_builder.OscMessageBuilder.ARG_TYPE_STRING)
+        for d in self._data:
+            msg.add_arg(float(d), osc_message_builder.OscMessageBuilder.ARG_TYPE_FLOAT)
+        return msg.build()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="connection.Message" href="#connection.Message">Message</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="connection.LFAudioMessage.to_osc"><code class="name flex">
+<span>def <span class="ident">to_osc</span></span>(<span>self) ‑> pythonosc.osc_message.OscMessage</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Converts message into its OSC representation with its own OSC address.
+Appends the instrument type as a string argument and all the Low-level features as floats.</p>
+<p><strong>Returns:</strong></p>
+<p>The <code>OSC</code> representation of the message.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_osc(self) -&gt; osc_message.OscMessage:
+    &#34;&#34;&#34;Converts message into its OSC representation with its own OSC address.
+    Appends the instrument type as a string argument and all the Low-level features as floats.
+
+    **Returns:**
+
+    The `OSC` representation of the message.
+    &#34;&#34;&#34;
+    msg = osc_message_builder.OscMessageBuilder(self.address)
+    msg.add_arg(self._instrument.get_string(), osc_message_builder.OscMessageBuilder.ARG_TYPE_STRING)
+    for d in self._data:
+        msg.add_arg(float(d), osc_message_builder.OscMessageBuilder.ARG_TYPE_FLOAT)
+    return msg.build()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="connection.Message"><code class="flex name class">
+<span>class <span class="ident">Message</span></span>
+<span>(</span><span>data, channel: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Abstract Class representing the message with output data to be sent to the visualizer. Can be inherited to
+implement custom message types with custom parameters.</p>
+<p>Constructor for the Message class.</p>
+<p><strong>Args:</strong></p>
+<p><code>data</code>: Data to send.</p>
+<p><code>channel</code>: Index of the track or input channel.</p>
+<p><strong>Class Attributes:</strong></p>
+<p><code>_data</code>: Data to send.</p>
+<p><code>channel</code>: Index of the track or input channel.</p>
+<p><code>address</code>: <code>OSC</code> address of the message.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Message(ABC):
+    &#34;&#34;&#34;Abstract Class representing the message with output data to be sent to the visualizer. Can be inherited to
+    implement custom message types with custom parameters.
+    &#34;&#34;&#34;
+
+    def __init__(self, data, channel: int):
+        &#34;&#34;&#34;Constructor for the Message class.
+
+        **Args:**
+
+        `data`: Data to send.
+
+        `channel`: Index of the track or input channel.
+
+        **Class Attributes:**
+
+        `_data`: Data to send.
+
+        `channel`: Index of the track or input channel.
+
+        `address`: `OSC` address of the message.
+        &#34;&#34;&#34;
+        self._data = data
+        self.channel = channel
+        self.address = &#34;/blank_ch&#34;+str(channel)
+
+    @abstractmethod
+    def to_osc(self) -&gt; osc_message.OscMessage:
+        &#34;&#34;&#34;Abstract method to convert a message into its `OSC` representation.
+
+        **Returns:**
+
+        The `OSC` representation of the message.
+        &#34;&#34;&#34;
+        pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="connection.HFAudioMessage" href="#connection.HFAudioMessage">HFAudioMessage</a></li>
+<li><a title="connection.LFAudioMessage" href="#connection.LFAudioMessage">LFAudioMessage</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="connection.Message.to_osc"><code class="name flex">
+<span>def <span class="ident">to_osc</span></span>(<span>self) ‑> pythonosc.osc_message.OscMessage</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Abstract method to convert a message into its <code>OSC</code> representation.</p>
+<p><strong>Returns:</strong></p>
+<p>The <code>OSC</code> representation of the message.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abstractmethod
+def to_osc(self) -&gt; osc_message.OscMessage:
+    &#34;&#34;&#34;Abstract method to convert a message into its `OSC` representation.
+
+    **Returns:**
+
+    The `OSC` representation of the message.
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="connection.OSCConnectionHandler"><code class="flex name class">
+<span>class <span class="ident">OSCConnectionHandler</span></span>
+<span>(</span><span>address: str, port: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Singleton class that handles the communication between the python script and the external world via <code>OSC</code>
+messages.</p>
+<p>Singleton constructor. Starts the <code>OSC</code> communication channel.</p>
+<p><strong>Args:</strong></p>
+<p><code>address</code>: Net address to assign to the ConnectionHandler Singleton instance.</p>
+<p><code>address</code>: Net port to assign to the ConnectionHandler Singleton instance.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class OSCConnectionHandler(ConnectionHandler):
+    &#34;&#34;&#34;Singleton class that handles the communication between the python script and the external world via `OSC`
+    messages.
+    &#34;&#34;&#34;
+    __instance = None
+
+    def __init__(self, address: str, port: int):
+        &#34;&#34;&#34;Singleton constructor. Starts the `OSC` communication channel.
+
+        **Args:**
+
+        `address`: Net address to assign to the ConnectionHandler Singleton instance.
+
+        `address`: Net port to assign to the ConnectionHandler Singleton instance.
+        &#34;&#34;&#34;
+        if OSCConnectionHandler.__instance is not None:
+            raise SetupException(&#34;Tried to instantiate ConnectionHandler multiple times&#34;)
+        OSCConnectionHandler.__instance = self
+
+        super().__init__(address=address, port=port)
+        self.__client = udp_client.SimpleUDPClient(self._address, self._port)
+        
+    @staticmethod
+    def get_instance(address: str, port: int) -&gt; OSCConnectionHandler:
+        &#34;&#34;&#34;Returns the currently running Singleton Instance of the class.
+
+        **Args:**
+
+        `address`: Net address to assign to the ConnectionHandler Singleton instance.
+
+        `address`: Net port to assign to the ConnectionHandler Singleton instance.
+
+        **Returns:**
+
+        The Singleton instance of the class.
+        &#34;&#34;&#34;
+        if OSCConnectionHandler.__instance is None:
+            OSCConnectionHandler(address, port)
+        return OSCConnectionHandler.__instance
+    
+    def send_message(self, message: Message):
+        &#34;&#34;&#34;Sends a message over the network as an `OSC` message.
+
+        **Args:**
+
+        `message`: Message to be sent.
+        &#34;&#34;&#34;
+        self._lock.acquire()
+
+        try:
+            self.__client.send_message(message.address, message.to_osc())
+        except Exception as e:
+            print(&#34;Error while sending message&#34;)
+        finally:
+            self._lock.release()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="connection.ConnectionHandler" href="#connection.ConnectionHandler">ConnectionHandler</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="connection.OSCConnectionHandler.get_instance"><code class="name flex">
+<span>def <span class="ident">get_instance</span></span>(<span>address: str, port: int) ‑> <a title="connection.OSCConnectionHandler" href="#connection.OSCConnectionHandler">OSCConnectionHandler</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the currently running Singleton Instance of the class.</p>
+<p><strong>Args:</strong></p>
+<p><code>address</code>: Net address to assign to the ConnectionHandler Singleton instance.</p>
+<p><code>address</code>: Net port to assign to the ConnectionHandler Singleton instance.</p>
+<p><strong>Returns:</strong></p>
+<p>The Singleton instance of the class.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_instance(address: str, port: int) -&gt; OSCConnectionHandler:
+    &#34;&#34;&#34;Returns the currently running Singleton Instance of the class.
+
+    **Args:**
+
+    `address`: Net address to assign to the ConnectionHandler Singleton instance.
+
+    `address`: Net port to assign to the ConnectionHandler Singleton instance.
+
+    **Returns:**
+
+    The Singleton instance of the class.
+    &#34;&#34;&#34;
+    if OSCConnectionHandler.__instance is None:
+        OSCConnectionHandler(address, port)
+    return OSCConnectionHandler.__instance</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="connection.OSCConnectionHandler.send_message"><code class="name flex">
+<span>def <span class="ident">send_message</span></span>(<span>self, message: <a title="connection.Message" href="#connection.Message">Message</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sends a message over the network as an <code>OSC</code> message.</p>
+<p><strong>Args:</strong></p>
+<p><code>message</code>: Message to be sent.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def send_message(self, message: Message):
+    &#34;&#34;&#34;Sends a message over the network as an `OSC` message.
+
+    **Args:**
+
+    `message`: Message to be sent.
+    &#34;&#34;&#34;
+    self._lock.acquire()
+
+    try:
+        self.__client.send_message(message.address, message.to_osc())
+    except Exception as e:
+        print(&#34;Error while sending message&#34;)
+    finally:
+        self._lock.release()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="connection.create_dispatcher" href="#connection.create_dispatcher">create_dispatcher</a></code></li>
+<li><code><a title="connection.default_handler" href="#connection.default_handler">default_handler</a></code></li>
+<li><code><a title="connection.handler_ch_settings" href="#connection.handler_ch_settings">handler_ch_settings</a></code></li>
+<li><code><a title="connection.handler_start" href="#connection.handler_start">handler_start</a></code></li>
+<li><code><a title="connection.handler_stop" href="#connection.handler_stop">handler_stop</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="connection.ConnectionHandler" href="#connection.ConnectionHandler">ConnectionHandler</a></code></h4>
+<ul class="">
+<li><code><a title="connection.ConnectionHandler.get_instance" href="#connection.ConnectionHandler.get_instance">get_instance</a></code></li>
+<li><code><a title="connection.ConnectionHandler.send_message" href="#connection.ConnectionHandler.send_message">send_message</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="connection.HFAudioMessage" href="#connection.HFAudioMessage">HFAudioMessage</a></code></h4>
+<ul class="">
+<li><code><a title="connection.HFAudioMessage.to_osc" href="#connection.HFAudioMessage.to_osc">to_osc</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="connection.LFAudioMessage" href="#connection.LFAudioMessage">LFAudioMessage</a></code></h4>
+<ul class="">
+<li><code><a title="connection.LFAudioMessage.to_osc" href="#connection.LFAudioMessage.to_osc">to_osc</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="connection.Message" href="#connection.Message">Message</a></code></h4>
+<ul class="">
+<li><code><a title="connection.Message.to_osc" href="#connection.Message.to_osc">to_osc</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="connection.OSCConnectionHandler" href="#connection.OSCConnectionHandler">OSCConnectionHandler</a></code></h4>
+<ul class="">
+<li><code><a title="connection.OSCConnectionHandler.get_instance" href="#connection.OSCConnectionHandler.get_instance">get_instance</a></code></li>
+<li><code><a title="connection.OSCConnectionHandler.send_message" href="#connection.OSCConnectionHandler.send_message">send_message</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

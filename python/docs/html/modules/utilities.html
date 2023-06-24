@@ -1,0 +1,920 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>utilities API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>utilities</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from __future__ import annotations
+from enum import Enum
+from modules.custom_exceptions import *
+
+
+# Classes
+class Normalizations(Enum):
+    &#34;&#34;&#34;Defines Normalization types for audio processing.
+    &#34;&#34;&#34;
+    NONE = 0
+    PEAK = 1
+    RMS = 2
+    Z_SCORE = 3
+    MIN_MAX = 4
+
+
+class Instruments(Enum):
+    &#34;&#34;&#34;Defines instrument types for audio processing.
+    &#34;&#34;&#34;
+    DEFAULT = 1
+    VOICE = 2
+    GUITAR = 3
+    PIANO = 4
+    STRINGS = 5
+    DRUMS = 6
+
+    def get_string(self) -&gt; str:
+        &#34;&#34;&#34;Returns the name of the instrument as a string.
+
+        **Returns:**
+
+        The name of the instrument as a string.
+        &#34;&#34;&#34;
+        return self.name
+    
+    @staticmethod
+    def from_string(s: str) -&gt; Instruments:
+        &#34;&#34;&#34;Returns the enum value of a given string.
+
+        **Args:**
+
+        `s`: String representing the instrument.
+
+        **Returns:**
+
+        Instrument enum of the given string.
+
+        **Raises:**
+
+        `SetupException`: If the string does not correspond to a known instrument.
+        &#34;&#34;&#34;
+        if s == &#34;DEFAULT&#34;:
+            return Instruments.DEFAULT
+        if s == &#34;VOICE&#34;:
+            return Instruments.VOICE
+        if s == &#34;GUITAR&#34;:
+            return Instruments.GUITAR
+        if s == &#34;PIANO&#34;:
+            return Instruments.PIANO
+        if s == &#34;STRINGS&#34;:
+            return Instruments.STRINGS
+        if s == &#34;DRUMS&#34;:
+            return Instruments.DRUMS
+        raise SetupException(&#34;Couldn&#39;t parse string into instrument&#34;)
+    
+    @staticmethod
+    def from_index(index: int):
+        &#34;&#34;&#34;Returns the enum value of a given index.
+
+        **Args:**
+
+        `index`: Number representing the instrument.
+
+        **Returns:**
+
+        Instrument enum of the given index.
+
+        **Raises:**
+
+        `SetupException`: If the index does not correspond to a known instrument.
+        &#34;&#34;&#34;
+        if index == 1:
+            return Instruments.DEFAULT
+        if index == 2:
+            return Instruments.VOICE
+        if index == 3:
+            return Instruments.GUITAR
+        if index == 4:
+            return Instruments.PIANO
+        if index == 5:
+            return Instruments.STRINGS
+        if index == 6:
+            return Instruments.DRUMS
+        raise SetupException(&#34;Couldn&#39;t parse string into instrument&#34;)
+    
+    def get_fundamental_frequency_range(self) -&gt; list:
+        &#34;&#34;&#34;Returns the fundamental frequency range for a given instrument.
+
+        **Returns:**
+        A :py:type:`list` containing the lower and upper frequency range limits for the instrument.
+        &#34;&#34;&#34;
+        if self == Instruments.DEFAULT:
+            return [20.0, 8000.0]
+        if self == Instruments.VOICE:
+            return [80.0, 4000.0]
+        if self == Instruments.GUITAR:
+            return [20.0, 5000.0]
+        if self == Instruments.PIANO:
+            return [20.0, 4500.0]
+        if self == Instruments.STRINGS:
+            return [20.0, 3500.0]
+        if self == Instruments.DRUMS:
+            return [20.0, 10000.0]
+
+
+class BColors:
+    &#34;&#34;&#34;Colors used to print and debug.
+    &#34;&#34;&#34;
+    HEADER = &#39;\033[95m&#39;
+    OKBLUE = &#39;\033[94m&#39;
+    OKCYAN = &#39;\033[96m&#39;
+    OKGREEN = &#39;\033[92m&#39;
+    WARNING = &#39;\033[93m&#39;
+    FAIL = &#39;\033[91m&#39;
+    ENDC = &#39;\033[0m&#39;
+    BOLD = &#39;\033[1m&#39;
+    UNDERLINE = &#39;\033[4m&#39;
+
+
+__DEBUGGER_ACTIVE = True
+__PRINTING_ACTIVE = True
+__PRINTING_DATA_ACTIVE = True
+
+
+def print_success(string, flush=True):
+    &#34;&#34;&#34;Prints a success message if printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_ACTIVE:
+        print(BColors.OKGREEN + &#34;[OK] &#34; + str(string) + BColors.ENDC, flush=flush)
+
+
+def print_info(string, flush=True):
+    &#34;&#34;&#34;Prints an info message if printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_ACTIVE:
+        print(BColors.OKBLUE + &#34;[INFO] &#34; + BColors.UNDERLINE + str(string) + BColors.ENDC, flush=flush)
+
+
+def print_data(channel, data, flush=True):
+    &#34;&#34;&#34;Prints a data message if printing data is active.
+
+    **Args:**
+
+    `channel`: Number of the channel where the data was processed from.
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_DATA_ACTIVE:
+        print(BColors.OKCYAN + &#34;[DATA - Channel &#34; + str(channel) + &#34;] &#34;, data, BColors.ENDC, flush=flush)
+
+
+def print_data_alt_color(channel, data, flush=True):
+    &#34;&#34;&#34;Prints a data message with alternate color if printing data is active.
+
+    **Args:**
+
+    `channel`: Number of the channel where the data was processed from.
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_DATA_ACTIVE:
+        print(BColors.HEADER + &#34;[DATA - Channel &#34; + str(channel) + &#34;] &#34;, data, BColors.ENDC, flush=flush)
+
+
+def print_warning(string, flush=True):
+    &#34;&#34;&#34;Prints a warning message if printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_ACTIVE:
+        print(BColors.WARNING + BColors.BOLD + &#34;[WARNING] &#34; + str(string) + BColors.ENDC, flush=flush)
+
+
+def print_error(string, flush=True):
+    &#34;&#34;&#34;Prints an error message if printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_ACTIVE:
+        print(BColors.FAIL + BColors.BOLD + &#34;[ERROR] &#34; + str(string) + BColors.ENDC, flush=flush)
+
+
+def print_dbg(string, flush=True):
+    &#34;&#34;&#34;Prints a generic debug message if printing and debug printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_ACTIVE and __DEBUGGER_ACTIVE:
+        print(BColors.OKGREEN + &#34;[DBG] &#34; + str(string) + BColors.ENDC, flush=flush)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="utilities.print_data"><code class="name flex">
+<span>def <span class="ident">print_data</span></span>(<span>channel, data, flush=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Prints a data message if printing data is active.</p>
+<p><strong>Args:</strong></p>
+<p><code>channel</code>: Number of the channel where the data was processed from.</p>
+<p><code>string</code>: Message to print.</p>
+<p><code>flush</code>: Whether to flush when using built-in print function.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def print_data(channel, data, flush=True):
+    &#34;&#34;&#34;Prints a data message if printing data is active.
+
+    **Args:**
+
+    `channel`: Number of the channel where the data was processed from.
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_DATA_ACTIVE:
+        print(BColors.OKCYAN + &#34;[DATA - Channel &#34; + str(channel) + &#34;] &#34;, data, BColors.ENDC, flush=flush)</code></pre>
+</details>
+</dd>
+<dt id="utilities.print_data_alt_color"><code class="name flex">
+<span>def <span class="ident">print_data_alt_color</span></span>(<span>channel, data, flush=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Prints a data message with alternate color if printing data is active.</p>
+<p><strong>Args:</strong></p>
+<p><code>channel</code>: Number of the channel where the data was processed from.</p>
+<p><code>string</code>: Message to print.</p>
+<p><code>flush</code>: Whether to flush when using built-in print function.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def print_data_alt_color(channel, data, flush=True):
+    &#34;&#34;&#34;Prints a data message with alternate color if printing data is active.
+
+    **Args:**
+
+    `channel`: Number of the channel where the data was processed from.
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_DATA_ACTIVE:
+        print(BColors.HEADER + &#34;[DATA - Channel &#34; + str(channel) + &#34;] &#34;, data, BColors.ENDC, flush=flush)</code></pre>
+</details>
+</dd>
+<dt id="utilities.print_dbg"><code class="name flex">
+<span>def <span class="ident">print_dbg</span></span>(<span>string, flush=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Prints a generic debug message if printing and debug printing is active.</p>
+<p><strong>Args:</strong></p>
+<p><code>string</code>: Message to print.</p>
+<p><code>flush</code>: Whether to flush when using built-in print function.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def print_dbg(string, flush=True):
+    &#34;&#34;&#34;Prints a generic debug message if printing and debug printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_ACTIVE and __DEBUGGER_ACTIVE:
+        print(BColors.OKGREEN + &#34;[DBG] &#34; + str(string) + BColors.ENDC, flush=flush)</code></pre>
+</details>
+</dd>
+<dt id="utilities.print_error"><code class="name flex">
+<span>def <span class="ident">print_error</span></span>(<span>string, flush=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Prints an error message if printing is active.</p>
+<p><strong>Args:</strong></p>
+<p><code>string</code>: Message to print.</p>
+<p><code>flush</code>: Whether to flush when using built-in print function.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def print_error(string, flush=True):
+    &#34;&#34;&#34;Prints an error message if printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_ACTIVE:
+        print(BColors.FAIL + BColors.BOLD + &#34;[ERROR] &#34; + str(string) + BColors.ENDC, flush=flush)</code></pre>
+</details>
+</dd>
+<dt id="utilities.print_info"><code class="name flex">
+<span>def <span class="ident">print_info</span></span>(<span>string, flush=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Prints an info message if printing is active.</p>
+<p><strong>Args:</strong></p>
+<p><code>string</code>: Message to print.</p>
+<p><code>flush</code>: Whether to flush when using built-in print function.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def print_info(string, flush=True):
+    &#34;&#34;&#34;Prints an info message if printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_ACTIVE:
+        print(BColors.OKBLUE + &#34;[INFO] &#34; + BColors.UNDERLINE + str(string) + BColors.ENDC, flush=flush)</code></pre>
+</details>
+</dd>
+<dt id="utilities.print_success"><code class="name flex">
+<span>def <span class="ident">print_success</span></span>(<span>string, flush=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Prints a success message if printing is active.</p>
+<p><strong>Args:</strong></p>
+<p><code>string</code>: Message to print.</p>
+<p><code>flush</code>: Whether to flush when using built-in print function.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def print_success(string, flush=True):
+    &#34;&#34;&#34;Prints a success message if printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_ACTIVE:
+        print(BColors.OKGREEN + &#34;[OK] &#34; + str(string) + BColors.ENDC, flush=flush)</code></pre>
+</details>
+</dd>
+<dt id="utilities.print_warning"><code class="name flex">
+<span>def <span class="ident">print_warning</span></span>(<span>string, flush=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Prints a warning message if printing is active.</p>
+<p><strong>Args:</strong></p>
+<p><code>string</code>: Message to print.</p>
+<p><code>flush</code>: Whether to flush when using built-in print function.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def print_warning(string, flush=True):
+    &#34;&#34;&#34;Prints a warning message if printing is active.
+
+    **Args:**
+
+    `string`: Message to print.
+
+    `flush`: Whether to flush when using built-in print function.
+    &#34;&#34;&#34;
+    if __PRINTING_ACTIVE:
+        print(BColors.WARNING + BColors.BOLD + &#34;[WARNING] &#34; + str(string) + BColors.ENDC, flush=flush)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="utilities.BColors"><code class="flex name class">
+<span>class <span class="ident">BColors</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Colors used to print and debug.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BColors:
+    &#34;&#34;&#34;Colors used to print and debug.
+    &#34;&#34;&#34;
+    HEADER = &#39;\033[95m&#39;
+    OKBLUE = &#39;\033[94m&#39;
+    OKCYAN = &#39;\033[96m&#39;
+    OKGREEN = &#39;\033[92m&#39;
+    WARNING = &#39;\033[93m&#39;
+    FAIL = &#39;\033[91m&#39;
+    ENDC = &#39;\033[0m&#39;
+    BOLD = &#39;\033[1m&#39;
+    UNDERLINE = &#39;\033[4m&#39;</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="utilities.BColors.BOLD"><code class="name">var <span class="ident">BOLD</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.BColors.ENDC"><code class="name">var <span class="ident">ENDC</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.BColors.FAIL"><code class="name">var <span class="ident">FAIL</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.BColors.HEADER"><code class="name">var <span class="ident">HEADER</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.BColors.OKBLUE"><code class="name">var <span class="ident">OKBLUE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.BColors.OKCYAN"><code class="name">var <span class="ident">OKCYAN</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.BColors.OKGREEN"><code class="name">var <span class="ident">OKGREEN</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.BColors.UNDERLINE"><code class="name">var <span class="ident">UNDERLINE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.BColors.WARNING"><code class="name">var <span class="ident">WARNING</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="utilities.Instruments"><code class="flex name class">
+<span>class <span class="ident">Instruments</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Defines instrument types for audio processing.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Instruments(Enum):
+    &#34;&#34;&#34;Defines instrument types for audio processing.
+    &#34;&#34;&#34;
+    DEFAULT = 1
+    VOICE = 2
+    GUITAR = 3
+    PIANO = 4
+    STRINGS = 5
+    DRUMS = 6
+
+    def get_string(self) -&gt; str:
+        &#34;&#34;&#34;Returns the name of the instrument as a string.
+
+        **Returns:**
+
+        The name of the instrument as a string.
+        &#34;&#34;&#34;
+        return self.name
+    
+    @staticmethod
+    def from_string(s: str) -&gt; Instruments:
+        &#34;&#34;&#34;Returns the enum value of a given string.
+
+        **Args:**
+
+        `s`: String representing the instrument.
+
+        **Returns:**
+
+        Instrument enum of the given string.
+
+        **Raises:**
+
+        `SetupException`: If the string does not correspond to a known instrument.
+        &#34;&#34;&#34;
+        if s == &#34;DEFAULT&#34;:
+            return Instruments.DEFAULT
+        if s == &#34;VOICE&#34;:
+            return Instruments.VOICE
+        if s == &#34;GUITAR&#34;:
+            return Instruments.GUITAR
+        if s == &#34;PIANO&#34;:
+            return Instruments.PIANO
+        if s == &#34;STRINGS&#34;:
+            return Instruments.STRINGS
+        if s == &#34;DRUMS&#34;:
+            return Instruments.DRUMS
+        raise SetupException(&#34;Couldn&#39;t parse string into instrument&#34;)
+    
+    @staticmethod
+    def from_index(index: int):
+        &#34;&#34;&#34;Returns the enum value of a given index.
+
+        **Args:**
+
+        `index`: Number representing the instrument.
+
+        **Returns:**
+
+        Instrument enum of the given index.
+
+        **Raises:**
+
+        `SetupException`: If the index does not correspond to a known instrument.
+        &#34;&#34;&#34;
+        if index == 1:
+            return Instruments.DEFAULT
+        if index == 2:
+            return Instruments.VOICE
+        if index == 3:
+            return Instruments.GUITAR
+        if index == 4:
+            return Instruments.PIANO
+        if index == 5:
+            return Instruments.STRINGS
+        if index == 6:
+            return Instruments.DRUMS
+        raise SetupException(&#34;Couldn&#39;t parse string into instrument&#34;)
+    
+    def get_fundamental_frequency_range(self) -&gt; list:
+        &#34;&#34;&#34;Returns the fundamental frequency range for a given instrument.
+
+        **Returns:**
+        A :py:type:`list` containing the lower and upper frequency range limits for the instrument.
+        &#34;&#34;&#34;
+        if self == Instruments.DEFAULT:
+            return [20.0, 8000.0]
+        if self == Instruments.VOICE:
+            return [80.0, 4000.0]
+        if self == Instruments.GUITAR:
+            return [20.0, 5000.0]
+        if self == Instruments.PIANO:
+            return [20.0, 4500.0]
+        if self == Instruments.STRINGS:
+            return [20.0, 3500.0]
+        if self == Instruments.DRUMS:
+            return [20.0, 10000.0]</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="utilities.Instruments.DEFAULT"><code class="name">var <span class="ident">DEFAULT</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.Instruments.DRUMS"><code class="name">var <span class="ident">DRUMS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.Instruments.GUITAR"><code class="name">var <span class="ident">GUITAR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.Instruments.PIANO"><code class="name">var <span class="ident">PIANO</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.Instruments.STRINGS"><code class="name">var <span class="ident">STRINGS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.Instruments.VOICE"><code class="name">var <span class="ident">VOICE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="utilities.Instruments.from_index"><code class="name flex">
+<span>def <span class="ident">from_index</span></span>(<span>index: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the enum value of a given index.</p>
+<p><strong>Args:</strong></p>
+<p><code>index</code>: Number representing the instrument.</p>
+<p><strong>Returns:</strong></p>
+<p>Instrument enum of the given index.</p>
+<p><strong>Raises:</strong></p>
+<p><code>SetupException</code>: If the index does not correspond to a known instrument.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_index(index: int):
+    &#34;&#34;&#34;Returns the enum value of a given index.
+
+    **Args:**
+
+    `index`: Number representing the instrument.
+
+    **Returns:**
+
+    Instrument enum of the given index.
+
+    **Raises:**
+
+    `SetupException`: If the index does not correspond to a known instrument.
+    &#34;&#34;&#34;
+    if index == 1:
+        return Instruments.DEFAULT
+    if index == 2:
+        return Instruments.VOICE
+    if index == 3:
+        return Instruments.GUITAR
+    if index == 4:
+        return Instruments.PIANO
+    if index == 5:
+        return Instruments.STRINGS
+    if index == 6:
+        return Instruments.DRUMS
+    raise SetupException(&#34;Couldn&#39;t parse string into instrument&#34;)</code></pre>
+</details>
+</dd>
+<dt id="utilities.Instruments.from_string"><code class="name flex">
+<span>def <span class="ident">from_string</span></span>(<span>s: str) ‑> <a title="utilities.Instruments" href="#utilities.Instruments">Instruments</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the enum value of a given string.</p>
+<p><strong>Args:</strong></p>
+<p><code>s</code>: String representing the instrument.</p>
+<p><strong>Returns:</strong></p>
+<p>Instrument enum of the given string.</p>
+<p><strong>Raises:</strong></p>
+<p><code>SetupException</code>: If the string does not correspond to a known instrument.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_string(s: str) -&gt; Instruments:
+    &#34;&#34;&#34;Returns the enum value of a given string.
+
+    **Args:**
+
+    `s`: String representing the instrument.
+
+    **Returns:**
+
+    Instrument enum of the given string.
+
+    **Raises:**
+
+    `SetupException`: If the string does not correspond to a known instrument.
+    &#34;&#34;&#34;
+    if s == &#34;DEFAULT&#34;:
+        return Instruments.DEFAULT
+    if s == &#34;VOICE&#34;:
+        return Instruments.VOICE
+    if s == &#34;GUITAR&#34;:
+        return Instruments.GUITAR
+    if s == &#34;PIANO&#34;:
+        return Instruments.PIANO
+    if s == &#34;STRINGS&#34;:
+        return Instruments.STRINGS
+    if s == &#34;DRUMS&#34;:
+        return Instruments.DRUMS
+    raise SetupException(&#34;Couldn&#39;t parse string into instrument&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="utilities.Instruments.get_fundamental_frequency_range"><code class="name flex">
+<span>def <span class="ident">get_fundamental_frequency_range</span></span>(<span>self) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the fundamental frequency range for a given instrument.</p>
+<p><strong>Returns:</strong>
+A :py:type:<code>list</code> containing the lower and upper frequency range limits for the instrument.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_fundamental_frequency_range(self) -&gt; list:
+    &#34;&#34;&#34;Returns the fundamental frequency range for a given instrument.
+
+    **Returns:**
+    A :py:type:`list` containing the lower and upper frequency range limits for the instrument.
+    &#34;&#34;&#34;
+    if self == Instruments.DEFAULT:
+        return [20.0, 8000.0]
+    if self == Instruments.VOICE:
+        return [80.0, 4000.0]
+    if self == Instruments.GUITAR:
+        return [20.0, 5000.0]
+    if self == Instruments.PIANO:
+        return [20.0, 4500.0]
+    if self == Instruments.STRINGS:
+        return [20.0, 3500.0]
+    if self == Instruments.DRUMS:
+        return [20.0, 10000.0]</code></pre>
+</details>
+</dd>
+<dt id="utilities.Instruments.get_string"><code class="name flex">
+<span>def <span class="ident">get_string</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the name of the instrument as a string.</p>
+<p><strong>Returns:</strong></p>
+<p>The name of the instrument as a string.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_string(self) -&gt; str:
+    &#34;&#34;&#34;Returns the name of the instrument as a string.
+
+    **Returns:**
+
+    The name of the instrument as a string.
+    &#34;&#34;&#34;
+    return self.name</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="utilities.Normalizations"><code class="flex name class">
+<span>class <span class="ident">Normalizations</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Defines Normalization types for audio processing.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Normalizations(Enum):
+    &#34;&#34;&#34;Defines Normalization types for audio processing.
+    &#34;&#34;&#34;
+    NONE = 0
+    PEAK = 1
+    RMS = 2
+    Z_SCORE = 3
+    MIN_MAX = 4</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="utilities.Normalizations.MIN_MAX"><code class="name">var <span class="ident">MIN_MAX</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.Normalizations.NONE"><code class="name">var <span class="ident">NONE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.Normalizations.PEAK"><code class="name">var <span class="ident">PEAK</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.Normalizations.RMS"><code class="name">var <span class="ident">RMS</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="utilities.Normalizations.Z_SCORE"><code class="name">var <span class="ident">Z_SCORE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="utilities.print_data" href="#utilities.print_data">print_data</a></code></li>
+<li><code><a title="utilities.print_data_alt_color" href="#utilities.print_data_alt_color">print_data_alt_color</a></code></li>
+<li><code><a title="utilities.print_dbg" href="#utilities.print_dbg">print_dbg</a></code></li>
+<li><code><a title="utilities.print_error" href="#utilities.print_error">print_error</a></code></li>
+<li><code><a title="utilities.print_info" href="#utilities.print_info">print_info</a></code></li>
+<li><code><a title="utilities.print_success" href="#utilities.print_success">print_success</a></code></li>
+<li><code><a title="utilities.print_warning" href="#utilities.print_warning">print_warning</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="utilities.BColors" href="#utilities.BColors">BColors</a></code></h4>
+<ul class="two-column">
+<li><code><a title="utilities.BColors.BOLD" href="#utilities.BColors.BOLD">BOLD</a></code></li>
+<li><code><a title="utilities.BColors.ENDC" href="#utilities.BColors.ENDC">ENDC</a></code></li>
+<li><code><a title="utilities.BColors.FAIL" href="#utilities.BColors.FAIL">FAIL</a></code></li>
+<li><code><a title="utilities.BColors.HEADER" href="#utilities.BColors.HEADER">HEADER</a></code></li>
+<li><code><a title="utilities.BColors.OKBLUE" href="#utilities.BColors.OKBLUE">OKBLUE</a></code></li>
+<li><code><a title="utilities.BColors.OKCYAN" href="#utilities.BColors.OKCYAN">OKCYAN</a></code></li>
+<li><code><a title="utilities.BColors.OKGREEN" href="#utilities.BColors.OKGREEN">OKGREEN</a></code></li>
+<li><code><a title="utilities.BColors.UNDERLINE" href="#utilities.BColors.UNDERLINE">UNDERLINE</a></code></li>
+<li><code><a title="utilities.BColors.WARNING" href="#utilities.BColors.WARNING">WARNING</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="utilities.Instruments" href="#utilities.Instruments">Instruments</a></code></h4>
+<ul class="">
+<li><code><a title="utilities.Instruments.DEFAULT" href="#utilities.Instruments.DEFAULT">DEFAULT</a></code></li>
+<li><code><a title="utilities.Instruments.DRUMS" href="#utilities.Instruments.DRUMS">DRUMS</a></code></li>
+<li><code><a title="utilities.Instruments.GUITAR" href="#utilities.Instruments.GUITAR">GUITAR</a></code></li>
+<li><code><a title="utilities.Instruments.PIANO" href="#utilities.Instruments.PIANO">PIANO</a></code></li>
+<li><code><a title="utilities.Instruments.STRINGS" href="#utilities.Instruments.STRINGS">STRINGS</a></code></li>
+<li><code><a title="utilities.Instruments.VOICE" href="#utilities.Instruments.VOICE">VOICE</a></code></li>
+<li><code><a title="utilities.Instruments.from_index" href="#utilities.Instruments.from_index">from_index</a></code></li>
+<li><code><a title="utilities.Instruments.from_string" href="#utilities.Instruments.from_string">from_string</a></code></li>
+<li><code><a title="utilities.Instruments.get_fundamental_frequency_range" href="#utilities.Instruments.get_fundamental_frequency_range">get_fundamental_frequency_range</a></code></li>
+<li><code><a title="utilities.Instruments.get_string" href="#utilities.Instruments.get_string">get_string</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="utilities.Normalizations" href="#utilities.Normalizations">Normalizations</a></code></h4>
+<ul class="">
+<li><code><a title="utilities.Normalizations.MIN_MAX" href="#utilities.Normalizations.MIN_MAX">MIN_MAX</a></code></li>
+<li><code><a title="utilities.Normalizations.NONE" href="#utilities.Normalizations.NONE">NONE</a></code></li>
+<li><code><a title="utilities.Normalizations.PEAK" href="#utilities.Normalizations.PEAK">PEAK</a></code></li>
+<li><code><a title="utilities.Normalizations.RMS" href="#utilities.Normalizations.RMS">RMS</a></code></li>
+<li><code><a title="utilities.Normalizations.Z_SCORE" href="#utilities.Normalizations.Z_SCORE">Z_SCORE</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
