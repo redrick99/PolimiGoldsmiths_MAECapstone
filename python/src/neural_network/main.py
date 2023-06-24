@@ -7,7 +7,7 @@ from tensorflow.keras.callbacks import EarlyStopping, train_test_split,ReduceLRO
 # We have executed this code on Kaggle 
 
 if __name__ =="__main__":
-    
+
     # Load meta.csv containing file-paths and labels as pd.DataFrame
 
     path,labels = ft.extract_input_target()
@@ -28,7 +28,7 @@ if __name__ =="__main__":
 
     model = ft.create_model()
 
-    #Create callbacks
+    # Create callbacks
 
     early_stop= EarlyStopping(
         monitor='val_loss', # monitora la loss sul set di validazione
@@ -39,5 +39,5 @@ if __name__ =="__main__":
 
     lr_callback = ReduceLROnPlateau(monitor='val_loss', factor=0.0001, patience=5, verbose=1, min_lr=0.0001)
 
-    #Starting fit
+    # Starting fit
     model.fit(train_data, epochs=1000,validation_data=val_data,steps_per_epoch=100,validation_steps=60, verbose='auto',callbacks=[early_stop,lr_callback])

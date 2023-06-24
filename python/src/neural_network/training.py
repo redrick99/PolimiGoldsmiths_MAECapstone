@@ -52,7 +52,7 @@ def convert_data(data_augumentation = 0):
         audio_buf = read_audio_from_filename(
             os.path.join(DATA_AUDIO_DIR, (x_i+'.mp3')))
         
-        #With Data augumentation
+        # With Data augumentation
         if(data_augumentation == 1):
             audio_buf_shift = read_audio_from_filename(
             os.path.join(DATA_AUDIO_DIR, (x_i+'.mp3')), shift=random.choice([-1,1]))
