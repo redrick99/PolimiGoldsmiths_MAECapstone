@@ -4,18 +4,17 @@
   <img src="./GitAssets/home-screen.png" width="100%" />
 </a> -->
 
-- [**Voicings Generator**](#voicings-generator)
-  - [Introduction](#introduction)
-    - [What is *MIRAGE*?](#what-is-mirage)
-    - [How does it work?](#how-does-it-work)
-  - [Extracted Features](#extracted-features)
-    - [Low-level Features](#low-level-features)
-    - [High-level Features](#high-level-features)
-  - [Setup and use *MIRAGE*](#setup-and-use-mirage)
-  - [Project Info](#project-info)
-    - [Folder Structure](#folder-structure)
-    - [Group Members](#group-members)
-    - [*Acknowledgments*](#acknowledgments)
+- [Introduction](#introduction)
+  - [What is *MIRAGE*?](#what-is-mirage)
+  - [How does it work?](#how-does-it-work)
+- [Extracted Features](#extracted-features)
+  - [Low-level Features](#low-level-features)
+  - [High-level Features](#high-level-features)
+- [Setup and use *MIRAGE*](#setup-and-use-mirage)
+- [Project Info](#project-info)
+  - [Folder Structure](#folder-structure)
+  - [Group Members](#group-members)
+  - [*Acknowledgments*](#acknowledgments)
 
 ## Introduction
 This is the official Github Repo for *Music Information Retrieval system for Art and Graphic Experiences* (*MIRAGE*), a live music information retrieval (MIR) system that combines real-time emotion recognition and music visualization, seamlessly integrating performance and art into audio applications. *MIRAGE* is designed to extract high level and low level features from audio in real time and transmit them to an external program responsible for visualization, offering a holistic and immersive experience for both musicians and audiences.
@@ -226,7 +225,7 @@ Here are the detailed background specifics of the project from a technical point
     │   │   ├── custom_exceptions.py
     │   │   ├── default_parameters.py
     │   │   ├── setup.py
-    │   │   ├── utilities.py
+    │   │   └── utilities.py
     │   ├── neural_network
     │   │   ├── output
     │   │   │   ├── test
@@ -234,9 +233,6 @@ Here are the detailed background specifics of the project from a technical point
     │   │   │   └── out.txt
     │   │   ├── functions_train.py
     │   │   ├── main.py
-    │   │   ├── modelv1.h5
-    │   │   ├── test.txt
-    │   │   ├── TFRecords.py
     │   │   └── training.py
     │   ├── resources
     │   │   ├── nn_models
