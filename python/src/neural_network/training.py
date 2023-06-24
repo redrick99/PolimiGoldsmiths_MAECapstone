@@ -43,7 +43,7 @@ def convert_data(data_augumentation = 0):
 
     **Args:**
 
-        `data_augmentation`: Flag indicating whether to perform data augmentation. Default is 0 (no data augmentation).
+    `data_augmentation`: Flag indicating whether to perform data augmentation. Default is 0 (no data augmentation).
     """
 
     path = extract_input_target()
