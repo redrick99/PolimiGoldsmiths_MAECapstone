@@ -16,6 +16,7 @@ def extract_input_target():
     """Linking the audio path with the associated valence-arousal
 
     **Returns:**
+    
     The path of the audio and its corresponding labels
 
     """
@@ -38,30 +39,37 @@ def extract_input_target():
     labels = list(zip(arousal,valence))
     return final_path,labels
 
+
 def get_dataset(path, labels):
     """Creates a dataset by zipping audio file paths and their corresponding labels.
 
     **Args:**
-        path (List[str]): List of file paths of audio files.
-        labels (List[str]): List of labels associated with the audio files.
+
+    `path`: List of file paths of audio files.
+    
+    `labels`: List of labels associated with the audio files.
 
     **Returns:**
-        dataset (tf.data.Dataset): A TensorFlow dataset containing zipped file paths and labels.
+
+    A TensorFlow dataset containing zipped file paths and labels.
     """
     file_path_ds = tf.data.Dataset.from_tensor_slices(path)
     label_ds = tf.data.Dataset.from_tensor_slices(labels)
     return tf.data.Dataset.zip((file_path_ds, label_ds))
 
+
 def load_audio(file_path, label):
     """Reads audio files and their corresponding labels.
 
     **Args:**
-        file_path (str): File path of the audio file.
-        labels (str): Label associated with the audio file.
+    
+    `file_path`: File path of the audio file.
+    
+    `labels`: Label associated with the audio file.
 
     **Returns:**
-        audio (Tensor): Audio data as a TensorFlow Tensor.
-        labels (str): Corresponding labels for the audio file.
+
+    Audio data as a TensorFlow Tensor and the corresponding labels for the audio file.
     """
     audio = tf.io.read_file(file_path)
     audio, _ = tf.audio.decode_wav(audio)
@@ -73,12 +81,16 @@ def prepare_for_training(ds, shuffle_buffer_size=1024, batch_size=64):
     """Prepares a dataset for training by applying transformations.
 
     **Args:**
-        ds (tf.data.Dataset): The input dataset.
-        shuffle_buffer_size (int): The buffer size for shuffling the dataset.
-        batch_size (int): The batch size for creating batches of data.
+
+    `ds`: The input dataset.
+    
+    `shuffle_buffer_size`: The buffer size for shuffling the dataset.
+
+    `batch_size`: The batch size for creating batches of data.
 
     **Returns:**
-        ds (tf.data.Dataset): The prepared dataset.
+    
+    The prepared dataset.
     """
 
     # Randomly shuffle (file_path, label) dataset
@@ -93,15 +105,19 @@ def prepare_for_training(ds, shuffle_buffer_size=1024, batch_size=64):
 
     return ds
 
+
 def R_squared(y, y_pred):
     """Calculates the coefficient of determination (R-squared).
 
     **Args:**
-        y (tf.Tensor): The true values.
-        y_pred (tf.Tensor): The predicted values.
+
+    `y`: The true values.
+
+    `y_pred`: The predicted values.
 
     **Returns:**
-        r2 (tf.Tensor): The R-squared value.
+
+    The R-squared value.
     """
   
     residual = tf.reduce_sum(tf.square(tf.subtract(y, y_pred)))
@@ -109,11 +125,13 @@ def R_squared(y, y_pred):
     r2 = tf.subtract(1.0, residual/total)
     return r2
 
+
 def create_model():
-    """Creates Model.
+    """Creates the model using keras library. The model contatin 4 parallel CNN and 4 serial LSTM.
 
     **Returns:**
-        model (tf.keras.Model): The created model.
+    
+    The created model.
     """
 
     # Define input shape
@@ -143,7 +161,7 @@ def create_model():
     fine_view3 = BatchNormalization()(fine_view3)
     fine_view3 = AveragePooling1D(pool_size=4)(fine_view3)
     
-    #fine_view1 = ZeroPadding1D(padding=((0, 1)))(fine_view1)
+    # Zero Padding
     fine_view2 = ZeroPadding1D(padding=((0, 1)))(fine_view2)
     fine_view3 = ZeroPadding1D(padding=((0, 1)))(fine_view3)
 

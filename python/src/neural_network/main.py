@@ -4,9 +4,10 @@ import functions_train as ft
 from os import path
 from tensorflow.keras.callbacks import EarlyStopping, train_test_split,ReduceLROnPlateau
 
-#We have executed this code on Kaggle 
+# We have executed this code on Kaggle 
 
 if __name__ =="__main__":
+    
     # Load meta.csv containing file-paths and labels as pd.DataFrame
 
     path,labels = ft.extract_input_target()

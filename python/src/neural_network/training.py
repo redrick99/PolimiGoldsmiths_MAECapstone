@@ -39,13 +39,11 @@ def read_audio_from_filename(filename, shift = 0):
     return audio
 
 def convert_data(data_augumentation = 0):
-    """Reads audio from the specified path and converts it to WAV format.
+    """Reads audio from the specified path and converts it to WAV format in PCM 16 bit format.
 
     **Args:**
-        data_augmentation (int): Flag indicating whether to perform data augmentation. Default is 0 (no data augmentation).
 
-    **Returns:**
-        None
+        `data_augmentation`: Flag indicating whether to perform data augmentation. Default is 0 (no data augmentation).
     """
 
     path = extract_input_target()
@@ -89,7 +87,6 @@ def convert_data(data_augumentation = 0):
                 audio_sample = np.concatenate((audio_sample, np.zeros(
                     shape=(AUDIO_LENGTH - len(audio_sample)))))
             
-
             output_folder = OUTPUT_DIR_TRAIN
             output_filename = os.path.join(
                 output_folder, str(x_i) + str('_') + str(k)+'.wav')
@@ -97,10 +94,11 @@ def convert_data(data_augumentation = 0):
                      audio_sample, TARGET_SR, subtype='PCM_16')
         
 def extract_input_target():
-    """Extract the path of each songs .
+    """Extract the path of each songs.
 
     **Returns:**
-    The path of each song
+
+    A list of song paths
     """
     path_arousal = r'../../../Music_mp3/DEAM_Annotations/annotations/annotations averaged per song/dynamic (per second annotations)/arousal.csv'
 
