@@ -46,7 +46,7 @@ class Message(ABC):
 
 
 class LFAudioMessage(Message):
-    """Message containing Low Level Features.
+    """Message containing Low-level Features.
     """
 
     def __init__(self, data, channel: int, instrument: Instruments):
@@ -66,7 +66,7 @@ class LFAudioMessage(Message):
 
     def to_osc(self) -> osc_message.OscMessage:
         """Converts message into its OSC representation with its own OSC address.
-        Appends the instrument type as a string argument and all the Low Level features as floats.
+        Appends the instrument type as a string argument and all the Low-level features as floats.
 
         **Returns:**
 
@@ -80,7 +80,7 @@ class LFAudioMessage(Message):
 
 
 class HFAudioMessage(Message):
-    """Message containing High Level Features.
+    """Message containing High-level Features.
     """
 
     def __init__(self, data, channel: int):
@@ -221,10 +221,23 @@ class OSCConnectionHandler(ConnectionHandler):
 
 # Incoming OSC Message Handlers
 def default_handler(address, *args):
+    """Handles OSC messages with unrecognized addresses.
+
+    **Args:**
+    `address`: OSC address of the received message.
+    `*args`: Arguments of the OSC message.
+    """
     print_warning("Received message with unrecognized address")
 
 
 def handler_ch_settings(address, fixed_args, *osc_args):
+    """Handles an incoming OSC message to set settings.
+
+    **Args:**
+    `address`: OSC address of the received message.
+    `fixed_args`: Function arguments passed down from the calling higher function.
+    `*osc_args`: Arguments of the OSC message.
+    """
     print_info("Received ch_settings message")
     queues = fixed_args[0]
     channels = fixed_args[1]
@@ -243,16 +256,39 @@ def handler_ch_settings(address, fixed_args, *osc_args):
 
 
 def handler_start(address, *args):
+    """Starts execution of the application when a start message is received
+
+    **Args:**
+    `address`: OSC address of the received message.
+    `*args`: Arguments of the OSC message.
+    """
     print()
     print_success("Received starting message\n")
 
 
 def handler_stop(address, *args):
+    """Stops execution of the application when a stop message is received
+
+    **Args:**
+    `address`: OSC address of the received message.
+    `*args`: Arguments of the OSC message.
+    """
     print()
     print_info("Received stopping message")
 
 
 def create_dispatcher(settings_queues, channels):
+    """Creates a dispatcher to map incoming OSC messages into functions.
+
+    **Args:**
+
+    `settings_queues`: Multiprocessing queues in which to put incoming settings.
+    `channels`: Max number of channels currently being processed.
+
+    **Returns:**
+
+    A dispatcher for an OSC server.
+    """
     dispatcher = Dispatcher()
     dispatcher.map(OSC_MESSAGES_PARAMETERS['inStart'], handler_start)
     dispatcher.map(OSC_MESSAGES_PARAMETERS['inStop'], handler_stop)

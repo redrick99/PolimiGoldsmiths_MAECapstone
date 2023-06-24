@@ -18,7 +18,7 @@ class AudioProducer(ABC):
 
         **Class Attributes:**
 
-        '_sample_rate`: Sample rate at which to read and write audio.
+        `_sample_rate`: Sample rate at which to read and write audio.
 
         `_chunk_size`: Size of the chunk of audio to read.
 
@@ -104,7 +104,7 @@ class RecordedAudioProducer(AudioProducer):
 
         **Class Attributes:**
 
-        '_audio_input_tracks`: Number of tracks of the audio, corresponding to the number of audio files contained in
+        `_audio_input_tracks`: Number of tracks of the audio, corresponding to the number of audio files contained in
         a song's folder.
 
         `_audio_playback`: Whether the user wants to play back the song as it's being processed.

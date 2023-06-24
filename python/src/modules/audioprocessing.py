@@ -30,24 +30,24 @@ class AudioProcessor(ABC):
 
         **Class Attributes:**
 
-        '_sample_rate`: Sample rate at which to read and write audio.
+        `_sample_rate`: Sample rate at which to read and write audio.
 
         `_chunk_size`: Size of the chunk of audio to read.
 
-        '_np_format`: Numpy format used to process audio.
+        `_np_format`: Numpy format used to process audio.
 
         `_nfft`: Size of the FFT used during processing.
 
-        '_hop_length`: Hop Length of the FFT used during processing.
+        `_hop_length`: Hop Length of the FFT used during processing.
 
         `_window_size`: Window Size of the FFT used during processing.
 
-        '_window_type`: Window Type of the FFT used during processing.
+        `_window_type`: Window Type of the FFT used during processing.
 
         `_p_threshold`: Threshold under which the frequency component of the audio piece processed during polyphonic
         pitch extraction is discarded.
 
-        '_normType`: Normalization type used during processing.
+        `_normType`: Normalization type used during processing.
         """
         self._sample_rate = parameters['sampleRate']
         self._chunk_size = parameters['chunkSize']
@@ -198,7 +198,7 @@ class AudioProcessor(ABC):
 
 
 class DefaultAudioProcessor(AudioProcessor):
-    """Implements the default chain used to process low level features.
+    """Implements the default chain used to process low-level features.
     """
 
     def __init__(self, parameters: dict):
@@ -221,7 +221,7 @@ class DefaultAudioProcessor(AudioProcessor):
 
         **Returns:**
 
-        Low Level Features as floats ordered inside an array.
+        Low-level Features as floats ordered inside an array.
         """
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -280,6 +280,7 @@ class InputHandler(ABC):
         """Abstract method to implement the processing and feature extraction chain.
 
         **Args:**
+
         `data`: Data to process.
         """
         pass
@@ -297,6 +298,10 @@ class InputHandler(ABC):
 
     def get_instrument(self) -> Instruments:
         """Synchronized getter for the `__instrument` attribute.
+
+        **Returns:**
+
+        The instrument assigned to this handler.
         """
         self._lock.acquire()
         inst = self.__instrument
@@ -316,6 +321,10 @@ class InputHandler(ABC):
 
     def get_priority(self) -> int:
         """Synchronized getter for the `__priority` attribute.
+
+        **Returns:**
+
+        The priority assigned to this handler.
         """
         self._lock.acquire()
         p = self.__priority
@@ -348,7 +357,7 @@ class InputHandler(ABC):
 
 
 class LFAudioInputHandler(InputHandler):
-    """Handles the Low Level feature processing of a channel of either live or recorded audio.
+    """Handles the Low-level feature processing of a channel of either live or recorded audio.
     """
 
     def __init__(self, parameters: dict, channel: int, instrument: Instruments):
@@ -372,7 +381,9 @@ class LFAudioInputHandler(InputHandler):
     def process(self, data):
         """Processes an audio frame or returns if the frame has virtually no signal.
 
-        :param data: audio frame to process
+        **Args:**
+
+        `data`: Data to process.
         """
         if self._no_signal(data):
             return
@@ -385,7 +396,7 @@ class LFAudioInputHandler(InputHandler):
 
 
 class HFAudioInputHandler(InputHandler):
-    """Handles the High Level feature processing of either live or recorded audio.
+    """Handles the High-level feature processing of either live or recorded audio.
     """
 
     def __init__(self, parameters: dict, channel: int, instrument: Instruments):
@@ -405,7 +416,7 @@ class HFAudioInputHandler(InputHandler):
 
         `__valence_values`: Array containing previous valence values used to compute a moving average.
 
-        '__nn_model': Neural network model used to extract the mood from the piece of audio.
+        `__nn_model`: Neural network model used to extract the mood from the piece of audio.
         """
         super().__init__(parameters, channel, instrument)
         path = os.path.join(parameters['mainPath'], "resources", "nn_models", "modelv5.h5")
@@ -417,7 +428,7 @@ class HFAudioInputHandler(InputHandler):
             self.__nn_model = tf.keras.models.load_model(path)
     
     def process(self, data):
-        """Processes an audio frame for High Level features.
+        """Processes an audio frame for High-level features.
 
         **Args:**
 

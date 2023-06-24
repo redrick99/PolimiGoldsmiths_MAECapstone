@@ -1,0 +1,1577 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>setup API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>setup</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from __future__ import annotations
+import os
+import zipfile
+import glob
+import pyaudio
+import librosa
+import numpy as np
+from modules.audio_producer import AudioProducer, LiveAudioProducer, RecordedAudioProducer
+from modules.default_parameters import AUDIO_PROCESSING_PARAMETERS
+from modules.custom_exceptions import *
+from modules.utilities import Instruments
+
+
+class SetupHandler:
+    &#34;&#34;&#34;Singleton that handles the setup phase of the application and stores audio parameters.
+    &#34;&#34;&#34;
+    __instance = None
+
+    def __init__(self):
+        &#34;&#34;&#34;Constructor to not be accessed directly (Singleton pattern).
+        It initializes the `FileHandler` to `None` and creates an empty `dict` that will contain the audio parameters.
+
+        **Class Attributes:**
+
+        `__main_path`: Absolute path from root of the `src` folder from which to gather files.
+
+        `__file_handler`: Object to handle file reads and writes.
+
+        `__audio_producer`: Object used to produce audio in chunks.
+
+        `__audio_parameters`: Audio parameters used for processing and during setup.
+        &#34;&#34;&#34;
+        if SetupHandler.__instance is not None:
+            raise SingletonException(&#34;Tried to instantiate more than one SetupHandler object&#34;)
+        SetupHandler.__instance = self
+
+        self.__main_path = None
+        self.__file_handler = None
+        self.__audio_producer = None
+        self.__audio_parameters = {}
+        self.__audio_parameters = {**self.__audio_parameters, **AUDIO_PROCESSING_PARAMETERS}
+
+    @staticmethod
+    def get_instance() -&gt; SetupHandler:
+        &#34;&#34;&#34;Returns the instance of the singleton, creating it if the method has never been called before.
+
+        **Returns:**
+
+        The currently running class instance.
+        &#34;&#34;&#34;
+        if SetupHandler.__instance is None:
+            SetupHandler()
+        return SetupHandler.__instance
+    
+    def setup(self) -&gt; dict:
+        &#34;&#34;&#34;Gets the info needed as user input and fills the audio parameters dictionary accordingly,
+        along with `AudioProducer` object. See the specific private input functions of
+        this class for more info about the user input.
+
+        **Returns:**
+
+        The audio parameters dictionary filled according to user input.
+        &#34;&#34;&#34;
+        user_input = self.__get_user_input()
+        audio_type = user_input[&#39;audioType&#39;]
+        self.__audio_parameters[&#39;mainPath&#39;] = self.__main_path
+        self.__audio_parameters[&#39;audioType&#39;] = audio_type
+        self.__audio_parameters[&#39;sampleFormat&#39;] = pyaudio.paFloat32
+        self.__audio_parameters[&#39;npFormat&#39;] = self.__get_numpy_format(pyaudio.paFloat32)
+        self.__audio_parameters[&#39;instruments&#39;] = user_input[&#39;instruments&#39;]
+
+        if audio_type == &#34;r&#34;:
+            tracks, sr = self.__file_handler.get_tracks(user_input[&#39;songIndex&#39;])
+            self.__audio_parameters[&#39;tracks&#39;] = tracks
+            self.__audio_parameters[&#39;sampleRate&#39;] = sr
+            self.__audio_parameters[&#39;channels&#39;] = len(tracks)
+            self.__audio_parameters[&#39;audioPlayback&#39;] = user_input[&#39;audioPlayback&#39;]
+            self.__audio_producer = RecordedAudioProducer(self.__audio_parameters)
+        elif audio_type == &#34;l&#34;:
+            sound_card_info = self.__get_sound_card_info(user_input[&#39;soundCardIndex&#39;])
+            self.__audio_parameters[&#39;inputDeviceIndex&#39;] = user_input[&#39;soundCardIndex&#39;]
+            self.__audio_parameters[&#39;sampleRate&#39;] = 44100
+            self.__audio_parameters[&#39;channels&#39;] = sound_card_info[&#39;inChannels&#39;]
+            self.__audio_parameters[&#39;audioPlayback&#39;] = False
+            self.__audio_producer = LiveAudioProducer(self.__audio_parameters)
+        else:
+            raise SetupException(&#34;Unrecognized audio type (was &#34;+audio_type+&#34;)&#34;)
+
+        return self.__audio_parameters
+
+    def get_audio_producer(self) -&gt; AudioProducer:
+        &#34;&#34;&#34;Getter for the `__audio_producer` attribute.
+
+        **Returns:**
+
+        The `AudioProducer` object attribute.
+        &#34;&#34;&#34;
+        return self.__audio_producer
+    
+    def set_main_path(self, main_path: str) -&gt; None:
+        &#34;&#34;&#34;Creates the `FileHandler` instance with a given string path. The path has to be fed by the main script as it
+        is the point from here each relative path is calculated (see `FileHandler` docs for more info).
+
+        **Args:**
+
+        `main_path`: Path of the `src` folder.
+        &#34;&#34;&#34;
+        self.__main_path = main_path
+        self.__file_handler = FileHandler(main_path)
+        self.__file_handler.unzip_files()
+
+    def set_audio_parameters(self, audio_parameters: dict):
+        &#34;&#34;&#34;Sets the audio parameters to a given dictionary.
+
+        **Args:**
+
+        `audio_parameters`: new dictionary to set.
+        &#34;&#34;&#34;
+        self.__audio_parameters = audio_parameters
+
+    def get_audio_parameters(self) -&gt; dict:
+        &#34;&#34;&#34;Getter for the `__audio_parameters` attribute.
+
+        **Returns:**
+
+        A `dict` containing the audio parameters.
+        &#34;&#34;&#34;
+        return self.__audio_parameters
+    
+    def get_audio_streams(self) -&gt; tuple:
+        &#34;&#34;&#34;Creates a new audio stream based on the audio parameters of the `SetupHandler`.
+        Specifically, it creates an input stream if the user chose to use live audio, or an output stream
+        if the user chose to use recorded audio and wants to hear the song while it&#39;s being processed.
+
+        **Returns:**
+
+        A `tuple` containing the input and output stream (`None` if they aren&#39;t created).
+        &#34;&#34;&#34;
+        params = self.__audio_parameters
+        in_stream = None
+        out_stream = None
+        pa = pyaudio.PyAudio()
+
+        if params[&#39;audioType&#39;] == &#34;l&#34;:
+            in_stream = pa.open(
+                format=params[&#39;sampleFormat&#39;],
+                channels=params[&#39;channels&#39;],
+                rate=params[&#39;sampleRate&#39;],
+                frames_per_buffer=params[&#39;chunkSize&#39;],
+                input_device_index=params[&#39;inputDeviceIndex&#39;],
+                input=True
+            )
+        
+        if params[&#39;audioPlayback&#39;]:
+            device = pa.get_default_output_device_info()
+            out_stream = pa.open(
+                rate=int(device[&#39;defaultSampleRate&#39;]),
+                channels=1,
+                format=pyaudio.paFloat32,
+                frames_per_buffer=params[&#39;chunkSize&#39;],
+                output=True
+            )
+
+        return in_stream, out_stream
+
+    def __get_user_input(self) -&gt; dict:
+        &#34;&#34;&#34;Wrapper for all the functions used to get the user input.
+
+        **Returns:**
+
+        A `dict` containing the user&#39;s choices.
+        &#34;&#34;&#34;
+        audio_type = self.__get_audio_type()
+        song_index = None
+        audio_playback = False
+        sound_card_index = None
+        instruments = None
+        if audio_type == &#34;r&#34;:
+            song_index = self.__get_song_index()
+            audio_playback = self.__get_audio_playback()
+            instruments = self.__get_instruments_for_tracks(self.__file_handler.get_number_of_tracks(song_index))
+        else:
+            sound_card_index = self.__get_sound_card_index()
+            instruments = self.__get_instruments_for_tracks(self.__get_sound_card_info(sound_card_index)[&#39;inChannels&#39;])
+        external_osc_controller = self.__get_using_external_osc_controller()
+
+        return {
+            &#39;audioType&#39;: audio_type,
+            &#39;songIndex&#39;: song_index,
+            &#39;soundCardIndex&#39;: sound_card_index,
+            &#39;externalOscController&#39;: external_osc_controller,
+            &#39;audioPlayback&#39;: audio_playback,
+            &#39;instruments&#39;: instruments
+        }    
+
+    def __print_console_error(self, string):
+        &#34;&#34;&#34;Prints red on the console if the user chose an unexisting option.
+
+        **Args:**
+
+        `string`: String to print on the console.
+        &#34;&#34;&#34;
+        print(&#39;\033[91m&#39;, string, &#39;\033[0m&#39;)
+
+    def __get_audio_type(self) -&gt; str:
+        &#34;&#34;&#34;Gets the type of audio from user input. It can be either `live` or `recorded`.
+
+        **Returns:**
+
+        A string that is either &#34;r&#34; or &#34;l&#34;.
+        &#34;&#34;&#34;
+        live = [&#34;l&#34;, &#34;live&#34;]
+        recorded = [&#34;r&#34;, &#34;recorded&#34;]
+
+        while True:
+            user_input = input(&#34;\nDo you want to use live or recorded audio? (l/r): &#34;).lower()
+            if user_input in live: return &#34;l&#34;
+            if user_input in recorded:return &#34;r&#34;
+            self.__print_console_error(&#34;Please select a valid type (type either \&#34;r\&#34; or \&#34;l\&#34;)&#34;)
+
+    def __get_song_index(self) -&gt; int:
+        &#34;&#34;&#34;Gets the index of the song used for recorded audio from user input.
+
+        **Returns:**
+
+        The index of the chosen song (depends on the number of available songs).
+        &#34;&#34;&#34;
+        file_handler = self.__file_handler
+        list_of_songs = file_handler.get_list_of_songs()
+        number_of_songs = file_handler.get_number_of_songs()
+
+        while True:
+            print(&#34;\n[Available Songs]&#34;)
+            for s in list_of_songs: 
+                print(s)
+            user_input = input(&#34;Please select one of the songs (type only the index): &#34;)
+            try:
+                user_input = int(user_input)  
+                if user_input &gt; 0 and user_input &lt;= number_of_songs:
+                    return user_input
+                self.__print_console_error(&#34;Please type only the number of the song you want to use (from 1 to &#34;+str(number_of_songs)+&#34;)&#34;)
+            except Exception:
+                self.__print_console_error(&#34;Please enter a valid number&#34;)
+
+    def __get_audio_playback(self) -&gt; bool:
+        &#34;&#34;&#34;Asks the user if he wants to hear the song that is being processed when using recorded audio.
+
+        **Returns:**
+
+        A `bool` set to `True` if the user wants to hear the song.
+        &#34;&#34;&#34;
+        yes = [&#39;y&#39;, &#39;yes&#39;]
+        no = [&#39;n&#39;, &#39;no&#39;]
+
+        while True:
+            user_input = input(&#34;\nDo you want to hear the song as its being processed? (y/n): &#34;)
+            if user_input in yes:
+                return True
+            if user_input in no:
+                return False
+            self.__print_console_error(&#34;Please input a valid string (\&#34;y\&#34;, \&#34;yes\&#34; or \&#34;n\&#34;, \&#34;no\&#34;)&#34;)
+
+    def __get_sound_card_index(self) -&gt; int:
+        &#34;&#34;&#34;Gets the sound card index for live audio from user input.
+
+        **Returns:**
+
+        The index of the chosen sound card (depends on the number of available sound cards).
+        &#34;&#34;&#34;
+
+        pa = pyaudio.PyAudio()
+        info = pa.get_host_api_info_by_index(0)
+        numdevices = info.get(&#39;deviceCount&#39;)
+        usable_devices = []
+        sound_card_list = []
+
+        for i in range(0, numdevices):
+            if (pa.get_device_info_by_host_api_device_index(0, i).get(&#39;maxInputChannels&#39;)) &gt; 0:
+                sound_card_list.append(&#34;(&#34;+str(i)+&#34;) &#34;+pa.get_device_info_by_host_api_device_index(0, i).get(&#39;name&#39;))
+                usable_devices.append(i)
+
+        while True:
+            print(&#34;\n[Available Input Soundcards]&#34;)
+            for s in sound_card_list:
+                print(s)
+            user_input = input(&#34;Please select your preferred input sound card (type only the index): &#34;)
+            try:
+                user_input = int(user_input)
+                if user_input in usable_devices:
+                    return user_input
+                self.__print_console_error(&#34;Please type only the number of the song you want to use (from 0 to &#34;+str(numdevices)+&#34;)&#34;)
+            except Exception:
+                self.__print_console_error(&#34;Please enter a valid number&#34;)
+
+    def __get_sound_card_info(self, sound_card_index) -&gt; dict:
+        &#34;&#34;&#34;Gets the info of a sound card given its index in the Host API using `PyAudio`.
+
+        **Returns:**
+
+        A dictionary containing the sound card&#39;s info.
+        &#34;&#34;&#34;
+        pa = pyaudio.PyAudio()
+        sound_card_info = pa.get_device_info_by_host_api_device_index(0, sound_card_index)
+        return {
+            &#39;sampleRate&#39;: int(sound_card_info[&#39;defaultSampleRate&#39;]),
+            &#39;inChannels&#39;: int(sound_card_info[&#39;maxInputChannels&#39;]),
+            &#39;outChannels&#39;: int(sound_card_info[&#39;maxOutputChannels&#39;])
+        }
+    
+    def __get_instruments_for_tracks(self, channels) -&gt; list:
+        &#34;&#34;&#34;Gets the instruments for each of the tracks.
+
+        **Returns:**
+
+        A `list` containing an instrument type for each track.
+        &#34;&#34;&#34;
+        confirm = [&#34;&#34;, &#34;y&#34;, &#34;yes&#34;, &#34;c&#34;, &#34;confirm&#34;]
+        instruments = []
+        for _ in range(channels): 
+            instruments.append(Instruments.DEFAULT)
+
+        while True:
+            print(&#34;\n===== INSTRUMENTS SELECTION =====&#34;)
+            for i in range(len(instruments)):
+                print(&#34;(&#34;+str(i)+&#34;) &#34;+instruments[i].get_string())
+            track_number = input(&#34;Choose the track for which you want to assign an instrument (from 0 to &#34;+str(channels-1)+&#34;, leave blank to save): &#34;)
+
+            if track_number in confirm: return instruments
+
+            try:
+                track_number = int(track_number)
+            except Exception:
+                self.__print_console_error(&#34;Please select a valid track&#34;)
+                continue
+
+            if track_number &lt; 0 or track_number &gt; channels-1:
+                self.__print_console_error(&#34;Please select a valid track&#34;)
+                continue
+
+            print(&#34;\n== Available Instruments ==&#34;)
+            for i in Instruments:
+                print(&#34;(&#34;+str(i.value)+&#34;) &#34;+i.name)
+            inst_index = input(&#34;Choose an instrument for track &#34;+str(track_number)+&#34; (type only the corresponding index): &#34;)
+
+            try:
+                instrument = Instruments.from_index(int(inst_index))
+            except Exception:
+                self.__print_console_error(&#34;Please select a valid instrument&#34;)
+                continue
+            
+            instruments[track_number] = instrument
+
+    def __get_using_external_osc_controller(self) -&gt; bool:
+        &#34;&#34;&#34;Asks the user if he wants to use an external osc controller.
+
+        **Returns:**
+
+        A `bool` set to `True` if the user wants to use an external osc controller
+        &#34;&#34;&#34;
+
+        yes = [&#34;y&#34;, &#34;yes&#34;]
+        no = [&#34;n&#34;, &#34;no&#34;]
+
+        while True:
+            user_input = input(&#34;\nUsing external osc controller? (y/n): &#34;)
+            if user_input in yes:
+                return True
+            if user_input in no:
+                return False
+            self.__print_console_error(&#34;Please input a valid string (\&#34;y\&#34;, \&#34;yes\&#34; or \&#34;n\&#34;, \&#34;no\&#34;)&#34;)
+
+    def __get_numpy_format(self, pyaudio_sample_format: int):
+        &#34;&#34;&#34;Returns the corresponding `numpy` format to a given `pyaudio` format.
+
+        **Args:**
+
+        `pyaudio_sample_format`: pyaudio format.
+        &#34;&#34;&#34;
+        if pyaudio_sample_format == pyaudio.paInt16:
+            return np.int16
+        if pyaudio_sample_format == pyaudio.paInt32:
+            return np.int32
+        if pyaudio_sample_format == pyaudio.paFloat32:
+            return np.float32
+        raise SetupException(&#34;Incompatible Sample Format&#34;)
+
+
+class FileHandler:
+    &#34;&#34;&#34;Handles files, specifically those related to the recorded songs wavs and zips.
+    &#34;&#34;&#34;
+
+    def __init__(self, main_path: str):
+        &#34;&#34;&#34;Creates a new `FileHandler` and sets the path for the zips folder and
+        unzipped songs folder.
+
+        **Args:**
+
+        `main_path`: Path of the main script from which the relative paths of resources are calculated.
+        &#34;&#34;&#34;
+        self._source_folder_path = os.path.join(main_path, &#34;resources/test_songs&#34;)
+        self._dest_folder_path = os.path.join(main_path, &#34;resources/test_songs_unzipped&#34;)
+        self._zip_extension = &#34;.zip&#34;
+        self._number_of_songs = 0
+        self._song_index_to_path_dict = {}
+
+    def unzip_files(self):
+        &#34;&#34;&#34;Unzips any zip file found in the `resources/test_songs` folder. If the zip file has already been
+        unzipped, it skips it.
+
+        **Raises:**
+
+        `FileHandlingException` if there are no .zip files in the songs folder.
+        &#34;&#34;&#34;
+        for item in os.listdir(self._source_folder_path):
+            if item.endswith(self._zip_extension):
+                self._number_of_songs += 1
+                path_to_zip_file = self._source_folder_path + &#34;/&#34; + item
+                path_to_unzipped_file = self._dest_folder_path + &#34;/&#34; + item
+                path_to_unzipped_file = path_to_unzipped_file[:len(path_to_unzipped_file)-4]
+                self._song_index_to_path_dict[self._number_of_songs] = path_to_unzipped_file
+                if os.path.isdir(path_to_unzipped_file): continue
+                with zipfile.ZipFile(path_to_zip_file, &#34;r&#34;) as zip:
+                    zip.extractall(self._dest_folder_path)
+        if self._number_of_songs == 0:
+            raise FileHandlingException(&#34;No files to unzip&#34;)
+
+    def get_tracks(self, song_index: int) -&gt; tuple:
+        &#34;&#34;&#34;Gets all the tracks of a song as numpy arrays, ready to be processed.
+        Each track has its own stereo .wav file, so each file has to be read separately and converted
+        to mono.
+
+        **Args:**
+
+        `song_index`: Index of the song of which to get the tracks.
+
+        **Returns:**
+
+        A `list` of `np.ndarray` containing the tracks and the sample rate of the wave file read (assuming all files of
+        the song have the same sample rate).
+        &#34;&#34;&#34;
+        path = self._song_index_to_path_dict.get(song_index)
+        tracks = []
+        sr = 44100
+
+        for filename in glob.glob(os.path.join(path, &#39;*.mp3&#39;)):
+            track_array, sr = librosa.load(filename, sr=44100, mono=True)
+            tracks.append(track_array)
+
+        for filename in glob.glob(os.path.join(path, &#39;*.wav&#39;)):
+            track_array, sr = librosa.load(filename, sr=44100, mono=True)
+            tracks.append(track_array)
+
+        return tracks, sr
+    
+    def get_number_of_tracks(self, song_index: int) -&gt; int:
+        &#34;&#34;&#34;Gets the number of tracks given the index of a song.
+
+        **Args:**
+
+        `song_index`: Index of the song of which to get the number of tracks.
+
+        **Returns:**
+
+        The number of tracks of a song.
+        &#34;&#34;&#34;
+        path = self._song_index_to_path_dict.get(song_index)
+        track_counter = 0
+
+        for _ in glob.glob(os.path.join(path, &#39;*.mp3&#39;)):
+            track_counter += 1
+
+        for _ in glob.glob(os.path.join(path, &#39;*.wav&#39;)):
+            track_counter += 1
+
+        return track_counter
+
+    def get_list_of_songs(self):
+        &#34;&#34;&#34;Gets the list of available songs so that the user can choose the one he prefers.
+
+        **Returns:**
+
+        A `list` of strings containing the name if the songs and their indexes.
+
+        **Raises:**
+
+        `FileHandlingException`: if no songs have been found.
+        &#34;&#34;&#34;
+        list_of_test_songs = []
+        for key in self._song_index_to_path_dict.keys():
+            song_name = self._song_index_to_path_dict[key].replace(self._dest_folder_path+&#34;/&#34;, &#39;&#39;)
+            list_of_test_songs.append(&#34;(&#34;+str(key) + &#34;) &#34; + song_name)
+        if len(list_of_test_songs) == 0:
+            raise FileHandlingException(&#34;No songs found&#34;)
+        return list_of_test_songs
+
+    def get_number_of_songs(self) -&gt; int:
+        &#34;&#34;&#34;Getter for the `_number_of_songs` attribute.
+
+        **Returns:**
+
+        The number of songs.
+        &#34;&#34;&#34;
+        return self._number_of_songs
+
+    def get_source_folder_path(self) -&gt; str:
+        &#34;&#34;&#34;Getter for the `_source_folder_path` attribute.
+
+        **Returns:**
+
+        The path of the `src` folder.
+        &#34;&#34;&#34;
+        return self._source_folder_path
+    
+    def get_dest_folder_path(self) -&gt; str:
+        &#34;&#34;&#34;Getter for the `_dest_folder_path` attribute.
+
+        **Returns:**
+
+        The path in which to put the unzipped files.
+        &#34;&#34;&#34;
+        return self._dest_folder_path</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="setup.FileHandler"><code class="flex name class">
+<span>class <span class="ident">FileHandler</span></span>
+<span>(</span><span>main_path: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Handles files, specifically those related to the recorded songs wavs and zips.</p>
+<p>Creates a new <code><a title="setup.FileHandler" href="#setup.FileHandler">FileHandler</a></code> and sets the path for the zips folder and
+unzipped songs folder.</p>
+<p><strong>Args:</strong></p>
+<p><code>main_path</code>: Path of the main script from which the relative paths of resources are calculated.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FileHandler:
+    &#34;&#34;&#34;Handles files, specifically those related to the recorded songs wavs and zips.
+    &#34;&#34;&#34;
+
+    def __init__(self, main_path: str):
+        &#34;&#34;&#34;Creates a new `FileHandler` and sets the path for the zips folder and
+        unzipped songs folder.
+
+        **Args:**
+
+        `main_path`: Path of the main script from which the relative paths of resources are calculated.
+        &#34;&#34;&#34;
+        self._source_folder_path = os.path.join(main_path, &#34;resources/test_songs&#34;)
+        self._dest_folder_path = os.path.join(main_path, &#34;resources/test_songs_unzipped&#34;)
+        self._zip_extension = &#34;.zip&#34;
+        self._number_of_songs = 0
+        self._song_index_to_path_dict = {}
+
+    def unzip_files(self):
+        &#34;&#34;&#34;Unzips any zip file found in the `resources/test_songs` folder. If the zip file has already been
+        unzipped, it skips it.
+
+        **Raises:**
+
+        `FileHandlingException` if there are no .zip files in the songs folder.
+        &#34;&#34;&#34;
+        for item in os.listdir(self._source_folder_path):
+            if item.endswith(self._zip_extension):
+                self._number_of_songs += 1
+                path_to_zip_file = self._source_folder_path + &#34;/&#34; + item
+                path_to_unzipped_file = self._dest_folder_path + &#34;/&#34; + item
+                path_to_unzipped_file = path_to_unzipped_file[:len(path_to_unzipped_file)-4]
+                self._song_index_to_path_dict[self._number_of_songs] = path_to_unzipped_file
+                if os.path.isdir(path_to_unzipped_file): continue
+                with zipfile.ZipFile(path_to_zip_file, &#34;r&#34;) as zip:
+                    zip.extractall(self._dest_folder_path)
+        if self._number_of_songs == 0:
+            raise FileHandlingException(&#34;No files to unzip&#34;)
+
+    def get_tracks(self, song_index: int) -&gt; tuple:
+        &#34;&#34;&#34;Gets all the tracks of a song as numpy arrays, ready to be processed.
+        Each track has its own stereo .wav file, so each file has to be read separately and converted
+        to mono.
+
+        **Args:**
+
+        `song_index`: Index of the song of which to get the tracks.
+
+        **Returns:**
+
+        A `list` of `np.ndarray` containing the tracks and the sample rate of the wave file read (assuming all files of
+        the song have the same sample rate).
+        &#34;&#34;&#34;
+        path = self._song_index_to_path_dict.get(song_index)
+        tracks = []
+        sr = 44100
+
+        for filename in glob.glob(os.path.join(path, &#39;*.mp3&#39;)):
+            track_array, sr = librosa.load(filename, sr=44100, mono=True)
+            tracks.append(track_array)
+
+        for filename in glob.glob(os.path.join(path, &#39;*.wav&#39;)):
+            track_array, sr = librosa.load(filename, sr=44100, mono=True)
+            tracks.append(track_array)
+
+        return tracks, sr
+    
+    def get_number_of_tracks(self, song_index: int) -&gt; int:
+        &#34;&#34;&#34;Gets the number of tracks given the index of a song.
+
+        **Args:**
+
+        `song_index`: Index of the song of which to get the number of tracks.
+
+        **Returns:**
+
+        The number of tracks of a song.
+        &#34;&#34;&#34;
+        path = self._song_index_to_path_dict.get(song_index)
+        track_counter = 0
+
+        for _ in glob.glob(os.path.join(path, &#39;*.mp3&#39;)):
+            track_counter += 1
+
+        for _ in glob.glob(os.path.join(path, &#39;*.wav&#39;)):
+            track_counter += 1
+
+        return track_counter
+
+    def get_list_of_songs(self):
+        &#34;&#34;&#34;Gets the list of available songs so that the user can choose the one he prefers.
+
+        **Returns:**
+
+        A `list` of strings containing the name if the songs and their indexes.
+
+        **Raises:**
+
+        `FileHandlingException`: if no songs have been found.
+        &#34;&#34;&#34;
+        list_of_test_songs = []
+        for key in self._song_index_to_path_dict.keys():
+            song_name = self._song_index_to_path_dict[key].replace(self._dest_folder_path+&#34;/&#34;, &#39;&#39;)
+            list_of_test_songs.append(&#34;(&#34;+str(key) + &#34;) &#34; + song_name)
+        if len(list_of_test_songs) == 0:
+            raise FileHandlingException(&#34;No songs found&#34;)
+        return list_of_test_songs
+
+    def get_number_of_songs(self) -&gt; int:
+        &#34;&#34;&#34;Getter for the `_number_of_songs` attribute.
+
+        **Returns:**
+
+        The number of songs.
+        &#34;&#34;&#34;
+        return self._number_of_songs
+
+    def get_source_folder_path(self) -&gt; str:
+        &#34;&#34;&#34;Getter for the `_source_folder_path` attribute.
+
+        **Returns:**
+
+        The path of the `src` folder.
+        &#34;&#34;&#34;
+        return self._source_folder_path
+    
+    def get_dest_folder_path(self) -&gt; str:
+        &#34;&#34;&#34;Getter for the `_dest_folder_path` attribute.
+
+        **Returns:**
+
+        The path in which to put the unzipped files.
+        &#34;&#34;&#34;
+        return self._dest_folder_path</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="setup.FileHandler.get_dest_folder_path"><code class="name flex">
+<span>def <span class="ident">get_dest_folder_path</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Getter for the <code>_dest_folder_path</code> attribute.</p>
+<p><strong>Returns:</strong></p>
+<p>The path in which to put the unzipped files.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_dest_folder_path(self) -&gt; str:
+    &#34;&#34;&#34;Getter for the `_dest_folder_path` attribute.
+
+    **Returns:**
+
+    The path in which to put the unzipped files.
+    &#34;&#34;&#34;
+    return self._dest_folder_path</code></pre>
+</details>
+</dd>
+<dt id="setup.FileHandler.get_list_of_songs"><code class="name flex">
+<span>def <span class="ident">get_list_of_songs</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the list of available songs so that the user can choose the one he prefers.</p>
+<p><strong>Returns:</strong></p>
+<p>A <code>list</code> of strings containing the name if the songs and their indexes.</p>
+<p><strong>Raises:</strong></p>
+<p><code>FileHandlingException</code>: if no songs have been found.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_list_of_songs(self):
+    &#34;&#34;&#34;Gets the list of available songs so that the user can choose the one he prefers.
+
+    **Returns:**
+
+    A `list` of strings containing the name if the songs and their indexes.
+
+    **Raises:**
+
+    `FileHandlingException`: if no songs have been found.
+    &#34;&#34;&#34;
+    list_of_test_songs = []
+    for key in self._song_index_to_path_dict.keys():
+        song_name = self._song_index_to_path_dict[key].replace(self._dest_folder_path+&#34;/&#34;, &#39;&#39;)
+        list_of_test_songs.append(&#34;(&#34;+str(key) + &#34;) &#34; + song_name)
+    if len(list_of_test_songs) == 0:
+        raise FileHandlingException(&#34;No songs found&#34;)
+    return list_of_test_songs</code></pre>
+</details>
+</dd>
+<dt id="setup.FileHandler.get_number_of_songs"><code class="name flex">
+<span>def <span class="ident">get_number_of_songs</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Getter for the <code>_number_of_songs</code> attribute.</p>
+<p><strong>Returns:</strong></p>
+<p>The number of songs.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_number_of_songs(self) -&gt; int:
+    &#34;&#34;&#34;Getter for the `_number_of_songs` attribute.
+
+    **Returns:**
+
+    The number of songs.
+    &#34;&#34;&#34;
+    return self._number_of_songs</code></pre>
+</details>
+</dd>
+<dt id="setup.FileHandler.get_number_of_tracks"><code class="name flex">
+<span>def <span class="ident">get_number_of_tracks</span></span>(<span>self, song_index: int) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the number of tracks given the index of a song.</p>
+<p><strong>Args:</strong></p>
+<p><code>song_index</code>: Index of the song of which to get the number of tracks.</p>
+<p><strong>Returns:</strong></p>
+<p>The number of tracks of a song.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_number_of_tracks(self, song_index: int) -&gt; int:
+    &#34;&#34;&#34;Gets the number of tracks given the index of a song.
+
+    **Args:**
+
+    `song_index`: Index of the song of which to get the number of tracks.
+
+    **Returns:**
+
+    The number of tracks of a song.
+    &#34;&#34;&#34;
+    path = self._song_index_to_path_dict.get(song_index)
+    track_counter = 0
+
+    for _ in glob.glob(os.path.join(path, &#39;*.mp3&#39;)):
+        track_counter += 1
+
+    for _ in glob.glob(os.path.join(path, &#39;*.wav&#39;)):
+        track_counter += 1
+
+    return track_counter</code></pre>
+</details>
+</dd>
+<dt id="setup.FileHandler.get_source_folder_path"><code class="name flex">
+<span>def <span class="ident">get_source_folder_path</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Getter for the <code>_source_folder_path</code> attribute.</p>
+<p><strong>Returns:</strong></p>
+<p>The path of the <code>src</code> folder.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_source_folder_path(self) -&gt; str:
+    &#34;&#34;&#34;Getter for the `_source_folder_path` attribute.
+
+    **Returns:**
+
+    The path of the `src` folder.
+    &#34;&#34;&#34;
+    return self._source_folder_path</code></pre>
+</details>
+</dd>
+<dt id="setup.FileHandler.get_tracks"><code class="name flex">
+<span>def <span class="ident">get_tracks</span></span>(<span>self, song_index: int) ‑> tuple</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets all the tracks of a song as numpy arrays, ready to be processed.
+Each track has its own stereo .wav file, so each file has to be read separately and converted
+to mono.</p>
+<p><strong>Args:</strong></p>
+<p><code>song_index</code>: Index of the song of which to get the tracks.</p>
+<p><strong>Returns:</strong></p>
+<p>A <code>list</code> of <code>np.ndarray</code> containing the tracks and the sample rate of the wave file read (assuming all files of
+the song have the same sample rate).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_tracks(self, song_index: int) -&gt; tuple:
+    &#34;&#34;&#34;Gets all the tracks of a song as numpy arrays, ready to be processed.
+    Each track has its own stereo .wav file, so each file has to be read separately and converted
+    to mono.
+
+    **Args:**
+
+    `song_index`: Index of the song of which to get the tracks.
+
+    **Returns:**
+
+    A `list` of `np.ndarray` containing the tracks and the sample rate of the wave file read (assuming all files of
+    the song have the same sample rate).
+    &#34;&#34;&#34;
+    path = self._song_index_to_path_dict.get(song_index)
+    tracks = []
+    sr = 44100
+
+    for filename in glob.glob(os.path.join(path, &#39;*.mp3&#39;)):
+        track_array, sr = librosa.load(filename, sr=44100, mono=True)
+        tracks.append(track_array)
+
+    for filename in glob.glob(os.path.join(path, &#39;*.wav&#39;)):
+        track_array, sr = librosa.load(filename, sr=44100, mono=True)
+        tracks.append(track_array)
+
+    return tracks, sr</code></pre>
+</details>
+</dd>
+<dt id="setup.FileHandler.unzip_files"><code class="name flex">
+<span>def <span class="ident">unzip_files</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Unzips any zip file found in the <code>resources/test_songs</code> folder. If the zip file has already been
+unzipped, it skips it.</p>
+<p><strong>Raises:</strong></p>
+<p><code>FileHandlingException</code> if there are no .zip files in the songs folder.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def unzip_files(self):
+    &#34;&#34;&#34;Unzips any zip file found in the `resources/test_songs` folder. If the zip file has already been
+    unzipped, it skips it.
+
+    **Raises:**
+
+    `FileHandlingException` if there are no .zip files in the songs folder.
+    &#34;&#34;&#34;
+    for item in os.listdir(self._source_folder_path):
+        if item.endswith(self._zip_extension):
+            self._number_of_songs += 1
+            path_to_zip_file = self._source_folder_path + &#34;/&#34; + item
+            path_to_unzipped_file = self._dest_folder_path + &#34;/&#34; + item
+            path_to_unzipped_file = path_to_unzipped_file[:len(path_to_unzipped_file)-4]
+            self._song_index_to_path_dict[self._number_of_songs] = path_to_unzipped_file
+            if os.path.isdir(path_to_unzipped_file): continue
+            with zipfile.ZipFile(path_to_zip_file, &#34;r&#34;) as zip:
+                zip.extractall(self._dest_folder_path)
+    if self._number_of_songs == 0:
+        raise FileHandlingException(&#34;No files to unzip&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="setup.SetupHandler"><code class="flex name class">
+<span>class <span class="ident">SetupHandler</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Singleton that handles the setup phase of the application and stores audio parameters.</p>
+<p>Constructor to not be accessed directly (Singleton pattern).
+It initializes the <code><a title="setup.FileHandler" href="#setup.FileHandler">FileHandler</a></code> to <code>None</code> and creates an empty <code>dict</code> that will contain the audio parameters.</p>
+<p><strong>Class Attributes:</strong></p>
+<p><code>__main_path</code>: Absolute path from root of the <code>src</code> folder from which to gather files.</p>
+<p><code>__file_handler</code>: Object to handle file reads and writes.</p>
+<p><code>__audio_producer</code>: Object used to produce audio in chunks.</p>
+<p><code>__audio_parameters</code>: Audio parameters used for processing and during setup.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SetupHandler:
+    &#34;&#34;&#34;Singleton that handles the setup phase of the application and stores audio parameters.
+    &#34;&#34;&#34;
+    __instance = None
+
+    def __init__(self):
+        &#34;&#34;&#34;Constructor to not be accessed directly (Singleton pattern).
+        It initializes the `FileHandler` to `None` and creates an empty `dict` that will contain the audio parameters.
+
+        **Class Attributes:**
+
+        `__main_path`: Absolute path from root of the `src` folder from which to gather files.
+
+        `__file_handler`: Object to handle file reads and writes.
+
+        `__audio_producer`: Object used to produce audio in chunks.
+
+        `__audio_parameters`: Audio parameters used for processing and during setup.
+        &#34;&#34;&#34;
+        if SetupHandler.__instance is not None:
+            raise SingletonException(&#34;Tried to instantiate more than one SetupHandler object&#34;)
+        SetupHandler.__instance = self
+
+        self.__main_path = None
+        self.__file_handler = None
+        self.__audio_producer = None
+        self.__audio_parameters = {}
+        self.__audio_parameters = {**self.__audio_parameters, **AUDIO_PROCESSING_PARAMETERS}
+
+    @staticmethod
+    def get_instance() -&gt; SetupHandler:
+        &#34;&#34;&#34;Returns the instance of the singleton, creating it if the method has never been called before.
+
+        **Returns:**
+
+        The currently running class instance.
+        &#34;&#34;&#34;
+        if SetupHandler.__instance is None:
+            SetupHandler()
+        return SetupHandler.__instance
+    
+    def setup(self) -&gt; dict:
+        &#34;&#34;&#34;Gets the info needed as user input and fills the audio parameters dictionary accordingly,
+        along with `AudioProducer` object. See the specific private input functions of
+        this class for more info about the user input.
+
+        **Returns:**
+
+        The audio parameters dictionary filled according to user input.
+        &#34;&#34;&#34;
+        user_input = self.__get_user_input()
+        audio_type = user_input[&#39;audioType&#39;]
+        self.__audio_parameters[&#39;mainPath&#39;] = self.__main_path
+        self.__audio_parameters[&#39;audioType&#39;] = audio_type
+        self.__audio_parameters[&#39;sampleFormat&#39;] = pyaudio.paFloat32
+        self.__audio_parameters[&#39;npFormat&#39;] = self.__get_numpy_format(pyaudio.paFloat32)
+        self.__audio_parameters[&#39;instruments&#39;] = user_input[&#39;instruments&#39;]
+
+        if audio_type == &#34;r&#34;:
+            tracks, sr = self.__file_handler.get_tracks(user_input[&#39;songIndex&#39;])
+            self.__audio_parameters[&#39;tracks&#39;] = tracks
+            self.__audio_parameters[&#39;sampleRate&#39;] = sr
+            self.__audio_parameters[&#39;channels&#39;] = len(tracks)
+            self.__audio_parameters[&#39;audioPlayback&#39;] = user_input[&#39;audioPlayback&#39;]
+            self.__audio_producer = RecordedAudioProducer(self.__audio_parameters)
+        elif audio_type == &#34;l&#34;:
+            sound_card_info = self.__get_sound_card_info(user_input[&#39;soundCardIndex&#39;])
+            self.__audio_parameters[&#39;inputDeviceIndex&#39;] = user_input[&#39;soundCardIndex&#39;]
+            self.__audio_parameters[&#39;sampleRate&#39;] = 44100
+            self.__audio_parameters[&#39;channels&#39;] = sound_card_info[&#39;inChannels&#39;]
+            self.__audio_parameters[&#39;audioPlayback&#39;] = False
+            self.__audio_producer = LiveAudioProducer(self.__audio_parameters)
+        else:
+            raise SetupException(&#34;Unrecognized audio type (was &#34;+audio_type+&#34;)&#34;)
+
+        return self.__audio_parameters
+
+    def get_audio_producer(self) -&gt; AudioProducer:
+        &#34;&#34;&#34;Getter for the `__audio_producer` attribute.
+
+        **Returns:**
+
+        The `AudioProducer` object attribute.
+        &#34;&#34;&#34;
+        return self.__audio_producer
+    
+    def set_main_path(self, main_path: str) -&gt; None:
+        &#34;&#34;&#34;Creates the `FileHandler` instance with a given string path. The path has to be fed by the main script as it
+        is the point from here each relative path is calculated (see `FileHandler` docs for more info).
+
+        **Args:**
+
+        `main_path`: Path of the `src` folder.
+        &#34;&#34;&#34;
+        self.__main_path = main_path
+        self.__file_handler = FileHandler(main_path)
+        self.__file_handler.unzip_files()
+
+    def set_audio_parameters(self, audio_parameters: dict):
+        &#34;&#34;&#34;Sets the audio parameters to a given dictionary.
+
+        **Args:**
+
+        `audio_parameters`: new dictionary to set.
+        &#34;&#34;&#34;
+        self.__audio_parameters = audio_parameters
+
+    def get_audio_parameters(self) -&gt; dict:
+        &#34;&#34;&#34;Getter for the `__audio_parameters` attribute.
+
+        **Returns:**
+
+        A `dict` containing the audio parameters.
+        &#34;&#34;&#34;
+        return self.__audio_parameters
+    
+    def get_audio_streams(self) -&gt; tuple:
+        &#34;&#34;&#34;Creates a new audio stream based on the audio parameters of the `SetupHandler`.
+        Specifically, it creates an input stream if the user chose to use live audio, or an output stream
+        if the user chose to use recorded audio and wants to hear the song while it&#39;s being processed.
+
+        **Returns:**
+
+        A `tuple` containing the input and output stream (`None` if they aren&#39;t created).
+        &#34;&#34;&#34;
+        params = self.__audio_parameters
+        in_stream = None
+        out_stream = None
+        pa = pyaudio.PyAudio()
+
+        if params[&#39;audioType&#39;] == &#34;l&#34;:
+            in_stream = pa.open(
+                format=params[&#39;sampleFormat&#39;],
+                channels=params[&#39;channels&#39;],
+                rate=params[&#39;sampleRate&#39;],
+                frames_per_buffer=params[&#39;chunkSize&#39;],
+                input_device_index=params[&#39;inputDeviceIndex&#39;],
+                input=True
+            )
+        
+        if params[&#39;audioPlayback&#39;]:
+            device = pa.get_default_output_device_info()
+            out_stream = pa.open(
+                rate=int(device[&#39;defaultSampleRate&#39;]),
+                channels=1,
+                format=pyaudio.paFloat32,
+                frames_per_buffer=params[&#39;chunkSize&#39;],
+                output=True
+            )
+
+        return in_stream, out_stream
+
+    def __get_user_input(self) -&gt; dict:
+        &#34;&#34;&#34;Wrapper for all the functions used to get the user input.
+
+        **Returns:**
+
+        A `dict` containing the user&#39;s choices.
+        &#34;&#34;&#34;
+        audio_type = self.__get_audio_type()
+        song_index = None
+        audio_playback = False
+        sound_card_index = None
+        instruments = None
+        if audio_type == &#34;r&#34;:
+            song_index = self.__get_song_index()
+            audio_playback = self.__get_audio_playback()
+            instruments = self.__get_instruments_for_tracks(self.__file_handler.get_number_of_tracks(song_index))
+        else:
+            sound_card_index = self.__get_sound_card_index()
+            instruments = self.__get_instruments_for_tracks(self.__get_sound_card_info(sound_card_index)[&#39;inChannels&#39;])
+        external_osc_controller = self.__get_using_external_osc_controller()
+
+        return {
+            &#39;audioType&#39;: audio_type,
+            &#39;songIndex&#39;: song_index,
+            &#39;soundCardIndex&#39;: sound_card_index,
+            &#39;externalOscController&#39;: external_osc_controller,
+            &#39;audioPlayback&#39;: audio_playback,
+            &#39;instruments&#39;: instruments
+        }    
+
+    def __print_console_error(self, string):
+        &#34;&#34;&#34;Prints red on the console if the user chose an unexisting option.
+
+        **Args:**
+
+        `string`: String to print on the console.
+        &#34;&#34;&#34;
+        print(&#39;\033[91m&#39;, string, &#39;\033[0m&#39;)
+
+    def __get_audio_type(self) -&gt; str:
+        &#34;&#34;&#34;Gets the type of audio from user input. It can be either `live` or `recorded`.
+
+        **Returns:**
+
+        A string that is either &#34;r&#34; or &#34;l&#34;.
+        &#34;&#34;&#34;
+        live = [&#34;l&#34;, &#34;live&#34;]
+        recorded = [&#34;r&#34;, &#34;recorded&#34;]
+
+        while True:
+            user_input = input(&#34;\nDo you want to use live or recorded audio? (l/r): &#34;).lower()
+            if user_input in live: return &#34;l&#34;
+            if user_input in recorded:return &#34;r&#34;
+            self.__print_console_error(&#34;Please select a valid type (type either \&#34;r\&#34; or \&#34;l\&#34;)&#34;)
+
+    def __get_song_index(self) -&gt; int:
+        &#34;&#34;&#34;Gets the index of the song used for recorded audio from user input.
+
+        **Returns:**
+
+        The index of the chosen song (depends on the number of available songs).
+        &#34;&#34;&#34;
+        file_handler = self.__file_handler
+        list_of_songs = file_handler.get_list_of_songs()
+        number_of_songs = file_handler.get_number_of_songs()
+
+        while True:
+            print(&#34;\n[Available Songs]&#34;)
+            for s in list_of_songs: 
+                print(s)
+            user_input = input(&#34;Please select one of the songs (type only the index): &#34;)
+            try:
+                user_input = int(user_input)  
+                if user_input &gt; 0 and user_input &lt;= number_of_songs:
+                    return user_input
+                self.__print_console_error(&#34;Please type only the number of the song you want to use (from 1 to &#34;+str(number_of_songs)+&#34;)&#34;)
+            except Exception:
+                self.__print_console_error(&#34;Please enter a valid number&#34;)
+
+    def __get_audio_playback(self) -&gt; bool:
+        &#34;&#34;&#34;Asks the user if he wants to hear the song that is being processed when using recorded audio.
+
+        **Returns:**
+
+        A `bool` set to `True` if the user wants to hear the song.
+        &#34;&#34;&#34;
+        yes = [&#39;y&#39;, &#39;yes&#39;]
+        no = [&#39;n&#39;, &#39;no&#39;]
+
+        while True:
+            user_input = input(&#34;\nDo you want to hear the song as its being processed? (y/n): &#34;)
+            if user_input in yes:
+                return True
+            if user_input in no:
+                return False
+            self.__print_console_error(&#34;Please input a valid string (\&#34;y\&#34;, \&#34;yes\&#34; or \&#34;n\&#34;, \&#34;no\&#34;)&#34;)
+
+    def __get_sound_card_index(self) -&gt; int:
+        &#34;&#34;&#34;Gets the sound card index for live audio from user input.
+
+        **Returns:**
+
+        The index of the chosen sound card (depends on the number of available sound cards).
+        &#34;&#34;&#34;
+
+        pa = pyaudio.PyAudio()
+        info = pa.get_host_api_info_by_index(0)
+        numdevices = info.get(&#39;deviceCount&#39;)
+        usable_devices = []
+        sound_card_list = []
+
+        for i in range(0, numdevices):
+            if (pa.get_device_info_by_host_api_device_index(0, i).get(&#39;maxInputChannels&#39;)) &gt; 0:
+                sound_card_list.append(&#34;(&#34;+str(i)+&#34;) &#34;+pa.get_device_info_by_host_api_device_index(0, i).get(&#39;name&#39;))
+                usable_devices.append(i)
+
+        while True:
+            print(&#34;\n[Available Input Soundcards]&#34;)
+            for s in sound_card_list:
+                print(s)
+            user_input = input(&#34;Please select your preferred input sound card (type only the index): &#34;)
+            try:
+                user_input = int(user_input)
+                if user_input in usable_devices:
+                    return user_input
+                self.__print_console_error(&#34;Please type only the number of the song you want to use (from 0 to &#34;+str(numdevices)+&#34;)&#34;)
+            except Exception:
+                self.__print_console_error(&#34;Please enter a valid number&#34;)
+
+    def __get_sound_card_info(self, sound_card_index) -&gt; dict:
+        &#34;&#34;&#34;Gets the info of a sound card given its index in the Host API using `PyAudio`.
+
+        **Returns:**
+
+        A dictionary containing the sound card&#39;s info.
+        &#34;&#34;&#34;
+        pa = pyaudio.PyAudio()
+        sound_card_info = pa.get_device_info_by_host_api_device_index(0, sound_card_index)
+        return {
+            &#39;sampleRate&#39;: int(sound_card_info[&#39;defaultSampleRate&#39;]),
+            &#39;inChannels&#39;: int(sound_card_info[&#39;maxInputChannels&#39;]),
+            &#39;outChannels&#39;: int(sound_card_info[&#39;maxOutputChannels&#39;])
+        }
+    
+    def __get_instruments_for_tracks(self, channels) -&gt; list:
+        &#34;&#34;&#34;Gets the instruments for each of the tracks.
+
+        **Returns:**
+
+        A `list` containing an instrument type for each track.
+        &#34;&#34;&#34;
+        confirm = [&#34;&#34;, &#34;y&#34;, &#34;yes&#34;, &#34;c&#34;, &#34;confirm&#34;]
+        instruments = []
+        for _ in range(channels): 
+            instruments.append(Instruments.DEFAULT)
+
+        while True:
+            print(&#34;\n===== INSTRUMENTS SELECTION =====&#34;)
+            for i in range(len(instruments)):
+                print(&#34;(&#34;+str(i)+&#34;) &#34;+instruments[i].get_string())
+            track_number = input(&#34;Choose the track for which you want to assign an instrument (from 0 to &#34;+str(channels-1)+&#34;, leave blank to save): &#34;)
+
+            if track_number in confirm: return instruments
+
+            try:
+                track_number = int(track_number)
+            except Exception:
+                self.__print_console_error(&#34;Please select a valid track&#34;)
+                continue
+
+            if track_number &lt; 0 or track_number &gt; channels-1:
+                self.__print_console_error(&#34;Please select a valid track&#34;)
+                continue
+
+            print(&#34;\n== Available Instruments ==&#34;)
+            for i in Instruments:
+                print(&#34;(&#34;+str(i.value)+&#34;) &#34;+i.name)
+            inst_index = input(&#34;Choose an instrument for track &#34;+str(track_number)+&#34; (type only the corresponding index): &#34;)
+
+            try:
+                instrument = Instruments.from_index(int(inst_index))
+            except Exception:
+                self.__print_console_error(&#34;Please select a valid instrument&#34;)
+                continue
+            
+            instruments[track_number] = instrument
+
+    def __get_using_external_osc_controller(self) -&gt; bool:
+        &#34;&#34;&#34;Asks the user if he wants to use an external osc controller.
+
+        **Returns:**
+
+        A `bool` set to `True` if the user wants to use an external osc controller
+        &#34;&#34;&#34;
+
+        yes = [&#34;y&#34;, &#34;yes&#34;]
+        no = [&#34;n&#34;, &#34;no&#34;]
+
+        while True:
+            user_input = input(&#34;\nUsing external osc controller? (y/n): &#34;)
+            if user_input in yes:
+                return True
+            if user_input in no:
+                return False
+            self.__print_console_error(&#34;Please input a valid string (\&#34;y\&#34;, \&#34;yes\&#34; or \&#34;n\&#34;, \&#34;no\&#34;)&#34;)
+
+    def __get_numpy_format(self, pyaudio_sample_format: int):
+        &#34;&#34;&#34;Returns the corresponding `numpy` format to a given `pyaudio` format.
+
+        **Args:**
+
+        `pyaudio_sample_format`: pyaudio format.
+        &#34;&#34;&#34;
+        if pyaudio_sample_format == pyaudio.paInt16:
+            return np.int16
+        if pyaudio_sample_format == pyaudio.paInt32:
+            return np.int32
+        if pyaudio_sample_format == pyaudio.paFloat32:
+            return np.float32
+        raise SetupException(&#34;Incompatible Sample Format&#34;)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="setup.SetupHandler.get_instance"><code class="name flex">
+<span>def <span class="ident">get_instance</span></span>(<span>) ‑> <a title="setup.SetupHandler" href="#setup.SetupHandler">SetupHandler</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the instance of the singleton, creating it if the method has never been called before.</p>
+<p><strong>Returns:</strong></p>
+<p>The currently running class instance.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_instance() -&gt; SetupHandler:
+    &#34;&#34;&#34;Returns the instance of the singleton, creating it if the method has never been called before.
+
+    **Returns:**
+
+    The currently running class instance.
+    &#34;&#34;&#34;
+    if SetupHandler.__instance is None:
+        SetupHandler()
+    return SetupHandler.__instance</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="setup.SetupHandler.get_audio_parameters"><code class="name flex">
+<span>def <span class="ident">get_audio_parameters</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Getter for the <code>__audio_parameters</code> attribute.</p>
+<p><strong>Returns:</strong></p>
+<p>A <code>dict</code> containing the audio parameters.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_audio_parameters(self) -&gt; dict:
+    &#34;&#34;&#34;Getter for the `__audio_parameters` attribute.
+
+    **Returns:**
+
+    A `dict` containing the audio parameters.
+    &#34;&#34;&#34;
+    return self.__audio_parameters</code></pre>
+</details>
+</dd>
+<dt id="setup.SetupHandler.get_audio_producer"><code class="name flex">
+<span>def <span class="ident">get_audio_producer</span></span>(<span>self) ‑> modules.audio_producer.AudioProducer</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Getter for the <code>__audio_producer</code> attribute.</p>
+<p><strong>Returns:</strong></p>
+<p>The <code>AudioProducer</code> object attribute.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_audio_producer(self) -&gt; AudioProducer:
+    &#34;&#34;&#34;Getter for the `__audio_producer` attribute.
+
+    **Returns:**
+
+    The `AudioProducer` object attribute.
+    &#34;&#34;&#34;
+    return self.__audio_producer</code></pre>
+</details>
+</dd>
+<dt id="setup.SetupHandler.get_audio_streams"><code class="name flex">
+<span>def <span class="ident">get_audio_streams</span></span>(<span>self) ‑> tuple</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a new audio stream based on the audio parameters of the <code><a title="setup.SetupHandler" href="#setup.SetupHandler">SetupHandler</a></code>.
+Specifically, it creates an input stream if the user chose to use live audio, or an output stream
+if the user chose to use recorded audio and wants to hear the song while it's being processed.</p>
+<p><strong>Returns:</strong></p>
+<p>A <code>tuple</code> containing the input and output stream (<code>None</code> if they aren't created).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_audio_streams(self) -&gt; tuple:
+    &#34;&#34;&#34;Creates a new audio stream based on the audio parameters of the `SetupHandler`.
+    Specifically, it creates an input stream if the user chose to use live audio, or an output stream
+    if the user chose to use recorded audio and wants to hear the song while it&#39;s being processed.
+
+    **Returns:**
+
+    A `tuple` containing the input and output stream (`None` if they aren&#39;t created).
+    &#34;&#34;&#34;
+    params = self.__audio_parameters
+    in_stream = None
+    out_stream = None
+    pa = pyaudio.PyAudio()
+
+    if params[&#39;audioType&#39;] == &#34;l&#34;:
+        in_stream = pa.open(
+            format=params[&#39;sampleFormat&#39;],
+            channels=params[&#39;channels&#39;],
+            rate=params[&#39;sampleRate&#39;],
+            frames_per_buffer=params[&#39;chunkSize&#39;],
+            input_device_index=params[&#39;inputDeviceIndex&#39;],
+            input=True
+        )
+    
+    if params[&#39;audioPlayback&#39;]:
+        device = pa.get_default_output_device_info()
+        out_stream = pa.open(
+            rate=int(device[&#39;defaultSampleRate&#39;]),
+            channels=1,
+            format=pyaudio.paFloat32,
+            frames_per_buffer=params[&#39;chunkSize&#39;],
+            output=True
+        )
+
+    return in_stream, out_stream</code></pre>
+</details>
+</dd>
+<dt id="setup.SetupHandler.set_audio_parameters"><code class="name flex">
+<span>def <span class="ident">set_audio_parameters</span></span>(<span>self, audio_parameters: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets the audio parameters to a given dictionary.</p>
+<p><strong>Args:</strong></p>
+<p><code>audio_parameters</code>: new dictionary to set.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_audio_parameters(self, audio_parameters: dict):
+    &#34;&#34;&#34;Sets the audio parameters to a given dictionary.
+
+    **Args:**
+
+    `audio_parameters`: new dictionary to set.
+    &#34;&#34;&#34;
+    self.__audio_parameters = audio_parameters</code></pre>
+</details>
+</dd>
+<dt id="setup.SetupHandler.set_main_path"><code class="name flex">
+<span>def <span class="ident">set_main_path</span></span>(<span>self, main_path: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates the <code><a title="setup.FileHandler" href="#setup.FileHandler">FileHandler</a></code> instance with a given string path. The path has to be fed by the main script as it
+is the point from here each relative path is calculated (see <code><a title="setup.FileHandler" href="#setup.FileHandler">FileHandler</a></code> docs for more info).</p>
+<p><strong>Args:</strong></p>
+<p><code>main_path</code>: Path of the <code>src</code> folder.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_main_path(self, main_path: str) -&gt; None:
+    &#34;&#34;&#34;Creates the `FileHandler` instance with a given string path. The path has to be fed by the main script as it
+    is the point from here each relative path is calculated (see `FileHandler` docs for more info).
+
+    **Args:**
+
+    `main_path`: Path of the `src` folder.
+    &#34;&#34;&#34;
+    self.__main_path = main_path
+    self.__file_handler = FileHandler(main_path)
+    self.__file_handler.unzip_files()</code></pre>
+</details>
+</dd>
+<dt id="setup.SetupHandler.setup"><code class="name flex">
+<span>def <span class="ident">setup</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the info needed as user input and fills the audio parameters dictionary accordingly,
+along with <code>AudioProducer</code> object. See the specific private input functions of
+this class for more info about the user input.</p>
+<p><strong>Returns:</strong></p>
+<p>The audio parameters dictionary filled according to user input.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setup(self) -&gt; dict:
+    &#34;&#34;&#34;Gets the info needed as user input and fills the audio parameters dictionary accordingly,
+    along with `AudioProducer` object. See the specific private input functions of
+    this class for more info about the user input.
+
+    **Returns:**
+
+    The audio parameters dictionary filled according to user input.
+    &#34;&#34;&#34;
+    user_input = self.__get_user_input()
+    audio_type = user_input[&#39;audioType&#39;]
+    self.__audio_parameters[&#39;mainPath&#39;] = self.__main_path
+    self.__audio_parameters[&#39;audioType&#39;] = audio_type
+    self.__audio_parameters[&#39;sampleFormat&#39;] = pyaudio.paFloat32
+    self.__audio_parameters[&#39;npFormat&#39;] = self.__get_numpy_format(pyaudio.paFloat32)
+    self.__audio_parameters[&#39;instruments&#39;] = user_input[&#39;instruments&#39;]
+
+    if audio_type == &#34;r&#34;:
+        tracks, sr = self.__file_handler.get_tracks(user_input[&#39;songIndex&#39;])
+        self.__audio_parameters[&#39;tracks&#39;] = tracks
+        self.__audio_parameters[&#39;sampleRate&#39;] = sr
+        self.__audio_parameters[&#39;channels&#39;] = len(tracks)
+        self.__audio_parameters[&#39;audioPlayback&#39;] = user_input[&#39;audioPlayback&#39;]
+        self.__audio_producer = RecordedAudioProducer(self.__audio_parameters)
+    elif audio_type == &#34;l&#34;:
+        sound_card_info = self.__get_sound_card_info(user_input[&#39;soundCardIndex&#39;])
+        self.__audio_parameters[&#39;inputDeviceIndex&#39;] = user_input[&#39;soundCardIndex&#39;]
+        self.__audio_parameters[&#39;sampleRate&#39;] = 44100
+        self.__audio_parameters[&#39;channels&#39;] = sound_card_info[&#39;inChannels&#39;]
+        self.__audio_parameters[&#39;audioPlayback&#39;] = False
+        self.__audio_producer = LiveAudioProducer(self.__audio_parameters)
+    else:
+        raise SetupException(&#34;Unrecognized audio type (was &#34;+audio_type+&#34;)&#34;)
+
+    return self.__audio_parameters</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="setup.FileHandler" href="#setup.FileHandler">FileHandler</a></code></h4>
+<ul class="">
+<li><code><a title="setup.FileHandler.get_dest_folder_path" href="#setup.FileHandler.get_dest_folder_path">get_dest_folder_path</a></code></li>
+<li><code><a title="setup.FileHandler.get_list_of_songs" href="#setup.FileHandler.get_list_of_songs">get_list_of_songs</a></code></li>
+<li><code><a title="setup.FileHandler.get_number_of_songs" href="#setup.FileHandler.get_number_of_songs">get_number_of_songs</a></code></li>
+<li><code><a title="setup.FileHandler.get_number_of_tracks" href="#setup.FileHandler.get_number_of_tracks">get_number_of_tracks</a></code></li>
+<li><code><a title="setup.FileHandler.get_source_folder_path" href="#setup.FileHandler.get_source_folder_path">get_source_folder_path</a></code></li>
+<li><code><a title="setup.FileHandler.get_tracks" href="#setup.FileHandler.get_tracks">get_tracks</a></code></li>
+<li><code><a title="setup.FileHandler.unzip_files" href="#setup.FileHandler.unzip_files">unzip_files</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="setup.SetupHandler" href="#setup.SetupHandler">SetupHandler</a></code></h4>
+<ul class="">
+<li><code><a title="setup.SetupHandler.get_audio_parameters" href="#setup.SetupHandler.get_audio_parameters">get_audio_parameters</a></code></li>
+<li><code><a title="setup.SetupHandler.get_audio_producer" href="#setup.SetupHandler.get_audio_producer">get_audio_producer</a></code></li>
+<li><code><a title="setup.SetupHandler.get_audio_streams" href="#setup.SetupHandler.get_audio_streams">get_audio_streams</a></code></li>
+<li><code><a title="setup.SetupHandler.get_instance" href="#setup.SetupHandler.get_instance">get_instance</a></code></li>
+<li><code><a title="setup.SetupHandler.set_audio_parameters" href="#setup.SetupHandler.set_audio_parameters">set_audio_parameters</a></code></li>
+<li><code><a title="setup.SetupHandler.set_main_path" href="#setup.SetupHandler.set_main_path">set_main_path</a></code></li>
+<li><code><a title="setup.SetupHandler.setup" href="#setup.SetupHandler.setup">setup</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

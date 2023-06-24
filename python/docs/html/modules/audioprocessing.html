@@ -1,0 +1,1430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>audioprocessing API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>audioprocessing</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from abc import ABC, abstractmethod
+import os
+import logging
+import multiprocessing as mp
+import warnings
+import numpy as np
+import librosa
+import tensorflow as tf
+import modules.default_parameters as dp
+from scipy.signal import find_peaks
+from modules.utilities import *
+from modules.connection import OSCConnectionHandler, LFAudioMessage, HFAudioMessage
+
+# Removes Tensorflow logs and warnings
+tf.keras.utils.disable_interactive_logging()
+tf.get_logger().setLevel(logging.ERROR)
+
+
+class AudioProcessor(ABC):
+    &#34;&#34;&#34;Abstract class to handle all Audio Processing methods and functions. Can be inherited to implement custom
+    processing methods.
+    &#34;&#34;&#34;
+
+    def __init__(self, parameters: dict):
+        &#34;&#34;&#34;Constructor for the AudioProcessor class.
+
+        **Args:**
+
+        `parameters`: A dictionary containing audio parameters.
+
+        **Class Attributes:**
+
+        `_sample_rate`: Sample rate at which to read and write audio.
+
+        `_chunk_size`: Size of the chunk of audio to read.
+
+        `_np_format`: Numpy format used to process audio.
+
+        `_nfft`: Size of the FFT used during processing.
+
+        `_hop_length`: Hop Length of the FFT used during processing.
+
+        `_window_size`: Window Size of the FFT used during processing.
+
+        `_window_type`: Window Type of the FFT used during processing.
+
+        `_p_threshold`: Threshold under which the frequency component of the audio piece processed during polyphonic
+        pitch extraction is discarded.
+
+        `_normType`: Normalization type used during processing.
+        &#34;&#34;&#34;
+        self._sample_rate = parameters[&#39;sampleRate&#39;]
+        self._chunk_size = parameters[&#39;chunkSize&#39;]
+        self._np_format = parameters[&#39;npFormat&#39;]
+        self._nfft = parameters[&#39;nfft&#39;]
+        self._hop_length = parameters[&#39;hopLength&#39;]
+        self._window_size = parameters[&#39;winSize&#39;]
+        self._window_type = parameters[&#39;winType&#39;]
+        self._p_threshold = parameters[&#39;pitchThreshold&#39;]
+        self._normType = parameters[&#39;normType&#39;]
+        
+    @abstractmethod
+    def process(self, frame, inst: Instruments):
+        &#34;&#34;&#34;Abstract method to process a given audio frame.
+
+        **Args:**
+
+        `frame`: Chunk of audio to process.
+
+        `inst`: Instrument assigned to the track (used to get the frequency range for audio processing).
+        &#34;&#34;&#34;
+        pass
+
+    def _compute_stft(self, frame):
+        &#34;&#34;&#34;Computes the STFT of a given signal frame, with the object&#39;s parameters.
+
+        **Args:**
+
+        `frame`: Audio frame to process.
+        &#34;&#34;&#34;
+        return np.abs(librosa.stft(y=frame, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type, dtype=self._np_format))
+
+    def _get_mono_frequency(self, frame):
+        &#34;&#34;&#34;Returns the peak frequency of the audio frame (Monophonic Pitch Detection).
+
+        **Args:**
+
+        `frame`: Audio frame to process.
+        &#34;&#34;&#34;
+        spectrum = np.abs(np.fft.rfft(frame))
+        peaks, _ = find_peaks(spectrum, distance=10)
+        
+        if len(peaks) == 0:
+            return 0
+        
+        peak_index = np.argmax(spectrum[peaks])
+        return peaks[peak_index] * self._sample_rate / self._sample_rate
+
+    def _get_poly_frequencies(self, signal_stft, inst: Instruments):
+        &#34;&#34;&#34;Returns the peak frequencies of the audio frame from its spectrum (Polyphonic Pitch Detection).
+
+        **Args:**
+
+        `signal_stft`: Spectrum of the frame to process.
+
+        `inst`: Instrument that generated the processed audio frame.
+        &#34;&#34;&#34;
+        freq_range = inst.get_fundamental_frequency_range()
+        if range is None:
+            return [0]
+
+        pitches, magnitudes = librosa.piptrack(S=signal_stft, sr=self._sample_rate, fmin=freq_range[0], fmax=freq_range[1], threshold=self._p_threshold)
+        indexes = np.argsort(magnitudes[:, 0])[::-1]
+        pitches = pitches[indexes, 0]
+
+        return pitches[pitches &gt; 0]
+
+    def _get_spectral_centroid(self, signal_stft):
+        &#34;&#34;&#34;Returns the mean value of the spectral centroid of the audio frame from its spectrum.
+
+        **Args:**
+
+        `signal_stft`: Spectrum of the frame to process.
+        &#34;&#34;&#34;
+        cent = librosa.feature.spectral_centroid(S=signal_stft, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        cent = np.mean(cent, axis=1)
+        return cent
+
+    def _get_spectral_bandwidth(self, signal_stft):
+        &#34;&#34;&#34;Returns the mean value of the spectral bandwidth of the audio frame from its spectrum.
+
+        **Args:**
+
+        `signal_stft`: Spectrum of the frame to process.
+        &#34;&#34;&#34;
+        sb = librosa.feature.spectral_bandwidth(S=signal_stft, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        sb = np.mean(sb, axis=1)
+        return sb
+
+    def _get_spectral_contrast(self, signal_stft):
+        &#34;&#34;&#34;
+        Returns the mean value of the spectral contrast of the audio frame from its spectrum.
+
+        **Args:**
+
+        `signal_stft`: Spectrum of the frame to process.
+        &#34;&#34;&#34;
+        sc = librosa.feature.spectral_contrast(S=signal_stft, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        return np.mean(sc, axis=1)
+
+    def _get_spectral_flatness(self, signal_stft):
+        &#34;&#34;&#34;Returns the mean value of the spectral flatness of the audio frame from its spectrum.
+
+        **Args:**
+
+        `signal_stft`: Spectrum of the frame to process.
+        &#34;&#34;&#34;
+        sf = librosa.feature.spectral_flatness(S=signal_stft, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        return np.mean(sf, axis=1)
+
+    def _get_spectral_rolloff(self, signal_stft):
+        &#34;&#34;&#34;Returns the spectral rolloff of the audio frame from its spectrum.
+
+        **Args:**
+
+        `signal_stft`: Spectrum of the frame to process.
+        &#34;&#34;&#34;
+        sr = librosa.feature.spectral_rolloff(S=signal_stft, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        return np.mean(sr, axis=1)
+    
+    def _normalize(self, array) -&gt; np.ndarray:
+        &#34;&#34;&#34;Implements different normalizations based on the current selected normalization type.
+
+        **Args:**
+
+        `array`: Array to normalize
+
+        **Returns:**
+
+        The normalized array (or the array as is if normalization is set to NONE).
+        &#34;&#34;&#34;
+        if self._normType == Normalizations.NONE:
+            return array
+        
+        if self._normType == Normalizations.PEAK:
+            return array / np.max(np.abs(array))
+        
+        if self._normType == Normalizations.RMS:
+            return np.sqrt(np.mean(np.square(array)))
+        
+        if self._normType == Normalizations.Z_SCORE:
+            return (array - np.mean(array)) / np.std(array)
+        
+        if self._normType == Normalizations.MIN_MAX:
+            min_value = np.amin(array)
+            max_value = np.amax(array)
+            return (array - min_value) / (max_value - min_value)
+
+
+class DefaultAudioProcessor(AudioProcessor):
+    &#34;&#34;&#34;Implements the default chain used to process low-level features.
+    &#34;&#34;&#34;
+
+    def __init__(self, parameters: dict):
+        &#34;&#34;&#34;Constructor for the DefaultAudioProcessor class.
+
+        **Args:**
+
+        `parameters`: A dictionary containing audio parameters.
+        &#34;&#34;&#34;
+        super().__init__(parameters)
+
+    def process(self, frame, inst: Instruments):
+        &#34;&#34;&#34;Processes the given audio frame according to a defined chain.
+
+        **Args:**
+
+        `frame`: Audio frame to process.
+
+        `inst`: Instrument of the track from which to get the frequency range.
+
+        **Returns:**
+
+        Low-level Features as floats ordered inside an array.
+        &#34;&#34;&#34;
+        with warnings.catch_warnings():
+            warnings.simplefilter(&#34;ignore&#34;)
+            # frame = self._normalize(array=frame)
+            frame = librosa.util.normalize(frame)
+            signal_stft = self._compute_stft(frame)
+            pitches = np.round(self._get_poly_frequencies(signal_stft, inst))
+            spec_centroid = np.round(self._get_spectral_centroid(signal_stft)[0])
+            spec_bandwidth = np.round(self._get_spectral_bandwidth(signal_stft)[0])
+            spec_flatness = self._get_spectral_flatness(signal_stft)[0]
+            spec_rolloff = np.round(self._get_spectral_rolloff(signal_stft)[0])
+
+        return [spec_centroid, spec_bandwidth, spec_flatness, spec_rolloff, *pitches[:4]]
+
+
+class InputHandler(ABC):
+    &#34;&#34;&#34;The InputHandler abstract class declares a set of methods for processing data and extract features.
+    Can be inherited to implement custom methods to process data and extract features.
+    &#34;&#34;&#34;
+
+    def __init__(self, parameters: dict, channel: int, instrument: Instruments):
+        &#34;&#34;&#34;Constructor for the InputHandler class.
+
+        **Args:**
+
+        `parameters`: Audio parameters used to process the audio.
+
+        `channel`: Channel index of the track to process assigned to this instance.
+
+        `instrument`: Instrument of the track to process assigned to this instance.
+
+        **Class Attributes:**
+
+        `_connection_handler`: Object used to send features to external applications.
+
+        `_signal_threshold`: Threshold under which the signal is considered to be null.
+
+        `__instrument`: Instrument of the source of audio.
+
+        `_lock`: Mutex lock used for synchronization purposes.
+
+        `channel`: Number assigned to the track that this object is currently processing.
+
+        `__priority`: Number to indicate the priority value of an instance with respect to the other instances.
+        &#34;&#34;&#34;
+        net_params = dp.NET_PARAMETERS
+        self._connection_handler = OSCConnectionHandler.get_instance(net_params[&#39;outNetAddress&#39;], net_params[&#39;outNetPort&#39;])
+        self._signal_threshold = parameters[&#39;signalThreshold&#39;]
+        self.__instrument = instrument
+        self._lock = mp.Lock()
+        self.channel = channel
+        self.__priority = 0
+
+    @abstractmethod
+    def process(self, data):
+        &#34;&#34;&#34;Abstract method to implement the processing and feature extraction chain.
+
+        **Args:**
+
+        `data`: Data to process.
+        &#34;&#34;&#34;
+        pass
+
+    def set_instrument(self, instrument: Instruments):
+        &#34;&#34;&#34;Synchronized setter for the `__instrument` attribute.
+
+        **Args:**
+
+        `instrument`: New instrument to assign.
+        &#34;&#34;&#34;
+        self._lock.acquire()
+        self.__instrument = instrument
+        self._lock.release()
+
+    def get_instrument(self) -&gt; Instruments:
+        &#34;&#34;&#34;Synchronized getter for the `__instrument` attribute.
+
+        **Returns:**
+
+        The instrument assigned to this handler.
+        &#34;&#34;&#34;
+        self._lock.acquire()
+        inst = self.__instrument
+        self._lock.release()
+        return inst
+    
+    def set_priority(self, priority: int):
+        &#34;&#34;&#34;Synchronized setter for the `__priority` attribute.
+
+        **Args:**
+
+        `priority`: New priority to assign.
+        &#34;&#34;&#34;
+        self._lock.acquire()
+        self.__priority = priority
+        self._lock.release()
+
+    def get_priority(self) -&gt; int:
+        &#34;&#34;&#34;Synchronized getter for the `__priority` attribute.
+
+        **Returns:**
+
+        The priority assigned to this handler.
+        &#34;&#34;&#34;
+        self._lock.acquire()
+        p = self.__priority
+        self._lock.release()
+        return p
+
+    def _no_signal(self, data):
+        &#34;&#34;&#34;Checks if there&#39;s an actual signal inside the audio frame by computing the rms and evaluating it against a
+        predefined threshold.
+
+        **Args:**
+
+        `data`: Data frame to check
+
+        **Returns:**
+
+        A `bool` set to `True` if the signal is virtually non-existent.
+        &#34;&#34;&#34;
+        rms = np.sqrt(np.mean(np.square(data)))
+        return rms &lt;= self._signal_threshold
+    
+    def handle_settings(self, settings):
+        &#34;&#34;&#34;Handles incoming settings.
+
+        **Args:**
+
+        `settings`: settings to handle.
+        &#34;&#34;&#34;
+        pass
+
+
+class LFAudioInputHandler(InputHandler):
+    &#34;&#34;&#34;Handles the Low-level feature processing of a channel of either live or recorded audio.
+    &#34;&#34;&#34;
+
+    def __init__(self, parameters: dict, channel: int, instrument: Instruments):
+        &#34;&#34;&#34;Constructor for the LFAudioInputHandler class.
+
+        **Args:**
+
+        `parameters`: Audio parameters used to process the audio.
+
+        `channel`: Channel index of the track to process assigned to this instance.
+
+        `instrument`: Instrument of the track to process assigned to this instance.
+
+        **Class Attributes:**
+
+        `_audio_processor`: Processor object used to process audio.
+        &#34;&#34;&#34;
+        super().__init__(parameters, channel, instrument)
+        self._audio_processor = DefaultAudioProcessor(parameters)
+    
+    def process(self, data):
+        &#34;&#34;&#34;Processes an audio frame or returns if the frame has virtually no signal.
+
+        **Args:**
+
+        `data`: Data to process.
+        &#34;&#34;&#34;
+        if self._no_signal(data):
+            return
+
+        inst = self.get_instrument()
+        processed_data = self._audio_processor.process(data, inst)
+        # print_data(self.channel, processed_data)
+        msg = LFAudioMessage(processed_data, self.channel, inst)
+        self._connection_handler.send_message(msg)
+
+
+class HFAudioInputHandler(InputHandler):
+    &#34;&#34;&#34;Handles the High-level feature processing of either live or recorded audio.
+    &#34;&#34;&#34;
+
+    def __init__(self, parameters: dict, channel: int, instrument: Instruments):
+        &#34;&#34;&#34;Constructor of the HFAudioInputHandler class.
+
+        **Args:**
+
+        `parameters`: Audio parameters used to process the audio.
+
+        `channel`: Unused (high-level features are computed over the sum of all tracks).
+
+        `instrument`: Unused (high-level features are computed over the sum of all tracks).
+
+        **Class Attributes:**
+
+        `__arousal_values`: Array containing previous arousal values used to compute a moving average.
+
+        `__valence_values`: Array containing previous valence values used to compute a moving average.
+
+        `__nn_model`: Neural network model used to extract the mood from the piece of audio.
+        &#34;&#34;&#34;
+        super().__init__(parameters, channel, instrument)
+        path = os.path.join(parameters[&#39;mainPath&#39;], &#34;resources&#34;, &#34;nn_models&#34;, &#34;modelv5.h5&#34;)
+        average_length = parameters[&#39;hfMovingAverageLengthInSeconds&#39;]
+        self.__arousal_values = np.zeros(int(average_length/0.5))
+        self.__valence_values = np.zeros(int(average_length/0.5))
+        with warnings.catch_warnings():
+            warnings.simplefilter(&#39;ignore&#39;)
+            self.__nn_model = tf.keras.models.load_model(path)
+    
+    def process(self, data):
+        &#34;&#34;&#34;Processes an audio frame for High-level features.
+
+        **Args:**
+
+        `data`: Piece of audio to process.
+        &#34;&#34;&#34;
+        if self._no_signal(data):
+            return
+
+        data = librosa.util.normalize(data)
+        data_tensor = np.copy(data)
+        data_tensor = np.expand_dims(data_tensor, axis=0)
+
+        prediction = self.__nn_model.predict(data_tensor)[0]
+
+        self.__arousal_values[0] = prediction[0]
+        self.__valence_values[0] = prediction[1]
+        self.__arousal_values = np.roll(self.__arousal_values, -1)
+        self.__valence_values = np.roll(self.__valence_values, -1)
+        prediction[0] = np.average(self.__arousal_values)
+        prediction[1] = np.average(self.__valence_values)
+
+        print_data_alt_color(channel=1, data=prediction)
+
+        msg = HFAudioMessage(prediction, 0)
+        self._connection_handler.send_message(msg)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="audioprocessing.AudioProcessor"><code class="flex name class">
+<span>class <span class="ident">AudioProcessor</span></span>
+<span>(</span><span>parameters: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Abstract class to handle all Audio Processing methods and functions. Can be inherited to implement custom
+processing methods.</p>
+<p>Constructor for the AudioProcessor class.</p>
+<p><strong>Args:</strong></p>
+<p><code>parameters</code>: A dictionary containing audio parameters.</p>
+<p><strong>Class Attributes:</strong></p>
+<p><code>_sample_rate</code>: Sample rate at which to read and write audio.</p>
+<p><code>_chunk_size</code>: Size of the chunk of audio to read.</p>
+<p><code>_np_format</code>: Numpy format used to process audio.</p>
+<p><code>_nfft</code>: Size of the FFT used during processing.</p>
+<p><code>_hop_length</code>: Hop Length of the FFT used during processing.</p>
+<p><code>_window_size</code>: Window Size of the FFT used during processing.</p>
+<p><code>_window_type</code>: Window Type of the FFT used during processing.</p>
+<p><code>_p_threshold</code>: Threshold under which the frequency component of the audio piece processed during polyphonic
+pitch extraction is discarded.</p>
+<p><code>_normType</code>: Normalization type used during processing.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AudioProcessor(ABC):
+    &#34;&#34;&#34;Abstract class to handle all Audio Processing methods and functions. Can be inherited to implement custom
+    processing methods.
+    &#34;&#34;&#34;
+
+    def __init__(self, parameters: dict):
+        &#34;&#34;&#34;Constructor for the AudioProcessor class.
+
+        **Args:**
+
+        `parameters`: A dictionary containing audio parameters.
+
+        **Class Attributes:**
+
+        `_sample_rate`: Sample rate at which to read and write audio.
+
+        `_chunk_size`: Size of the chunk of audio to read.
+
+        `_np_format`: Numpy format used to process audio.
+
+        `_nfft`: Size of the FFT used during processing.
+
+        `_hop_length`: Hop Length of the FFT used during processing.
+
+        `_window_size`: Window Size of the FFT used during processing.
+
+        `_window_type`: Window Type of the FFT used during processing.
+
+        `_p_threshold`: Threshold under which the frequency component of the audio piece processed during polyphonic
+        pitch extraction is discarded.
+
+        `_normType`: Normalization type used during processing.
+        &#34;&#34;&#34;
+        self._sample_rate = parameters[&#39;sampleRate&#39;]
+        self._chunk_size = parameters[&#39;chunkSize&#39;]
+        self._np_format = parameters[&#39;npFormat&#39;]
+        self._nfft = parameters[&#39;nfft&#39;]
+        self._hop_length = parameters[&#39;hopLength&#39;]
+        self._window_size = parameters[&#39;winSize&#39;]
+        self._window_type = parameters[&#39;winType&#39;]
+        self._p_threshold = parameters[&#39;pitchThreshold&#39;]
+        self._normType = parameters[&#39;normType&#39;]
+        
+    @abstractmethod
+    def process(self, frame, inst: Instruments):
+        &#34;&#34;&#34;Abstract method to process a given audio frame.
+
+        **Args:**
+
+        `frame`: Chunk of audio to process.
+
+        `inst`: Instrument assigned to the track (used to get the frequency range for audio processing).
+        &#34;&#34;&#34;
+        pass
+
+    def _compute_stft(self, frame):
+        &#34;&#34;&#34;Computes the STFT of a given signal frame, with the object&#39;s parameters.
+
+        **Args:**
+
+        `frame`: Audio frame to process.
+        &#34;&#34;&#34;
+        return np.abs(librosa.stft(y=frame, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type, dtype=self._np_format))
+
+    def _get_mono_frequency(self, frame):
+        &#34;&#34;&#34;Returns the peak frequency of the audio frame (Monophonic Pitch Detection).
+
+        **Args:**
+
+        `frame`: Audio frame to process.
+        &#34;&#34;&#34;
+        spectrum = np.abs(np.fft.rfft(frame))
+        peaks, _ = find_peaks(spectrum, distance=10)
+        
+        if len(peaks) == 0:
+            return 0
+        
+        peak_index = np.argmax(spectrum[peaks])
+        return peaks[peak_index] * self._sample_rate / self._sample_rate
+
+    def _get_poly_frequencies(self, signal_stft, inst: Instruments):
+        &#34;&#34;&#34;Returns the peak frequencies of the audio frame from its spectrum (Polyphonic Pitch Detection).
+
+        **Args:**
+
+        `signal_stft`: Spectrum of the frame to process.
+
+        `inst`: Instrument that generated the processed audio frame.
+        &#34;&#34;&#34;
+        freq_range = inst.get_fundamental_frequency_range()
+        if range is None:
+            return [0]
+
+        pitches, magnitudes = librosa.piptrack(S=signal_stft, sr=self._sample_rate, fmin=freq_range[0], fmax=freq_range[1], threshold=self._p_threshold)
+        indexes = np.argsort(magnitudes[:, 0])[::-1]
+        pitches = pitches[indexes, 0]
+
+        return pitches[pitches &gt; 0]
+
+    def _get_spectral_centroid(self, signal_stft):
+        &#34;&#34;&#34;Returns the mean value of the spectral centroid of the audio frame from its spectrum.
+
+        **Args:**
+
+        `signal_stft`: Spectrum of the frame to process.
+        &#34;&#34;&#34;
+        cent = librosa.feature.spectral_centroid(S=signal_stft, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        cent = np.mean(cent, axis=1)
+        return cent
+
+    def _get_spectral_bandwidth(self, signal_stft):
+        &#34;&#34;&#34;Returns the mean value of the spectral bandwidth of the audio frame from its spectrum.
+
+        **Args:**
+
+        `signal_stft`: Spectrum of the frame to process.
+        &#34;&#34;&#34;
+        sb = librosa.feature.spectral_bandwidth(S=signal_stft, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        sb = np.mean(sb, axis=1)
+        return sb
+
+    def _get_spectral_contrast(self, signal_stft):
+        &#34;&#34;&#34;
+        Returns the mean value of the spectral contrast of the audio frame from its spectrum.
+
+        **Args:**
+
+        `signal_stft`: Spectrum of the frame to process.
+        &#34;&#34;&#34;
+        sc = librosa.feature.spectral_contrast(S=signal_stft, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        return np.mean(sc, axis=1)
+
+    def _get_spectral_flatness(self, signal_stft):
+        &#34;&#34;&#34;Returns the mean value of the spectral flatness of the audio frame from its spectrum.
+
+        **Args:**
+
+        `signal_stft`: Spectrum of the frame to process.
+        &#34;&#34;&#34;
+        sf = librosa.feature.spectral_flatness(S=signal_stft, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        return np.mean(sf, axis=1)
+
+    def _get_spectral_rolloff(self, signal_stft):
+        &#34;&#34;&#34;Returns the spectral rolloff of the audio frame from its spectrum.
+
+        **Args:**
+
+        `signal_stft`: Spectrum of the frame to process.
+        &#34;&#34;&#34;
+        sr = librosa.feature.spectral_rolloff(S=signal_stft, sr=self._sample_rate, n_fft=self._nfft, hop_length=self._hop_length, win_length=self._window_size, window=self._window_type)
+        return np.mean(sr, axis=1)
+    
+    def _normalize(self, array) -&gt; np.ndarray:
+        &#34;&#34;&#34;Implements different normalizations based on the current selected normalization type.
+
+        **Args:**
+
+        `array`: Array to normalize
+
+        **Returns:**
+
+        The normalized array (or the array as is if normalization is set to NONE).
+        &#34;&#34;&#34;
+        if self._normType == Normalizations.NONE:
+            return array
+        
+        if self._normType == Normalizations.PEAK:
+            return array / np.max(np.abs(array))
+        
+        if self._normType == Normalizations.RMS:
+            return np.sqrt(np.mean(np.square(array)))
+        
+        if self._normType == Normalizations.Z_SCORE:
+            return (array - np.mean(array)) / np.std(array)
+        
+        if self._normType == Normalizations.MIN_MAX:
+            min_value = np.amin(array)
+            max_value = np.amax(array)
+            return (array - min_value) / (max_value - min_value)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="audioprocessing.DefaultAudioProcessor" href="#audioprocessing.DefaultAudioProcessor">DefaultAudioProcessor</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="audioprocessing.AudioProcessor.process"><code class="name flex">
+<span>def <span class="ident">process</span></span>(<span>self, frame, inst: modules.utilities.Instruments)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Abstract method to process a given audio frame.</p>
+<p><strong>Args:</strong></p>
+<p><code>frame</code>: Chunk of audio to process.</p>
+<p><code>inst</code>: Instrument assigned to the track (used to get the frequency range for audio processing).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abstractmethod
+def process(self, frame, inst: Instruments):
+    &#34;&#34;&#34;Abstract method to process a given audio frame.
+
+    **Args:**
+
+    `frame`: Chunk of audio to process.
+
+    `inst`: Instrument assigned to the track (used to get the frequency range for audio processing).
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="audioprocessing.DefaultAudioProcessor"><code class="flex name class">
+<span>class <span class="ident">DefaultAudioProcessor</span></span>
+<span>(</span><span>parameters: dict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Implements the default chain used to process low-level features.</p>
+<p>Constructor for the DefaultAudioProcessor class.</p>
+<p><strong>Args:</strong></p>
+<p><code>parameters</code>: A dictionary containing audio parameters.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DefaultAudioProcessor(AudioProcessor):
+    &#34;&#34;&#34;Implements the default chain used to process low-level features.
+    &#34;&#34;&#34;
+
+    def __init__(self, parameters: dict):
+        &#34;&#34;&#34;Constructor for the DefaultAudioProcessor class.
+
+        **Args:**
+
+        `parameters`: A dictionary containing audio parameters.
+        &#34;&#34;&#34;
+        super().__init__(parameters)
+
+    def process(self, frame, inst: Instruments):
+        &#34;&#34;&#34;Processes the given audio frame according to a defined chain.
+
+        **Args:**
+
+        `frame`: Audio frame to process.
+
+        `inst`: Instrument of the track from which to get the frequency range.
+
+        **Returns:**
+
+        Low-level Features as floats ordered inside an array.
+        &#34;&#34;&#34;
+        with warnings.catch_warnings():
+            warnings.simplefilter(&#34;ignore&#34;)
+            # frame = self._normalize(array=frame)
+            frame = librosa.util.normalize(frame)
+            signal_stft = self._compute_stft(frame)
+            pitches = np.round(self._get_poly_frequencies(signal_stft, inst))
+            spec_centroid = np.round(self._get_spectral_centroid(signal_stft)[0])
+            spec_bandwidth = np.round(self._get_spectral_bandwidth(signal_stft)[0])
+            spec_flatness = self._get_spectral_flatness(signal_stft)[0]
+            spec_rolloff = np.round(self._get_spectral_rolloff(signal_stft)[0])
+
+        return [spec_centroid, spec_bandwidth, spec_flatness, spec_rolloff, *pitches[:4]]</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="audioprocessing.AudioProcessor" href="#audioprocessing.AudioProcessor">AudioProcessor</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="audioprocessing.DefaultAudioProcessor.process"><code class="name flex">
+<span>def <span class="ident">process</span></span>(<span>self, frame, inst: modules.utilities.Instruments)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Processes the given audio frame according to a defined chain.</p>
+<p><strong>Args:</strong></p>
+<p><code>frame</code>: Audio frame to process.</p>
+<p><code>inst</code>: Instrument of the track from which to get the frequency range.</p>
+<p><strong>Returns:</strong></p>
+<p>Low-level Features as floats ordered inside an array.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def process(self, frame, inst: Instruments):
+    &#34;&#34;&#34;Processes the given audio frame according to a defined chain.
+
+    **Args:**
+
+    `frame`: Audio frame to process.
+
+    `inst`: Instrument of the track from which to get the frequency range.
+
+    **Returns:**
+
+    Low-level Features as floats ordered inside an array.
+    &#34;&#34;&#34;
+    with warnings.catch_warnings():
+        warnings.simplefilter(&#34;ignore&#34;)
+        # frame = self._normalize(array=frame)
+        frame = librosa.util.normalize(frame)
+        signal_stft = self._compute_stft(frame)
+        pitches = np.round(self._get_poly_frequencies(signal_stft, inst))
+        spec_centroid = np.round(self._get_spectral_centroid(signal_stft)[0])
+        spec_bandwidth = np.round(self._get_spectral_bandwidth(signal_stft)[0])
+        spec_flatness = self._get_spectral_flatness(signal_stft)[0]
+        spec_rolloff = np.round(self._get_spectral_rolloff(signal_stft)[0])
+
+    return [spec_centroid, spec_bandwidth, spec_flatness, spec_rolloff, *pitches[:4]]</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="audioprocessing.HFAudioInputHandler"><code class="flex name class">
+<span>class <span class="ident">HFAudioInputHandler</span></span>
+<span>(</span><span>parameters: dict, channel: int, instrument: modules.utilities.Instruments)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Handles the High-level feature processing of either live or recorded audio.</p>
+<p>Constructor of the HFAudioInputHandler class.</p>
+<p><strong>Args:</strong></p>
+<p><code>parameters</code>: Audio parameters used to process the audio.</p>
+<p><code>channel</code>: Unused (high-level features are computed over the sum of all tracks).</p>
+<p><code>instrument</code>: Unused (high-level features are computed over the sum of all tracks).</p>
+<p><strong>Class Attributes:</strong></p>
+<p><code>__arousal_values</code>: Array containing previous arousal values used to compute a moving average.</p>
+<p><code>__valence_values</code>: Array containing previous valence values used to compute a moving average.</p>
+<p><code>__nn_model</code>: Neural network model used to extract the mood from the piece of audio.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class HFAudioInputHandler(InputHandler):
+    &#34;&#34;&#34;Handles the High-level feature processing of either live or recorded audio.
+    &#34;&#34;&#34;
+
+    def __init__(self, parameters: dict, channel: int, instrument: Instruments):
+        &#34;&#34;&#34;Constructor of the HFAudioInputHandler class.
+
+        **Args:**
+
+        `parameters`: Audio parameters used to process the audio.
+
+        `channel`: Unused (high-level features are computed over the sum of all tracks).
+
+        `instrument`: Unused (high-level features are computed over the sum of all tracks).
+
+        **Class Attributes:**
+
+        `__arousal_values`: Array containing previous arousal values used to compute a moving average.
+
+        `__valence_values`: Array containing previous valence values used to compute a moving average.
+
+        `__nn_model`: Neural network model used to extract the mood from the piece of audio.
+        &#34;&#34;&#34;
+        super().__init__(parameters, channel, instrument)
+        path = os.path.join(parameters[&#39;mainPath&#39;], &#34;resources&#34;, &#34;nn_models&#34;, &#34;modelv5.h5&#34;)
+        average_length = parameters[&#39;hfMovingAverageLengthInSeconds&#39;]
+        self.__arousal_values = np.zeros(int(average_length/0.5))
+        self.__valence_values = np.zeros(int(average_length/0.5))
+        with warnings.catch_warnings():
+            warnings.simplefilter(&#39;ignore&#39;)
+            self.__nn_model = tf.keras.models.load_model(path)
+    
+    def process(self, data):
+        &#34;&#34;&#34;Processes an audio frame for High-level features.
+
+        **Args:**
+
+        `data`: Piece of audio to process.
+        &#34;&#34;&#34;
+        if self._no_signal(data):
+            return
+
+        data = librosa.util.normalize(data)
+        data_tensor = np.copy(data)
+        data_tensor = np.expand_dims(data_tensor, axis=0)
+
+        prediction = self.__nn_model.predict(data_tensor)[0]
+
+        self.__arousal_values[0] = prediction[0]
+        self.__valence_values[0] = prediction[1]
+        self.__arousal_values = np.roll(self.__arousal_values, -1)
+        self.__valence_values = np.roll(self.__valence_values, -1)
+        prediction[0] = np.average(self.__arousal_values)
+        prediction[1] = np.average(self.__valence_values)
+
+        print_data_alt_color(channel=1, data=prediction)
+
+        msg = HFAudioMessage(prediction, 0)
+        self._connection_handler.send_message(msg)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="audioprocessing.InputHandler" href="#audioprocessing.InputHandler">InputHandler</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="audioprocessing.HFAudioInputHandler.process"><code class="name flex">
+<span>def <span class="ident">process</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Processes an audio frame for High-level features.</p>
+<p><strong>Args:</strong></p>
+<p><code>data</code>: Piece of audio to process.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def process(self, data):
+    &#34;&#34;&#34;Processes an audio frame for High-level features.
+
+    **Args:**
+
+    `data`: Piece of audio to process.
+    &#34;&#34;&#34;
+    if self._no_signal(data):
+        return
+
+    data = librosa.util.normalize(data)
+    data_tensor = np.copy(data)
+    data_tensor = np.expand_dims(data_tensor, axis=0)
+
+    prediction = self.__nn_model.predict(data_tensor)[0]
+
+    self.__arousal_values[0] = prediction[0]
+    self.__valence_values[0] = prediction[1]
+    self.__arousal_values = np.roll(self.__arousal_values, -1)
+    self.__valence_values = np.roll(self.__valence_values, -1)
+    prediction[0] = np.average(self.__arousal_values)
+    prediction[1] = np.average(self.__valence_values)
+
+    print_data_alt_color(channel=1, data=prediction)
+
+    msg = HFAudioMessage(prediction, 0)
+    self._connection_handler.send_message(msg)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="audioprocessing.InputHandler" href="#audioprocessing.InputHandler">InputHandler</a></b></code>:
+<ul class="hlist">
+<li><code><a title="audioprocessing.InputHandler.get_instrument" href="#audioprocessing.InputHandler.get_instrument">get_instrument</a></code></li>
+<li><code><a title="audioprocessing.InputHandler.get_priority" href="#audioprocessing.InputHandler.get_priority">get_priority</a></code></li>
+<li><code><a title="audioprocessing.InputHandler.handle_settings" href="#audioprocessing.InputHandler.handle_settings">handle_settings</a></code></li>
+<li><code><a title="audioprocessing.InputHandler.set_instrument" href="#audioprocessing.InputHandler.set_instrument">set_instrument</a></code></li>
+<li><code><a title="audioprocessing.InputHandler.set_priority" href="#audioprocessing.InputHandler.set_priority">set_priority</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="audioprocessing.InputHandler"><code class="flex name class">
+<span>class <span class="ident">InputHandler</span></span>
+<span>(</span><span>parameters: dict, channel: int, instrument: modules.utilities.Instruments)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The InputHandler abstract class declares a set of methods for processing data and extract features.
+Can be inherited to implement custom methods to process data and extract features.</p>
+<p>Constructor for the InputHandler class.</p>
+<p><strong>Args:</strong></p>
+<p><code>parameters</code>: Audio parameters used to process the audio.</p>
+<p><code>channel</code>: Channel index of the track to process assigned to this instance.</p>
+<p><code>instrument</code>: Instrument of the track to process assigned to this instance.</p>
+<p><strong>Class Attributes:</strong></p>
+<p><code>_connection_handler</code>: Object used to send features to external applications.</p>
+<p><code>_signal_threshold</code>: Threshold under which the signal is considered to be null.</p>
+<p><code>__instrument</code>: Instrument of the source of audio.</p>
+<p><code>_lock</code>: Mutex lock used for synchronization purposes.</p>
+<p><code>channel</code>: Number assigned to the track that this object is currently processing.</p>
+<p><code>__priority</code>: Number to indicate the priority value of an instance with respect to the other instances.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class InputHandler(ABC):
+    &#34;&#34;&#34;The InputHandler abstract class declares a set of methods for processing data and extract features.
+    Can be inherited to implement custom methods to process data and extract features.
+    &#34;&#34;&#34;
+
+    def __init__(self, parameters: dict, channel: int, instrument: Instruments):
+        &#34;&#34;&#34;Constructor for the InputHandler class.
+
+        **Args:**
+
+        `parameters`: Audio parameters used to process the audio.
+
+        `channel`: Channel index of the track to process assigned to this instance.
+
+        `instrument`: Instrument of the track to process assigned to this instance.
+
+        **Class Attributes:**
+
+        `_connection_handler`: Object used to send features to external applications.
+
+        `_signal_threshold`: Threshold under which the signal is considered to be null.
+
+        `__instrument`: Instrument of the source of audio.
+
+        `_lock`: Mutex lock used for synchronization purposes.
+
+        `channel`: Number assigned to the track that this object is currently processing.
+
+        `__priority`: Number to indicate the priority value of an instance with respect to the other instances.
+        &#34;&#34;&#34;
+        net_params = dp.NET_PARAMETERS
+        self._connection_handler = OSCConnectionHandler.get_instance(net_params[&#39;outNetAddress&#39;], net_params[&#39;outNetPort&#39;])
+        self._signal_threshold = parameters[&#39;signalThreshold&#39;]
+        self.__instrument = instrument
+        self._lock = mp.Lock()
+        self.channel = channel
+        self.__priority = 0
+
+    @abstractmethod
+    def process(self, data):
+        &#34;&#34;&#34;Abstract method to implement the processing and feature extraction chain.
+
+        **Args:**
+
+        `data`: Data to process.
+        &#34;&#34;&#34;
+        pass
+
+    def set_instrument(self, instrument: Instruments):
+        &#34;&#34;&#34;Synchronized setter for the `__instrument` attribute.
+
+        **Args:**
+
+        `instrument`: New instrument to assign.
+        &#34;&#34;&#34;
+        self._lock.acquire()
+        self.__instrument = instrument
+        self._lock.release()
+
+    def get_instrument(self) -&gt; Instruments:
+        &#34;&#34;&#34;Synchronized getter for the `__instrument` attribute.
+
+        **Returns:**
+
+        The instrument assigned to this handler.
+        &#34;&#34;&#34;
+        self._lock.acquire()
+        inst = self.__instrument
+        self._lock.release()
+        return inst
+    
+    def set_priority(self, priority: int):
+        &#34;&#34;&#34;Synchronized setter for the `__priority` attribute.
+
+        **Args:**
+
+        `priority`: New priority to assign.
+        &#34;&#34;&#34;
+        self._lock.acquire()
+        self.__priority = priority
+        self._lock.release()
+
+    def get_priority(self) -&gt; int:
+        &#34;&#34;&#34;Synchronized getter for the `__priority` attribute.
+
+        **Returns:**
+
+        The priority assigned to this handler.
+        &#34;&#34;&#34;
+        self._lock.acquire()
+        p = self.__priority
+        self._lock.release()
+        return p
+
+    def _no_signal(self, data):
+        &#34;&#34;&#34;Checks if there&#39;s an actual signal inside the audio frame by computing the rms and evaluating it against a
+        predefined threshold.
+
+        **Args:**
+
+        `data`: Data frame to check
+
+        **Returns:**
+
+        A `bool` set to `True` if the signal is virtually non-existent.
+        &#34;&#34;&#34;
+        rms = np.sqrt(np.mean(np.square(data)))
+        return rms &lt;= self._signal_threshold
+    
+    def handle_settings(self, settings):
+        &#34;&#34;&#34;Handles incoming settings.
+
+        **Args:**
+
+        `settings`: settings to handle.
+        &#34;&#34;&#34;
+        pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="audioprocessing.HFAudioInputHandler" href="#audioprocessing.HFAudioInputHandler">HFAudioInputHandler</a></li>
+<li><a title="audioprocessing.LFAudioInputHandler" href="#audioprocessing.LFAudioInputHandler">LFAudioInputHandler</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="audioprocessing.InputHandler.get_instrument"><code class="name flex">
+<span>def <span class="ident">get_instrument</span></span>(<span>self) ‑> modules.utilities.Instruments</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Synchronized getter for the <code>__instrument</code> attribute.</p>
+<p><strong>Returns:</strong></p>
+<p>The instrument assigned to this handler.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_instrument(self) -&gt; Instruments:
+    &#34;&#34;&#34;Synchronized getter for the `__instrument` attribute.
+
+    **Returns:**
+
+    The instrument assigned to this handler.
+    &#34;&#34;&#34;
+    self._lock.acquire()
+    inst = self.__instrument
+    self._lock.release()
+    return inst</code></pre>
+</details>
+</dd>
+<dt id="audioprocessing.InputHandler.get_priority"><code class="name flex">
+<span>def <span class="ident">get_priority</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Synchronized getter for the <code>__priority</code> attribute.</p>
+<p><strong>Returns:</strong></p>
+<p>The priority assigned to this handler.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_priority(self) -&gt; int:
+    &#34;&#34;&#34;Synchronized getter for the `__priority` attribute.
+
+    **Returns:**
+
+    The priority assigned to this handler.
+    &#34;&#34;&#34;
+    self._lock.acquire()
+    p = self.__priority
+    self._lock.release()
+    return p</code></pre>
+</details>
+</dd>
+<dt id="audioprocessing.InputHandler.handle_settings"><code class="name flex">
+<span>def <span class="ident">handle_settings</span></span>(<span>self, settings)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Handles incoming settings.</p>
+<p><strong>Args:</strong></p>
+<p><code>settings</code>: settings to handle.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def handle_settings(self, settings):
+    &#34;&#34;&#34;Handles incoming settings.
+
+    **Args:**
+
+    `settings`: settings to handle.
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="audioprocessing.InputHandler.process"><code class="name flex">
+<span>def <span class="ident">process</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Abstract method to implement the processing and feature extraction chain.</p>
+<p><strong>Args:</strong></p>
+<p><code>data</code>: Data to process.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abstractmethod
+def process(self, data):
+    &#34;&#34;&#34;Abstract method to implement the processing and feature extraction chain.
+
+    **Args:**
+
+    `data`: Data to process.
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="audioprocessing.InputHandler.set_instrument"><code class="name flex">
+<span>def <span class="ident">set_instrument</span></span>(<span>self, instrument: modules.utilities.Instruments)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Synchronized setter for the <code>__instrument</code> attribute.</p>
+<p><strong>Args:</strong></p>
+<p><code>instrument</code>: New instrument to assign.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_instrument(self, instrument: Instruments):
+    &#34;&#34;&#34;Synchronized setter for the `__instrument` attribute.
+
+    **Args:**
+
+    `instrument`: New instrument to assign.
+    &#34;&#34;&#34;
+    self._lock.acquire()
+    self.__instrument = instrument
+    self._lock.release()</code></pre>
+</details>
+</dd>
+<dt id="audioprocessing.InputHandler.set_priority"><code class="name flex">
+<span>def <span class="ident">set_priority</span></span>(<span>self, priority: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Synchronized setter for the <code>__priority</code> attribute.</p>
+<p><strong>Args:</strong></p>
+<p><code>priority</code>: New priority to assign.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_priority(self, priority: int):
+    &#34;&#34;&#34;Synchronized setter for the `__priority` attribute.
+
+    **Args:**
+
+    `priority`: New priority to assign.
+    &#34;&#34;&#34;
+    self._lock.acquire()
+    self.__priority = priority
+    self._lock.release()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="audioprocessing.LFAudioInputHandler"><code class="flex name class">
+<span>class <span class="ident">LFAudioInputHandler</span></span>
+<span>(</span><span>parameters: dict, channel: int, instrument: modules.utilities.Instruments)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Handles the Low-level feature processing of a channel of either live or recorded audio.</p>
+<p>Constructor for the LFAudioInputHandler class.</p>
+<p><strong>Args:</strong></p>
+<p><code>parameters</code>: Audio parameters used to process the audio.</p>
+<p><code>channel</code>: Channel index of the track to process assigned to this instance.</p>
+<p><code>instrument</code>: Instrument of the track to process assigned to this instance.</p>
+<p><strong>Class Attributes:</strong></p>
+<p><code>_audio_processor</code>: Processor object used to process audio.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LFAudioInputHandler(InputHandler):
+    &#34;&#34;&#34;Handles the Low-level feature processing of a channel of either live or recorded audio.
+    &#34;&#34;&#34;
+
+    def __init__(self, parameters: dict, channel: int, instrument: Instruments):
+        &#34;&#34;&#34;Constructor for the LFAudioInputHandler class.
+
+        **Args:**
+
+        `parameters`: Audio parameters used to process the audio.
+
+        `channel`: Channel index of the track to process assigned to this instance.
+
+        `instrument`: Instrument of the track to process assigned to this instance.
+
+        **Class Attributes:**
+
+        `_audio_processor`: Processor object used to process audio.
+        &#34;&#34;&#34;
+        super().__init__(parameters, channel, instrument)
+        self._audio_processor = DefaultAudioProcessor(parameters)
+    
+    def process(self, data):
+        &#34;&#34;&#34;Processes an audio frame or returns if the frame has virtually no signal.
+
+        **Args:**
+
+        `data`: Data to process.
+        &#34;&#34;&#34;
+        if self._no_signal(data):
+            return
+
+        inst = self.get_instrument()
+        processed_data = self._audio_processor.process(data, inst)
+        # print_data(self.channel, processed_data)
+        msg = LFAudioMessage(processed_data, self.channel, inst)
+        self._connection_handler.send_message(msg)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="audioprocessing.InputHandler" href="#audioprocessing.InputHandler">InputHandler</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="audioprocessing.LFAudioInputHandler.process"><code class="name flex">
+<span>def <span class="ident">process</span></span>(<span>self, data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Processes an audio frame or returns if the frame has virtually no signal.</p>
+<p><strong>Args:</strong></p>
+<p><code>data</code>: Data to process.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def process(self, data):
+    &#34;&#34;&#34;Processes an audio frame or returns if the frame has virtually no signal.
+
+    **Args:**
+
+    `data`: Data to process.
+    &#34;&#34;&#34;
+    if self._no_signal(data):
+        return
+
+    inst = self.get_instrument()
+    processed_data = self._audio_processor.process(data, inst)
+    # print_data(self.channel, processed_data)
+    msg = LFAudioMessage(processed_data, self.channel, inst)
+    self._connection_handler.send_message(msg)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="audioprocessing.InputHandler" href="#audioprocessing.InputHandler">InputHandler</a></b></code>:
+<ul class="hlist">
+<li><code><a title="audioprocessing.InputHandler.get_instrument" href="#audioprocessing.InputHandler.get_instrument">get_instrument</a></code></li>
+<li><code><a title="audioprocessing.InputHandler.get_priority" href="#audioprocessing.InputHandler.get_priority">get_priority</a></code></li>
+<li><code><a title="audioprocessing.InputHandler.handle_settings" href="#audioprocessing.InputHandler.handle_settings">handle_settings</a></code></li>
+<li><code><a title="audioprocessing.InputHandler.set_instrument" href="#audioprocessing.InputHandler.set_instrument">set_instrument</a></code></li>
+<li><code><a title="audioprocessing.InputHandler.set_priority" href="#audioprocessing.InputHandler.set_priority">set_priority</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="audioprocessing.AudioProcessor" href="#audioprocessing.AudioProcessor">AudioProcessor</a></code></h4>
+<ul class="">
+<li><code><a title="audioprocessing.AudioProcessor.process" href="#audioprocessing.AudioProcessor.process">process</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="audioprocessing.DefaultAudioProcessor" href="#audioprocessing.DefaultAudioProcessor">DefaultAudioProcessor</a></code></h4>
+<ul class="">
+<li><code><a title="audioprocessing.DefaultAudioProcessor.process" href="#audioprocessing.DefaultAudioProcessor.process">process</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="audioprocessing.HFAudioInputHandler" href="#audioprocessing.HFAudioInputHandler">HFAudioInputHandler</a></code></h4>
+<ul class="">
+<li><code><a title="audioprocessing.HFAudioInputHandler.process" href="#audioprocessing.HFAudioInputHandler.process">process</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="audioprocessing.InputHandler" href="#audioprocessing.InputHandler">InputHandler</a></code></h4>
+<ul class="two-column">
+<li><code><a title="audioprocessing.InputHandler.get_instrument" href="#audioprocessing.InputHandler.get_instrument">get_instrument</a></code></li>
+<li><code><a title="audioprocessing.InputHandler.get_priority" href="#audioprocessing.InputHandler.get_priority">get_priority</a></code></li>
+<li><code><a title="audioprocessing.InputHandler.handle_settings" href="#audioprocessing.InputHandler.handle_settings">handle_settings</a></code></li>
+<li><code><a title="audioprocessing.InputHandler.process" href="#audioprocessing.InputHandler.process">process</a></code></li>
+<li><code><a title="audioprocessing.InputHandler.set_instrument" href="#audioprocessing.InputHandler.set_instrument">set_instrument</a></code></li>
+<li><code><a title="audioprocessing.InputHandler.set_priority" href="#audioprocessing.InputHandler.set_priority">set_priority</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="audioprocessing.LFAudioInputHandler" href="#audioprocessing.LFAudioInputHandler">LFAudioInputHandler</a></code></h4>
+<ul class="">
+<li><code><a title="audioprocessing.LFAudioInputHandler.process" href="#audioprocessing.LFAudioInputHandler.process">process</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
