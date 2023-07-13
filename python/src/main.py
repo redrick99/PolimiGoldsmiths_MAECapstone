@@ -6,8 +6,8 @@ from queue import Full, Empty
 from modules.setup import SetupHandler
 from modules.audioprocessing import LFAudioInputHandler, HFAudioInputHandler
 from modules.audio_producer import AudioProducer
-from modules.utilities import *
-from modules.custom_exceptions import *
+import modules.utilities as ut
+import modules.custom_exceptions as ce
 
 
 def stop_execution(lf_queue: Queue, hf_queue: Queue, streams: list):
@@ -56,7 +56,7 @@ def audio_producer(audio_producer_object: AudioProducer, control_event, lf_queue
     hf_number_of_samples = parameters['hfNumberOfSamples']
     hf_data = np.array([], dtype=data_type)
 
-    print_success("Started audio producer process")
+    ut.print_success("Started audio producer process")
 
     while True:
         try:
@@ -78,17 +78,17 @@ def audio_producer(audio_producer_object: AudioProducer, control_event, lf_queue
                 hf_data = np.array(cut_data, dtype=data_type)
 
         except Full:
-            print_warning("Queue is full")
+            ut.print_warning("Queue is full")
             continue
-        except FinishedSongException as e:
-            print_info("Song is finished")
+        except ce.FinishedSongException as e:
+            ut.print_info("Song is finished")
             stop_execution(lf_queue, hf_queue, [in_stream, out_stream])
             return
-        except AudioProducingException as e:
-            print_error(e)
+        except ce.AudioProducingException as e:
+            ut.print_error(e)
         except Exception as e:
-            print_error("Something bad happened while producing audio")
-            print_dbg(e)
+            ut.print_error("Something bad happened while producing audio")
+            ut.print_dbg(e)
 
 
 def lf_audio_consumer(lf_queue: Queue, settings_queue: Queue, parameters: dict):
@@ -109,11 +109,11 @@ def lf_audio_consumer(lf_queue: Queue, settings_queue: Queue, parameters: dict):
     for i in range(channels):
         lf_audio_input_handlers.append(LFAudioInputHandler(parameters, i, instruments[i]))
     
-    print_success("Started LF consumer process")
+    ut.print_success("Started LF consumer process")
     while True:
         data = lf_queue.get()
         if data is None:
-            print_info("Shutting down LF process...")
+            ut.print_info("Shutting down LF process...")
             break
 
         try:
@@ -129,8 +129,8 @@ def lf_audio_consumer(lf_queue: Queue, settings_queue: Queue, parameters: dict):
             for i in range(len(lf_audio_input_handlers)):
                 lf_audio_input_handlers[i].process(data[i])
         except Exception as e:
-            print_error("Something bad happened while processing audio (LLF)")
-            print_dbg(e)
+            ut.print_error("Something bad happened while processing audio (LLF)")
+            ut.print_dbg(e)
 
 
 def hf_audio_consumer(hf_queue: Queue, parameters: dict):
@@ -142,19 +142,19 @@ def hf_audio_consumer(hf_queue: Queue, parameters: dict):
 
     `parameters`: Dictionary containing audio processing parameters used to produce audio.
     """
-    hf_audio_input_handler = HFAudioInputHandler(parameters, 0, Instruments.DEFAULT)
+    hf_audio_input_handler = HFAudioInputHandler(parameters, 0, ut.Instruments.DEFAULT)
 
-    print_success("Started HF consumer process")
+    ut.print_success("Started HF consumer process")
     while True:
         data = hf_queue.get()
         if data is None:
-            print_info("Shutting down HF process...")
+            ut.print_info("Shutting down HF process...")
             break
         try:
             hf_audio_input_handler.process(data)
         except Exception as e:
-            print_error("Something bad happened while processing audio (HLF)")
-            print_dbg(e)
+            ut.print_error("Something bad happened while processing audio (HLF)")
+            ut.print_dbg(e)
 
 
 if __name__ == "__main__":

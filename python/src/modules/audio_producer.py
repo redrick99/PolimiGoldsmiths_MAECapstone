@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 import pyaudio
 import numpy as np
 import time
-from modules.custom_exceptions import *
+import modules.custom_exceptions as ce
 
 
 class AudioProducer(ABC):
@@ -80,7 +80,7 @@ class LiveAudioProducer(AudioProducer):
         data_per_channel = []
 
         if in_stream is None: 
-            raise AudioProducingException("Input stream was None")
+            raise ce.AudioProducingException("Input stream was None")
         
         chunk_bytes = in_stream.read(self._chunk_size, False)  # Reads from input stream
         chunk_array = np.frombuffer(chunk_bytes, dtype=self._np_format)  # Converts to numpy array
@@ -133,7 +133,7 @@ class RecordedAudioProducer(AudioProducer):
         
         for i in range(len(self._audio_input_tracks)):
             if len(self._audio_input_tracks[i]) == 0:
-                raise FinishedSongException("Tried to access finished song")
+                raise ce.FinishedSongException("Tried to access finished song")
             if len(self._audio_input_tracks[i]) < cs:
                 data_per_channel.append(self._audio_input_tracks[i].copy())
                 self._audio_input_tracks[i] = []

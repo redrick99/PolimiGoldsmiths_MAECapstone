@@ -3,9 +3,9 @@ from abc import ABC, abstractmethod
 from multiprocessing import Lock
 from pythonosc import udp_client, osc_message_builder, osc_message
 from pythonosc.dispatcher import Dispatcher
-from modules.utilities import *
-from modules.default_parameters import *
-from modules.custom_exceptions import *
+import modules.utilities as ut
+import modules.custom_exceptions as ce
+from modules.default_parameters import OSC_MESSAGES_PARAMETERS
 
 
 class Message(ABC):
@@ -49,7 +49,7 @@ class LFAudioMessage(Message):
     """Message containing Low-level Features.
     """
 
-    def __init__(self, data, channel: int, instrument: Instruments):
+    def __init__(self, data, channel: int, instrument: ut.Instruments):
         """Constructor for the LFAudioMessage class.
 
         **Args:**
@@ -178,7 +178,7 @@ class OSCConnectionHandler(ConnectionHandler):
         `address`: Net port to assign to the ConnectionHandler Singleton instance.
         """
         if OSCConnectionHandler.__instance is not None:
-            raise SetupException("Tried to instantiate ConnectionHandler multiple times")
+            raise ce.SetupException("Tried to instantiate ConnectionHandler multiple times")
         OSCConnectionHandler.__instance = self
 
         super().__init__(address=address, port=port)
@@ -213,7 +213,7 @@ class OSCConnectionHandler(ConnectionHandler):
 
         try:
             self.__client.send_message(message.address, message.to_osc())
-        except Exception as e:
+        except Exception:
             print("Error while sending message")
         finally:
             self._lock.release()
@@ -227,7 +227,7 @@ def default_handler(address, *args):
     `address`: OSC address of the received message.
     `*args`: Arguments of the OSC message.
     """
-    print_warning("Received message with unrecognized address")
+    ut.print_warning("Received message with unrecognized address")
 
 
 def handler_ch_settings(address, fixed_args, *osc_args):
@@ -238,17 +238,17 @@ def handler_ch_settings(address, fixed_args, *osc_args):
     `fixed_args`: Function arguments passed down from the calling higher function.
     `*osc_args`: Arguments of the OSC message.
     """
-    print_info("Received ch_settings message")
+    ut.print_info("Received ch_settings message")
     queues = fixed_args[0]
     channels = fixed_args[1]
     try:
         track = osc_args[0]
-        if track < 0 or track >= channels: raise MessageReceiveException("Invalid channel number (was "+str(track)+")")
-        instrument = Instruments.from_string(osc_args[1])
+        if track < 0 or track >= channels: raise ce.MessageReceiveException("Invalid channel number (was " + str(track) + ")")
+        instrument = ut.Instruments.from_string(osc_args[1])
         setting = [track, instrument]
     except Exception as e:
-        print_error("Something bad happened while handling Channel Settings message")
-        print_dbg(e)
+        ut.print_error("Something bad happened while handling Channel Settings message")
+        ut.print_dbg(e)
         return
 
     for q in queues:
@@ -263,7 +263,7 @@ def handler_start(address, *args):
     `*args`: Arguments of the OSC message.
     """
     print()
-    print_success("Received starting message\n")
+    ut.print_success("Received starting message\n")
 
 
 def handler_stop(address, *args):
@@ -274,7 +274,7 @@ def handler_stop(address, *args):
     `*args`: Arguments of the OSC message.
     """
     print()
-    print_info("Received stopping message")
+    ut.print_info("Received stopping message")
 
 
 def create_dispatcher(settings_queues, channels):

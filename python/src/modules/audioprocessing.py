@@ -8,7 +8,7 @@ import librosa
 import tensorflow as tf
 import modules.default_parameters as dp
 from scipy.signal import find_peaks
-from modules.utilities import *
+import modules.utilities as ut
 from modules.connection import OSCConnectionHandler, LFAudioMessage, HFAudioMessage
 
 # Removes Tensorflow logs and warnings
@@ -60,7 +60,7 @@ class AudioProcessor(ABC):
         self._normType = parameters['normType']
         
     @abstractmethod
-    def process(self, frame, inst: Instruments):
+    def process(self, frame, inst: ut.Instruments):
         """Abstract method to process a given audio frame.
 
         **Args:**
@@ -96,7 +96,7 @@ class AudioProcessor(ABC):
         peak_index = np.argmax(spectrum[peaks])
         return peaks[peak_index] * self._sample_rate / self._sample_rate
 
-    def _get_poly_frequencies(self, signal_stft, inst: Instruments):
+    def _get_poly_frequencies(self, signal_stft, inst: ut.Instruments):
         """Returns the peak frequencies of the audio frame from its spectrum (Polyphonic Pitch Detection).
 
         **Args:**
@@ -179,19 +179,19 @@ class AudioProcessor(ABC):
 
         The normalized array (or the array as is if normalization is set to NONE).
         """
-        if self._normType == Normalizations.NONE:
+        if self._normType == ut.Normalizations.NONE:
             return array
         
-        if self._normType == Normalizations.PEAK:
+        if self._normType == ut.Normalizations.PEAK:
             return array / np.max(np.abs(array))
         
-        if self._normType == Normalizations.RMS:
+        if self._normType == ut.Normalizations.RMS:
             return np.sqrt(np.mean(np.square(array)))
         
-        if self._normType == Normalizations.Z_SCORE:
+        if self._normType == ut.Normalizations.Z_SCORE:
             return (array - np.mean(array)) / np.std(array)
         
-        if self._normType == Normalizations.MIN_MAX:
+        if self._normType == ut.Normalizations.MIN_MAX:
             min_value = np.amin(array)
             max_value = np.amax(array)
             return (array - min_value) / (max_value - min_value)
@@ -210,7 +210,7 @@ class DefaultAudioProcessor(AudioProcessor):
         """
         super().__init__(parameters)
 
-    def process(self, frame, inst: Instruments):
+    def process(self, frame, inst: ut.Instruments):
         """Processes the given audio frame according to a defined chain.
 
         **Args:**
@@ -225,7 +225,6 @@ class DefaultAudioProcessor(AudioProcessor):
         """
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            # frame = self._normalize(array=frame)
             frame = librosa.util.normalize(frame)
             signal_stft = self._compute_stft(frame)
             pitches = np.round(self._get_poly_frequencies(signal_stft, inst))
@@ -242,7 +241,7 @@ class InputHandler(ABC):
     Can be inherited to implement custom methods to process data and extract features.
     """
 
-    def __init__(self, parameters: dict, channel: int, instrument: Instruments):
+    def __init__(self, parameters: dict, channel: int, instrument: ut.Instruments):
         """Constructor for the InputHandler class.
 
         **Args:**
@@ -285,7 +284,7 @@ class InputHandler(ABC):
         """
         pass
 
-    def set_instrument(self, instrument: Instruments):
+    def set_instrument(self, instrument: ut.Instruments):
         """Synchronized setter for the `__instrument` attribute.
 
         **Args:**
@@ -296,7 +295,7 @@ class InputHandler(ABC):
         self.__instrument = instrument
         self._lock.release()
 
-    def get_instrument(self) -> Instruments:
+    def get_instrument(self) -> ut.Instruments:
         """Synchronized getter for the `__instrument` attribute.
 
         **Returns:**
@@ -360,7 +359,7 @@ class LFAudioInputHandler(InputHandler):
     """Handles the Low-level feature processing of a channel of either live or recorded audio.
     """
 
-    def __init__(self, parameters: dict, channel: int, instrument: Instruments):
+    def __init__(self, parameters: dict, channel: int, instrument: ut.Instruments):
         """Constructor for the LFAudioInputHandler class.
 
         **Args:**
@@ -399,7 +398,7 @@ class HFAudioInputHandler(InputHandler):
     """Handles the High-level feature processing of either live or recorded audio.
     """
 
-    def __init__(self, parameters: dict, channel: int, instrument: Instruments):
+    def __init__(self, parameters: dict, channel: int, instrument: ut.Instruments):
         """Constructor of the HFAudioInputHandler class.
 
         **Args:**
@@ -450,7 +449,7 @@ class HFAudioInputHandler(InputHandler):
         prediction[0] = np.average(self.__arousal_values)
         prediction[1] = np.average(self.__valence_values)
 
-        print_data_alt_color(channel=1, data=prediction)
+        ut.print_data_alt_color(channel=1, data=prediction)
 
         msg = HFAudioMessage(prediction, 0)
         self._connection_handler.send_message(msg)

@@ -1,6 +1,6 @@
 from __future__ import annotations
 from enum import Enum
-from modules.custom_exceptions import *
+from modules.custom_exceptions import SetupException
 
 
 # Classes

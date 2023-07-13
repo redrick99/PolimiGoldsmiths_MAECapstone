@@ -7,7 +7,7 @@ import librosa
 import numpy as np
 from modules.audio_producer import AudioProducer, LiveAudioProducer, RecordedAudioProducer
 from modules.default_parameters import AUDIO_PROCESSING_PARAMETERS
-from modules.custom_exceptions import *
+import modules.custom_exceptions as ce
 from modules.utilities import Instruments
 
 
@@ -31,7 +31,7 @@ class SetupHandler:
         `__audio_parameters`: Audio parameters used for processing and during setup.
         """
         if SetupHandler.__instance is not None:
-            raise SingletonException("Tried to instantiate more than one SetupHandler object")
+            raise ce.SingletonException("Tried to instantiate more than one SetupHandler object")
         SetupHandler.__instance = self
 
         self.__main_path = None
@@ -84,7 +84,7 @@ class SetupHandler:
             self.__audio_parameters['audioPlayback'] = False
             self.__audio_producer = LiveAudioProducer(self.__audio_parameters)
         else:
-            raise SetupException("Unrecognized audio type (was "+audio_type+")")
+            raise ce.SetupException("Unrecognized audio type (was " + audio_type + ")")
 
         return self.__audio_parameters
 
@@ -182,7 +182,8 @@ class SetupHandler:
         else:
             sound_card_index = self.__get_sound_card_index()
             instruments = self.__get_instruments_for_tracks(self.__get_sound_card_info(sound_card_index)['inChannels'])
-        external_osc_controller = self.__get_using_external_osc_controller()
+
+        external_osc_controller = False  # To be set in future update
 
         return {
             'audioType': audio_type,
@@ -382,7 +383,7 @@ class SetupHandler:
             return np.int32
         if pyaudio_sample_format == pyaudio.paFloat32:
             return np.float32
-        raise SetupException("Incompatible Sample Format")
+        raise ce.SetupException("Incompatible Sample Format")
 
 
 class FileHandler:
@@ -422,7 +423,7 @@ class FileHandler:
                 with zipfile.ZipFile(path_to_zip_file, "r") as zip:
                     zip.extractall(self._dest_folder_path)
         if self._number_of_songs == 0:
-            raise FileHandlingException("No files to unzip")
+            raise ce.FileHandlingException("No files to unzip")
 
     def get_tracks(self, song_index: int) -> tuple:
         """Gets all the tracks of a song as numpy arrays, ready to be processed.
@@ -490,7 +491,7 @@ class FileHandler:
             song_name = self._song_index_to_path_dict[key].replace(self._dest_folder_path+"/", '')
             list_of_test_songs.append("("+str(key) + ") " + song_name)
         if len(list_of_test_songs) == 0:
-            raise FileHandlingException("No songs found")
+            raise ce.FileHandlingException("No songs found")
         return list_of_test_songs
 
     def get_number_of_songs(self) -> int:

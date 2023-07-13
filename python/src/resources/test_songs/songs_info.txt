@@ -1,3 +1,3 @@
-test_song_01: BossMusic - redrick
-test_song_02: EPICLevelMusic - redrick
-test_song_03: I Love You Piano - Billie Eilish
+test_song_01: BossMusic - redrick99
+test_song_02: EPICLevelMusic - redrick99
+test_song_03: I Love You - Billie Eilish (Karaoke version)
